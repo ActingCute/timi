@@ -5,6 +5,8 @@
 
 //外部包
 const fs = require("fs");
+const path = require("path");
+const axios = require("axios");
 //引入配置
 const Data = require("../config/code");
 const MsgCode = Data.Code;
@@ -45,6 +47,8 @@ function Result(Code, Msg, Data, res) {
     });
 }
 
+
+
 //暴露函数
 module.exports = {
     Result: function (Code, Msg, Data, res) {
@@ -62,5 +66,23 @@ module.exports = {
         if (!fs.existsSync(reaPath)) {
             fs.mkdirSync(reaPath);
         }
+    },
+    //下载文件
+    DownloadFile: async function (url, name, pic_dir) {
+        if (!fs.existsSync(pic_dir)) {
+            fs.mkdirSync(pic_dir);
+        }
+        const mypath = path.resolve(pic_dir, name);
+        const writer = fs.createWriteStream(mypath);
+        const response = await axios({
+            url,
+            method: "GET",
+            responseType: "stream"
+        });
+        response.data.pipe(writer);
+        return new Promise(function (resolve, reject) {
+            writer.on("finish", resolve);
+            writer.on("error", reject);
+        });
     }
 };
