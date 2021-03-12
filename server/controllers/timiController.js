@@ -3,8 +3,8 @@
  * timi 逻辑
  */
 
-var baseController = require('./base');
-var Data = require("../config/code");
+const baseController = require('./base');
+const Data = require("../config/code");
 const Code = Data.Code
 const Msg = Data.Msg
 

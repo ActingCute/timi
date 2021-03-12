@@ -4,9 +4,9 @@
  */
 
 //外部包
-var fs = require("fs");
+const fs = require("fs");
 //引入配置
-var Data = require("../config/code");
+const Data = require("../config/code");
 const MsgCode = Data.Code;
 
 //格式化时间
