@@ -1,3 +1,9 @@
+/**
+ * Created by 张辉 2021/03/13 11:10:09
+ * 爬虫的函数
+ */
+
+
 const request = require('request')
 
 module.exports = {

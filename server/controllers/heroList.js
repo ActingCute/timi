@@ -1,5 +1,8 @@
-//捉取英雄列表
-const threads = require("./threads")
+/**
+ * Created by 张辉 2021/03/13 11:10:09
+ * 将爬取的英雄列表数据组装
+ */
+//const threads = require("./threads")
 const cheerio = require('cheerio');
 const cheerioFunc = require('./cheerio');
 const iconv = require('iconv-lite');
@@ -11,7 +14,6 @@ const qn = require("./qiniu");
 const pic_dir = "public/hero"
 const hi = require("./heroInfo")
 let lis;
-let hero = [];
 const webUrl = "https://pvp.qq.com/web201605/herolist.shtml";
 
 (async () => {
@@ -39,11 +41,10 @@ const webUrl = "https://pvp.qq.com/web201605/herolist.shtml";
             await baseController.DownloadFile(pic_src, pic_name, hero_pic_dir);
         }
     }
-    hi.getData(hero)
+    hi.getData()
 })()
 
 
 
 module.exports = {
-    data: hero
 }

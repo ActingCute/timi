@@ -28,6 +28,9 @@ console.error("dirname - ", __dirname)
 //日志
 global.log = log;
 
+//全局英雄数据
+global.hero = [];
+
 //绑定控制器
 expressControllers.setDirectory(__dirname + "\\controllers").bind(router);
 

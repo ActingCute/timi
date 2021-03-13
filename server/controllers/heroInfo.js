@@ -1,4 +1,8 @@
-//捉取英雄信息
+/**
+ * Created by 张辉 2021/03/13 11:10:09
+ * 将爬取的英雄技能数据组装
+ */
+
 const cheerio = require('cheerio');
 const cheerioFunc = require('./cheerio');
 const iconv = require('iconv-lite');
@@ -8,12 +12,11 @@ const baseController = require("./base");
 const dbConfig = require("../config/databases");
 const qn = require("./qiniu");
 
-let lis;
 let hero_info = [];
 
 module.exports = {
     data: hero_info,
-    getData: function (hero) {
+    getData: function () {
         let skill_pic_dir = "public/hero"
         hero.forEach(async (element, index) => {
             hero[index].skill = [];
@@ -54,37 +57,15 @@ module.exports = {
                                 let covor = dbConfig.qiniu.Dns + pic_name;
                                 hero[index].skill[i].covor = covor;
                                 const filePath = path.resolve(skill_pic_dir + "/" + hero_skill_dir, hero[index].skill[i].name + ".png");
-                                log.debug(pic_src, hero[index].skill[i].name + ".png", skill_pic_dir + "/" + hero_skill_dir);
 
                                 if (!fs.existsSync(filePath)) {
-                                    console.log(pic_src)
                                     await qn.toQiniu(pic_src, pic_name, skill_pic_dir + "/" + hero_skill_dir);
                                     await baseController.DownloadFile(pic_src, hero[index].skill[i].name + ".png", skill_pic_dir + "/" + hero_skill_dir);
                                 }
-
-                                //log.debug(hero[index].skill[i]);
                             }
                         })(element, index)
                     })(element, index)
 
-
-
-                    //log.debug(hero);
-                    // for (let i = 0; i < lis.length; i++) {
-                    //     hero_info[i] = {};
-                    //     hero_info[i].name = lis.eq(i).find("a").text()
-                    //     hero_info[i].link = "https://pvp.qq.com/web201605/" + lis.eq(i).find("a").attr("href")
-                    //     //捉取图片到本地
-                    //     const pic_name = "hero/" + hero_info[i].name + ".png"
-                    //     let covor = dbConfig.qiniu.Dns + pic_name;
-                    //     const pic_src = "http:" + lis.eq(i).find("a").find("img").attr("src")
-                    //     hero_info[i].cover = covor;
-
-                    //     const filePath = path.resolve(pic_dir, pic_name);
-                    //     if (!fs.existsSync(filePath)) {
-                    //         qn.toQiniu(pic_src, pic_name);
-                    //         baseController.DownloadFile(pic_src, pic_name, pic_dir);
-                    //     }
                 })(element, index)
             })(element, index)
         })
