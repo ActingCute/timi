@@ -1,4 +1,5 @@
 //捉取英雄列表
+const threads = require("./threads")
 const cheerio = require('cheerio');
 const cheerioFunc = require('./cheerio');
 const iconv = require('iconv-lite');
@@ -14,7 +15,6 @@ let hero = [];
 const webUrl = "https://pvp.qq.com/web201605/herolist.shtml";
 
 (async () => {
-    log.debug("ooo")
     let homeBody = await cheerioFunc.handleRequestByPromise({ url: webUrl });
     homeBody = iconv.decode(homeBody, "GBK"); //进行gbk解码
     let $ = cheerio.load(homeBody);
@@ -31,9 +31,12 @@ const webUrl = "https://pvp.qq.com/web201605/herolist.shtml";
         const pic_src = "http:" + lis.eq(i).find("a").find("img").attr("src")
         hero[i].cover = covor;
         const filePath = path.resolve(hero_pic_dir, pic_name);
+
         if (!fs.existsSync(filePath)) {
-            //await qn.toQiniu(pic_src, "hero/" + hero[i].name + "/" + pic_name, hero_pic_dir);
-            //await baseController.DownloadFile(pic_src, pic_name, hero_pic_dir);
+            //await threads.UploadQiniu(pic_src, "hero/" + hero[i].name + "/" + pic_name, hero_pic_dir);
+            await qn.toQiniu(pic_src, "hero/" + hero[i].name + "/" + pic_name, hero_pic_dir);
+            //await threads.DownloadFile(pic_src, pic_name, hero_pic_dir);
+            await baseController.DownloadFile(pic_src, pic_name, hero_pic_dir);
         }
     }
     hi.getData(hero)

@@ -27,7 +27,7 @@ function WebToken(name) {
 }
 
 module.exports = {
-  toQiniu: async function (url, pic_name, pic_src) {
+  toQiniu: function (url, pic_name, pic_src) {
     return new Promise((resolve, reject) => {
       http.get(url, function (res) {
         var chunks = []; //用于保存网络请求不断加载传输的缓冲数据
@@ -76,17 +76,18 @@ module.exports = {
           xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
               var keyText = xhr.responseText;
+
               /*返回的key是字符串，需要装换成json*/
               keyText = strToJson(keyText);
               //console.log("keyText - ", keyText);
               if (keyText.error) {
                 if (keyText.error != "file exists") {
                   console.error("上传七牛图片失败", keyText.error);
-                  resolve({ error: keyText.error, url, pic_name, pic_src, qiniu_pic: pic_src + "/" + pic_name });
+                  resolve(pic_src + "/" + pic_name);
                 }
               } else {
                 console.info("上传七牛图片OK", configData.qiniu.Dns + pic_name);
-                resolve({ error: keyText.error, url, pic_name, pic_src, qiniu_pic: configData.qiniu.Dns + pic_name });
+                resolve(configData.qiniu.Dns + pic_name);
               }
             }
           };

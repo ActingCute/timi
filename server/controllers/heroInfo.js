@@ -38,32 +38,34 @@ module.exports = {
                             hero[index].skill[i].desc = lis.eq(i).find(".skill-desc").text();//技能描述
                         }
                     }
+                    (await function (element, index) {
+                        (async (element, index) => {
+                            for (let i = 0; i < lis_pic.length - 1; i++) {
+                                let skill_src = lis_pic.eq(i).find("img").attr("src");
+                                //log.info(skill_src);
+                                const pic_src = "http:" + skill_src
 
-                    for (let i = 0; i < lis_pic.length - 1; i++) {
-                        let skill_src = lis_pic.eq(i).find("img").attr("src");
-                        //log.info(skill_src);
-                        const pic_src = "http:" + skill_src
+                                if (pic_src.indexOf("#") != -1 || !skill_src) continue;
 
-                        if (pic_src.indexOf("#") != -1 || !skill_src) continue;
+                                //捉取技能图片到本地和七牛云
+                                let hero_skill_dir = hero[index].name + "/skill/";
+                                await baseController.mkdir(skill_pic_dir + "/" + hero_skill_dir);
+                                const pic_name = hero[index].name + "/skill/" + hero[index].skill[i].name + ".png"
+                                let covor = dbConfig.qiniu.Dns + pic_name;
+                                hero[index].skill[i].covor = covor;
+                                const filePath = path.resolve(skill_pic_dir + "/" + hero_skill_dir, hero[index].skill[i].name + ".png");
+                                log.debug(pic_src, hero[index].skill[i].name + ".png", skill_pic_dir + "/" + hero_skill_dir);
 
-                        //捉取技能图片到本地和七牛云
-                        let hero_skill_dir = hero[index].name + "/skill/";
-                        await baseController.mkdir(skill_pic_dir + "/" + hero_skill_dir);
-                        const pic_name = hero[index].name + "/skill/" + hero[index].skill[i].name + ".png"
-                        let covor = dbConfig.qiniu.Dns + pic_name;
-                        hero[index].skill[i].covor = covor;
-                        const filePath = path.resolve(skill_pic_dir + "/" + hero_skill_dir, hero[index].skill[i].name + ".png");
-                        log.debug(pic_src, hero[index].skill[i].name + ".png", skill_pic_dir + "/" + hero_skill_dir);
-                        await qn.toQiniu(pic_src, pic_name, skill_pic_dir + "/" + hero_skill_dir);
+                                if (!fs.existsSync(filePath)) {
+                                    console.log(pic_src)
+                                    await qn.toQiniu(pic_src, pic_name, skill_pic_dir + "/" + hero_skill_dir);
+                                    await baseController.DownloadFile(pic_src, hero[index].skill[i].name + ".png", skill_pic_dir + "/" + hero_skill_dir);
+                                }
 
-                        if (!fs.existsSync(filePath)) {
-                            console.log(pic_src)
-                            //                            await qn.toQiniu(pic_src, pic_name, skill_pic_dir + "/" + hero_skill_dir);
-                            //await baseController.DownloadFile(pic_src, hero[index].skill[i].name + ".png", skill_pic_dir + "/" + hero_skill_dir);
-                        }
-
-                        //log.debug(hero[index].skill[i]);
-                    }
+                                //log.debug(hero[index].skill[i]);
+                            }
+                        })(element, index)
+                    })(element, index)
 
 
 
