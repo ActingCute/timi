@@ -3,7 +3,7 @@
  * timi 逻辑
  */
 //引入外部包
-const hearoList = require('./hearoList');
+const heroList = require('./heroList');
 const baseController = require('./base');
 const Data = require("../config/code");
 const Code = Data.Code

@@ -64,13 +64,18 @@ module.exports = {
     },
     mkdir: async function (reaPath) {
         if (!fs.existsSync(reaPath)) {
-            fs.mkdirSync(reaPath);
+            fs.mkdir(reaPath, { recursive: true }, (err) => {
+                if (err) log.error(err)
+            });
         }
     },
     //下载文件
     DownloadFile: async function (url, name, pic_dir) {
         if (!fs.existsSync(pic_dir)) {
-            fs.mkdirSync(pic_dir);
+            fs.mkdir(pic_dir, { recursive: true }, (err) => {
+                if (err) log.error(err)
+                return;
+            });
         }
         const mypath = path.resolve(pic_dir, name);
         const writer = fs.createWriteStream(mypath);
