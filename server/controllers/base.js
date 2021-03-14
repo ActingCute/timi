@@ -6,7 +6,7 @@
 //外部包
 const fs = require("fs");
 const path = require("path");
-const axios = require("axios");
+const http = require("http");
 const qn = require("./qiniu");
 //引入配置
 const Data = require("../config/code");
@@ -75,18 +75,43 @@ module.exports = {
     },
     //下载图片到本地
     DownloadFile: async (url, name, pic_dir) => {
-        await Mkdir(pic_dir);
-        const mypath = path.resolve(pic_dir, name);
-        const writer = fs.createWriteStream(mypath);
-        const response = await axios({
-            url,
-            method: "GET",
-            responseType: "stream"
-        });
-        response.data.pipe(writer);
-        return new Promise(function (resolve, reject) {
-            writer.on("finish", resolve);
-            writer.on("error", reject);
+        return new Promise(async (resolve, reject) => {
+            await Mkdir(pic_dir);
+            const mypath = path.resolve(pic_dir, name);
+
+            http.request(url)
+                .on('response', function (res) {
+                    if (!~[200, 304].indexOf(res.statusCode)) {
+                        reject(new Error('Received an invalid status code.'));
+                    } else if (!res.headers['content-type'].match(/image/)) {
+                        reject(new Error('Not an image.'));
+                    } else {
+                        var body = ''
+                        res.setEncoding('binary')
+                        res
+                            .on('error', function (err) {
+                                reject(err);
+                            })
+                            .on('data', function (chunk) {
+                                body += chunk
+                            })
+                            .on('end', function () {
+                                // What about Windows?!
+                                fs.writeFile(mypath, body, 'binary', function (err) {
+
+                                    if (err) {
+                                        reject(err);
+                                    } else {
+                                        resolve("ok");
+                                    }
+                                })
+                            })
+                    }
+                })
+                .on('error', function (err) {
+                    reject(err);
+                })
+                .end();
         });
     },
 

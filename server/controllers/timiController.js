@@ -5,16 +5,19 @@
 //引入外部包
 const heroList = require('./heroList');
 const heroInfo = require('./heroInfo');
+const heroWallpaper = require('./heroWallpaper');
 const baseController = require('./base');
 const Data = require("../config/code");
 const Code = Data.Code;
 const Msg = Data.Msg;
 
 (async () => {
-    await heroList.getData(); //爬取英雄列表数据
-    log.debug("qiniu_data len1:", qiniu_data.length);
+    let msg = await heroList.getData(); //爬取英雄列表数据
+    log.debug("qiniu_data len1:", qiniu_data.length, msg);
     await heroInfo.getData(); //爬取英雄详情，如技能数据
     log.debug("qiniu_data len2:", qiniu_data.length);
+    await heroWallpaper.getData();
+    log.debug("qiniu_data len3:", qiniu_data.length);
     baseController.UploadQiniu(qiniu_data.length - 1, qiniu_data)
 })();
 
