@@ -83,6 +83,8 @@ module.exports = {
                 //英雄技能图片
                 await heroSkillImages($, index);
 
+                if (hero.length > 0) log.info("爬取英雄技能：", Math.ceil(index / hero.length * 100) + "%");
+
                 if (index == hero.length - 1) {
                     resolve(qiniu_data);
                 }

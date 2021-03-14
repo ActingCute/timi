@@ -37,6 +37,7 @@ module.exports = {
                     qiniu_data.push({ pic_src, qiniu_path, local_path });
                     baseController.DownloadFile(pic_src, pic_name, local_path);
                 }
+                if (hero.length > 0) log.info("爬取英雄列表：", Math.ceil(i / hero.length * 100) + "%");
                 if (i == hero.length - 1) {
                     resolve("get hero list ok");
                 }

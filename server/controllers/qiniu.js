@@ -28,7 +28,6 @@ let WebToken = (name) => {
 
 module.exports = {
   toQiniu: async (url, pic_name, pic_src) => {
-    log.debug("qiniu:", url)
     return new Promise((resolve, reject) => {
       http.get(url, function (res) {
         var chunks = []; //用于保存网络请求不断加载传输的缓冲数据
@@ -87,7 +86,7 @@ module.exports = {
                   resolve(pic_name);
                 }
               } else {
-                console.info("上传七牛图片OK", configData.qiniu.Dns + pic_name);
+                //console.info("上传七牛图片OK", configData.qiniu.Dns + pic_name);
                 resolve(configData.qiniu.Dns + pic_name);
               }
             }
