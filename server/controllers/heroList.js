@@ -2,49 +2,45 @@
  * Created by 张辉 2021/03/13 11:10:09
  * 将爬取的英雄列表数据组装
  */
-//const threads = require("./threads")
-const cheerio = require('cheerio');
-const cheerioFunc = require('./cheerio');
-const iconv = require('iconv-lite');
-const fs = require("fs");
-var path = require("path");
+
+const path = require("path");
 const baseController = require("./base");
 const dbConfig = require("../config/databases");
-const qn = require("./qiniu");
 const pic_dir = "public/hero"
-const hi = require("./heroInfo")
-let lis;
-const webUrl = "https://pvp.qq.com/web201605/herolist.shtml";
-
-(async () => {
-    let homeBody = await cheerioFunc.handleRequestByPromise({ url: webUrl });
-    homeBody = iconv.decode(homeBody, "GBK"); //进行gbk解码
-    let $ = cheerio.load(homeBody);
-    lis = $(".herolist li");
-    for (let i = 0; i < lis.length; i++) {
-        hero[i] = {};
-        hero[i].name = lis.eq(i).find("a").text()
-        hero[i].link = "https://pvp.qq.com/web201605/" + lis.eq(i).find("a").attr("href")
-        //捉取图片到本地和七牛云
-        let hero_pic_dir = pic_dir + "/" + hero[i].name
-        await baseController.mkdir(hero_pic_dir);
-        const pic_name = "covor.png"
-        let covor = dbConfig.qiniu.Dns + "hero/" + hero[i].name + "/" + pic_name;
-        const pic_src = "http:" + lis.eq(i).find("a").find("img").attr("src")
-        hero[i].cover = covor;
-        const filePath = path.resolve(hero_pic_dir, pic_name);
-
-        if (!fs.existsSync(filePath)) {
-            //await threads.UploadQiniu(pic_src, "hero/" + hero[i].name + "/" + pic_name, hero_pic_dir);
-            await qn.toQiniu(pic_src, "hero/" + hero[i].name + "/" + pic_name, hero_pic_dir);
-            //await threads.DownloadFile(pic_src, pic_name, hero_pic_dir);
-            await baseController.DownloadFile(pic_src, pic_name, hero_pic_dir);
-        }
-    }
-    hi.getData()
-})()
-
-
+const axios = require("axios");
+const fs = require("fs");
 
 module.exports = {
+    getData: async () => {
+        await baseController.Mkdir(pic_dir);
+
+        let res = await axios.get("https://pvp.qq.com/web201605/js/herolist.json");
+
+        if (res.status == 200) {
+            hero = res.data;
+        }
+
+        return new Promise(async (resolve, reject) => {
+            for (let i = 0; i < hero.length; i++) {
+                //捉取图片到本地和七牛云
+                let local_path = pic_dir + "/" + hero[i].cname
+                await baseController.Mkdir(local_path);
+
+                const pic_name = "covor.png"
+                const qiniu_path = "hero/" + hero[i].cname + "/" + pic_name
+                let covor = dbConfig.qiniu.Dns + qiniu_path;
+                const pic_src = "http://game.gtimg.cn/images/yxzj/img201606/heroimg/" + hero[i].ename + "/" + hero[i].ename + ".jpg";
+                hero[i].cover = covor;
+                const file_path = path.resolve(local_path, pic_name);
+
+                if (!fs.existsSync(file_path)) {
+                    qiniu_data.push({ pic_src, qiniu_path, local_path });
+                    baseController.DownloadFile(pic_src, pic_name, local_path);
+                }
+                if (i == hero.length - 1) {
+                    resolve("get hero list ok");
+                }
+            }
+        })
+    }
 }

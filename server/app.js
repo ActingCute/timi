@@ -31,6 +31,9 @@ global.log = log;
 //全局英雄数据
 global.hero = [];
 
+//全局待上传的七牛图片
+global.qiniu_data = [];
+
 //绑定控制器
 expressControllers.setDirectory(__dirname + "\\controllers").bind(router);
 

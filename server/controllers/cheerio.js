@@ -7,7 +7,7 @@
 const request = require('request')
 
 module.exports = {
-    handleRequestByPromise: async function (options) {
+    handleRequestByPromise: async (options) => {
         let op = Object.assign(
             {},
             {
@@ -27,7 +27,7 @@ module.exports = {
             throw new Error("请求的url地址不正确");
         }
 
-        const promise = new Promise(function (resolve, reject) {
+        const promise = new Promise((resolve, reject) => {
             request(op, (err, response, body) => {
                 if (err) reject(err);
 

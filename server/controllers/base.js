@@ -7,12 +7,13 @@
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
+const qn = require("./qiniu");
 //引入配置
 const Data = require("../config/code");
 const MsgCode = Data.Code;
 
 //格式化时间
-Date.prototype.Format = function (fmt) {
+Date.prototype.Format = (fmt) => {
     var o = {
         "M+": this.getMonth() + 1, //月份
         "d+": this.getDate(), //日
@@ -39,7 +40,7 @@ Date.prototype.Format = function (fmt) {
 };
 
 //返回消息结构体
-function Result(Code, Msg, Data, res) {
+let Result = (Code, Msg, Data, res) => {
     res.send({
         Code,
         Msg,
@@ -47,36 +48,33 @@ function Result(Code, Msg, Data, res) {
     });
 }
 
+//判断文件夹不存在就创建
+let Mkdir = (async (reaPath) => {
+    reaPath = path.resolve(reaPath);
+    if (!fs.existsSync(reaPath)) {
+        fs.mkdir(reaPath, { recursive: true }, (err) => {
+            if (err) log.error(err)
+        });
+    }
+})
 
-
+//下载文件
+let UploadQiniu = (index, data) => {
+    if (index > -1) {
+        let { pic_src, qiniu_path, local_path } = data[index--];
+        qn.toQiniu(pic_src, qiniu_path, local_path).then(res => {
+            UploadQiniu(index, data);
+        })
+    }
+}
 //暴露函数
 module.exports = {
-    Result: function (Code, Msg, Data, res) {
-        Result(Code, Msg, Data, res);
+    UploadQiniu: (index, data) => {
+        UploadQiniu(index, data);
     },
-    DoFunc: function (func, res) {
-        try {
-            func();
-        } catch (err) {
-            console.error(err);
-            Result(MsgCode.Fail, "出问题了～", err, res);
-        }
-    },
-    mkdir: async function (reaPath) {
-        if (!fs.existsSync(reaPath)) {
-            fs.mkdir(reaPath, { recursive: true }, (err) => {
-                if (err) log.error(err)
-            });
-        }
-    },
-    //下载文件
-    DownloadFile: async function (url, name, pic_dir) {
-        if (!fs.existsSync(pic_dir)) {
-            fs.mkdir(pic_dir, { recursive: true }, (err) => {
-                if (err) log.error(err)
-                return;
-            });
-        }
+    //下载图片到本地
+    DownloadFile: async (url, name, pic_dir) => {
+        await Mkdir(pic_dir);
         const mypath = path.resolve(pic_dir, name);
         const writer = fs.createWriteStream(mypath);
         const response = await axios({
@@ -89,5 +87,18 @@ module.exports = {
             writer.on("finish", resolve);
             writer.on("error", reject);
         });
-    }
+    },
+
+    //消息结构体
+    Result,
+    DoFunc: (func, res) => {
+        try {
+            func();
+        } catch (err) {
+            console.error(err);
+            Result(MsgCode.Fail, "出问题了～", err, res);
+        }
+    },
+    //创建文件
+    Mkdir
 };

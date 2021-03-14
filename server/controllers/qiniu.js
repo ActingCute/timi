@@ -10,7 +10,7 @@ const mac = new qiniu.auth.digest.Mac(configData.qiniu.AK, configData.qiniu.SK);
 //要上传的空间
 const bucket = configData.qiniu.Bucket_Name;
 
-function WebToken(name) {
+let WebToken = (name) => {
   if (!name) {
     return "";
   }
@@ -27,7 +27,8 @@ function WebToken(name) {
 }
 
 module.exports = {
-  toQiniu: function (url, pic_name, pic_src) {
+  toQiniu: async (url, pic_name, pic_src) => {
+    log.debug("qiniu:", url)
     return new Promise((resolve, reject) => {
       http.get(url, function (res) {
         var chunks = []; //用于保存网络请求不断加载传输的缓冲数据
@@ -83,7 +84,7 @@ module.exports = {
               if (keyText.error) {
                 if (keyText.error != "file exists") {
                   console.error("上传七牛图片失败", keyText.error);
-                  resolve(pic_src + "/" + pic_name);
+                  resolve(pic_name);
                 }
               } else {
                 console.info("上传七牛图片OK", configData.qiniu.Dns + pic_name);
