@@ -112,7 +112,9 @@ module.exports = {
                     reject(err);
                 })
                 .end();
-        });
+        }).catch(err => {
+            log.error(err);
+        })
     },
 
     //消息结构体

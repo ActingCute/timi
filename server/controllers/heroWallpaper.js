@@ -43,6 +43,8 @@ let todo = (async (wallpaper_list, index, skin_index, i, local_path) => {
             await baseController.DownloadFile(pic_src, pic_name, local_path);
         }
         resolve(covor);
+    }).catch(err => {
+        log.error(err);
     })
 })
 
@@ -84,6 +86,8 @@ let getSkinSrc = async (i) => {
                 resolve("skin ok ");
             }
         }
+    }).catch(err => {
+        log.error(err);
     })
 }
 
@@ -97,6 +101,8 @@ module.exports = {
                     resolve("get hero list ok");
                 }
             }
+        }).catch(err => {
+            log.error(err);
         })
     }
 }

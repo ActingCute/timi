@@ -42,6 +42,8 @@ module.exports = {
                     resolve("get hero list ok");
                 }
             }
+        }).catch(err => {
+            log.error(err);
         })
     }
 }

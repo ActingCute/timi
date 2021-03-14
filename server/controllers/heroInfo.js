@@ -32,6 +32,8 @@ let heroSkillDesc = async ($, index) => {
                 resolve("heroSkillDesc ok");
             }
         }
+    }).catch(err => {
+        log.error(err);
     })
 }
 
@@ -64,6 +66,8 @@ let heroSkillImages = async ($, index) => {
                 resolve("heroSkillImages ok");
             }
         }
+    }).catch(err => {
+        log.error(err);
     })
 }
 
@@ -89,6 +93,8 @@ module.exports = {
                     resolve(qiniu_data);
                 }
             }
+        }).catch(err => {
+            log.error(err);
         })
     }
 }

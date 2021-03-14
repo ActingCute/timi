@@ -97,6 +97,8 @@ module.exports = {
           xhr.send(picBase);
         });
       });
+    }).catch(err => {
+      log.error(err);
     });
   }
 };
