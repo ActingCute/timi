@@ -60,7 +60,7 @@ let Mkdir = (async (reaPath) => {
 
 //下载文件
 let UploadQiniu = (index, data) => {
-    if (data.length > 0) log.info("上传图片到七牛云：", data.length - index + "/" + data.length, Math.ceil((data.length - index) / data.length * 100) + "%");
+    if (data.length > 0) log.info("上传图片到七牛云：", data.length - index - 1 + "/" + data.length, Math.ceil((data.length - 1 - index) / data.length * 100) + "%");
     if (index > -1) {
         let { pic_src, qiniu_path, local_path } = data[index--];
         qn.toQiniu(pic_src, qiniu_path, local_path).then(res => {
