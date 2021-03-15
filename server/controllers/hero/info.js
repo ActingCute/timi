@@ -12,6 +12,37 @@ const baseController = require("../helper/index");
 const dbConfig = require("../../config/databases");
 let skill_pic_dir = "public/hero";
 
+//铭文搭配建议
+let heroRecommendedMing = async ($, index) => {
+    let lis = $(".sugg-u1 img");
+    log.debug("lis-", lis.text());
+
+    HERO[index].recommended_ming = {};
+    HERO[index].recommended_ming.tips = $("p.sugg-tips").text();
+    HERO[index].recommended_ming.data = [];
+    return new Promise(async (resolve, reject) => {
+        for (let i = 0; i < lis.length; i++) {
+            let ming_info = lis.eq(i).find("p");
+            let name = "";//铭文名字
+            let attribute = [];//铭文效果
+            for (let mi = 0; mi < ming_info.length; mi++) {
+                let m_text = ming_info.eq(mi).text();
+                if (mi == 0) {
+                    name = m_text;//铭文名字
+                } else {
+                    attribute.push(m_text);//铭文效果
+                }
+            }
+            HERO[index].recommended_ming.data.push({ name, attribute });
+            if (i == lis.length - 1) {
+                resolve("heroRecommendedMing ok");
+            }
+        }
+    }).catch(err => {
+        log.error(err);
+    })
+}
+
 //英雄技能描述
 let heroSkillDesc = async ($, index) => {
     let lis = $(".show-list");
@@ -127,6 +158,8 @@ module.exports = {
                     await heroSkillImages($, index);
                     //英雄推荐升级的技能携带的召唤师技能 TODO://有毒，不知道为啥一直捉的是哪吒的推荐 马德
                     //await heroRecommendedUpgradeSkill($, index);
+                    //铭文搭配建议
+                    await heroRecommendedMing($, index)
 
                 })(index)
 
