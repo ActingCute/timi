@@ -82,9 +82,8 @@ let getSkinSrc = async (i) => {
 
             HERO[i].skin_list.push(skin);
 
-            if (skin_index == wallpaper_list.length - 1) {
-                resolve("skin ok ");
-            }
+            if (skin_index == wallpaper_list.length - 1) resolve("skin ok ");
+
         }
     }).catch(err => {
         log.error(err);
@@ -97,9 +96,7 @@ module.exports = {
             for (let i = 0; i < HERO.length; i++) {
                 await getSkinSrc(i);
                 if (HERO.length > 0) log.info("爬取英雄皮肤壁纸：", Math.ceil(i / HERO.length * 100) + "%");
-                if (i == HERO.length - 1) {
-                    resolve("get hero list ok");
-                }
+                if (i == HERO.length - 1) resolve("get hero list ok");
             }
         }).catch(err => {
             log.error(err);

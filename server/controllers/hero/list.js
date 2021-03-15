@@ -38,9 +38,8 @@ module.exports = {
                     baseController.DownloadFile(pic_src, pic_name, local_path);
                 }
                 if (HERO.length > 0) log.info("爬取英雄列表：", Math.ceil(i / HERO.length * 100) + "%");
-                if (i == HERO.length - 1) {
-                    resolve("get hero list ok");
-                }
+                if (i == HERO.length - 1) resolve("get hero list ok");
+
             }
         }).catch(err => {
             log.error(err);
