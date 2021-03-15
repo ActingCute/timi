@@ -28,9 +28,19 @@ const Msg = Data.Msg;
 })();
 
 module.exports = {
-    get_index: (req, res) => {
+    get_index: (req, res) => { //英雄列表数据接口
         baseController.DoFunc(() => {
-            baseController.Result(Code.Success, Msg.Success, hero, res);
+            baseController.Result(Code.Success, Msg.Success, HERO, res);
+        }, res)
+    },
+    get_arms: (req, res) => { //局内道具接口
+        baseController.DoFunc(() => {
+            baseController.Result(Code.Success, Msg.Success, ARMS, res);
+        }, res)
+    },
+    get_summoner: (req, res) => { //召唤师技能接口
+        baseController.DoFunc(() => {
+            baseController.Result(Code.Success, Msg.Success, SUMMONER, res);
         }, res)
     }
 }

@@ -28,7 +28,7 @@ console.error("dirname - ", __dirname)
 //全局变量
 global.log = log; //日志
 global.HERO = []; //英雄数据
-global.AEMS = []; //装备
+global.ARMS = []; //装备
 global.SUMMONER = []//召唤师技能
 
 //全局待上传的七牛图片

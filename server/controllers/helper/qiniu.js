@@ -10,6 +10,9 @@ const mac = new qiniu.auth.digest.Mac(configData.qiniu.AK, configData.qiniu.SK);
 //要上传的空间
 const bucket = configData.qiniu.Bucket_Name;
 
+//是否需要上传七牛
+const need_upload = configData.qiniu.Need_Upload;
+
 let WebToken = (name) => {
   if (!name) {
     return "";
@@ -27,8 +30,12 @@ let WebToken = (name) => {
 }
 
 module.exports = {
+  need_upload,
   toQiniu: async (url, pic_name, pic_src) => {
     return new Promise((resolve, reject) => {
+      if (!need_upload) {
+        resolve("不需要更新");
+      }
       http.get(url, function (res) {
         var chunks = []; //用于保存网络请求不断加载传输的缓冲数据
         var size = 0; //保存缓冲数据的总长度
