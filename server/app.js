@@ -29,7 +29,7 @@ console.error("dirname - ", __dirname)
 global.log = log; //日志
 global.HERO = []; //英雄数据
 global.AEMS = []; //装备
-global.SUMMONER_SPELLS = []//召唤师技能
+global.SUMMONER = []//召唤师技能
 
 //全局待上传的七牛图片
 global.qiniu_data = [];

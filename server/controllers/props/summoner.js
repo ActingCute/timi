@@ -1,6 +1,6 @@
 /**
  * Created by 张辉 2021/03/15 11:10:09
- * timi 局内装备
+ * timi 召唤师技能
  */
 
 const path = require("path");
@@ -9,42 +9,43 @@ const dbConfig = require("../../config/databases");
 const pic_dir = "public/props"
 const axios = require("axios");
 const fs = require("fs");
-const arms_json = "https://pvp.qq.com/web201605/js/item.json";
+const summoner_json = "https://pvp.qq.com/web201605/js/summoner.json";
 
-let getArmsImg = (item_id) => {
-    return `http://game.gtimg.cn/images/yxzj/img201606/itemimg/${item_id}.jpg`;
+
+let getArmsImg = (summoner_id) => {
+    return `http://game.gtimg.cn/images/yxzj/img201606/summoner/${summoner_id}.jpg`;
 }
 
 module.exports = {
     getData: async () => {
         await baseController.Mkdir(pic_dir);
 
-        let res = await axios.get(arms_json);
+        let res = await axios.get(summoner_json);
 
         if (res.status == 200) {
-            ARMS = res.data;
+            SUMMONER = res.data;
         }
 
         return new Promise(async (resolve, reject) => {
-            for (let i = 0; i < ARMS.length; i++) {
+            for (let i = 0; i < SUMMONER.length; i++) {
                 //捉取图片到本地和七牛云
-                let local_path = pic_dir + "/arms";
+                let local_path = pic_dir + "/summoner";
                 await baseController.Mkdir(local_path);
 
-                const pic_name = ARMS[i].item_name + ".png";
-                const qiniu_path = "arms/" + pic_name;
+                const pic_name = SUMMONER[i].summoner_name + ".png";
+                const qiniu_path = "summoner/" + pic_name;
                 let covor = dbConfig.qiniu.Dns + qiniu_path;
-                const pic_src = getArmsImg(ARMS[i].item_id);
-                ARMS[i].cover = covor;
+                const pic_src = getArmsImg(SUMMONER[i].summoner_id);
+                SUMMONER[i].cover = covor;
                 const file_path = path.resolve(local_path, pic_name);
 
                 if (!fs.existsSync(file_path)) {
                     qiniu_data.push({ pic_src, qiniu_path, local_path });
                     baseController.DownloadFile(pic_src, pic_name, local_path);
                 }
-                if (ARMS.length > 0) log.info("爬取局内装备：", Math.ceil(i / ARMS.length * 100) + "%");
-                if (i == ARMS.length - 1) {
-                    resolve("get arms list ok");
+                if (SUMMONER.length > 0) log.info("爬取召唤师技能：", Math.ceil(i / SUMMONER.length * 100) + "%");
+                if (i == SUMMONER.length - 1) {
+                    resolve("get summoner list ok");
                 }
             }
         }).catch(err => {
