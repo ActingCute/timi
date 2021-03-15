@@ -1,6 +1,6 @@
 var qiniu = require("qiniu");
 var http = require("http");
-var configData = require("../config/databases");
+var configData = require("../../config/databases");
 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 

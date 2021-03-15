@@ -4,7 +4,7 @@
  */
 
 //加载引用包
-const log = require("./controllers/log");
+const log = require("./controllers/helper/log");
 const express = require("express");
 const expressControllers = require("express-controller");
 const path = require("path");
@@ -25,11 +25,11 @@ app.use(cookieParser());
 app.use(router);
 console.error("dirname - ", __dirname)
 
-//日志
-global.log = log;
-
-//全局英雄数据
-global.hero = [];
+//全局变量
+global.log = log; //日志
+global.HERO = []; //英雄数据
+global.AEMS = []; //装备
+global.SUMMONER_SPELLS = []//召唤师技能
 
 //全局待上传的七牛图片
 global.qiniu_data = [];

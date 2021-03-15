@@ -9,7 +9,7 @@ const path = require("path");
 const http = require("http");
 const qn = require("./qiniu");
 //引入配置
-const Data = require("../config/code");
+const Data = require("../../config/code");
 const MsgCode = Data.Code;
 
 //格式化时间

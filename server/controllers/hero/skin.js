@@ -1,11 +1,11 @@
 /**
  * Created by 张辉 2021/03/14 16:21:09
- * 爬取的英雄壁纸
+ * 爬取的英雄皮肤
  */
 
 const path = require("path");
-const baseController = require("./base");
-const dbConfig = require("../config/databases");
+const baseController = require("../helper/index");
+const dbConfig = require("../../config/databases");
 const pic_dir = "public/hero"
 const axios = require("axios");
 const fs = require("fs");
@@ -25,15 +25,15 @@ let todo = (async (wallpaper_list, index, skin_index, i, local_path) => {
         if (index == 0) {
             //预览皮肤 
             px = "-smallskin-";
-            pic_src = smallskin_base_url + hero[i].ename + "/" + hero[i].ename + px + (skin_index + 1) + ".jpg"
+            pic_src = smallskin_base_url + HERO[i].ename + "/" + HERO[i].ename + px + (skin_index + 1) + ".jpg"
         } else {
             //大的皮肤
             px = "-bigskin-";
-            pic_src = bigskin_base_url + hero[i].ename + "/" + hero[i].ename + px + (skin_index + 1) + ".jpg"
+            pic_src = bigskin_base_url + HERO[i].ename + "/" + HERO[i].ename + px + (skin_index + 1) + ".jpg"
         }
 
         const pic_name = "skin" + px + wallpaper_list[skin_index] + ".png";
-        const qiniu_path = "hero/" + hero[i].cname + "/skin/" + px + pic_name;
+        const qiniu_path = "hero/" + HERO[i].cname + "/skin/" + px + pic_name;
 
         let covor = dbConfig.qiniu.Dns + qiniu_path;
 
@@ -51,22 +51,22 @@ let todo = (async (wallpaper_list, index, skin_index, i, local_path) => {
 let getSkinSrc = async (i) => {
     return new Promise(async (resolve, reject) => {
 
-        hero[i].skin_list = [];
+        HERO[i].skin_list = [];
 
         //一些英雄皮肤数据没有，不知道为啥，先手动加上
-        if (wallpaper_data[hero[i].cname]) {
-            if (hero[i].skin_name) {
-                hero[i].skin_name += "|"
+        if (wallpaper_data[HERO[i].cname]) {
+            if (HERO[i].skin_name) {
+                HERO[i].skin_name += "|"
             } else {
-                hero[i].skin_name = ""
+                HERO[i].skin_name = ""
             }
-            hero[i].skin_name += wallpaper_data[hero[i].cname].join("|");
+            HERO[i].skin_name += wallpaper_data[HERO[i].cname].join("|");
         }
         //捉取图片到本地和七牛云
-        let local_path = pic_dir + "/" + hero[i].cname + "/Wallpaper"
+        let local_path = pic_dir + "/" + HERO[i].cname + "/Wallpaper"
         await baseController.Mkdir(local_path);
 
-        let wallpaper_list = hero[i].skin_name ? hero[i].skin_name.split("|") : [];
+        let wallpaper_list = HERO[i].skin_name ? HERO[i].skin_name.split("|") : [];
 
 
         for (let skin_index = 0; skin_index < wallpaper_list.length; skin_index++) {
@@ -80,7 +80,7 @@ let getSkinSrc = async (i) => {
                 skin.data.push(covor);
             }
 
-            hero[i].skin_list.push(skin);
+            HERO[i].skin_list.push(skin);
 
             if (skin_index == wallpaper_list.length - 1) {
                 resolve("skin ok ");
@@ -94,10 +94,10 @@ let getSkinSrc = async (i) => {
 module.exports = {
     getData: async () => {
         return new Promise(async (resolve, reject) => {
-            for (let i = 0; i < hero.length; i++) {
+            for (let i = 0; i < HERO.length; i++) {
                 await getSkinSrc(i);
-                if (hero.length > 0) log.info("爬取英雄皮肤壁纸：", Math.ceil(i / hero.length * 100) + "%");
-                if (i == hero.length - 1) {
+                if (HERO.length > 0) log.info("爬取英雄皮肤壁纸：", Math.ceil(i / HERO.length * 100) + "%");
+                if (i == HERO.length - 1) {
                     resolve("get hero list ok");
                 }
             }

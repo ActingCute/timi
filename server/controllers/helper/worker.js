@@ -1,5 +1,5 @@
 let { expose } = require("threads/worker")
-const baseController = require("./base");
+const baseController = require("../helper/index");
 const qiniuController = require("./qiniu");
 
 expose({
