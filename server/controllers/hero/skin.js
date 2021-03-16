@@ -12,15 +12,10 @@ const fs = require("fs");
 
 const bigskin_base_url = "http://game.gtimg.cn/images/yxzj/img201606/skin/hero-info/"
 const smallskin_base_url = "http://game.gtimg.cn/images/yxzj/img201606/heroimg/"
-// //game.gtimg.cn/images/yxzj/img201606/heroimg/152/152-smallskin-5.jpg
-// //game.gtimg.cn/images/yxzj/img201606/skin/hero-info/152/152-bigskin-1.jpg
-const wallpaper_data = {
-    "马超": ["冷晖之枪", "幸存者", "神威"]
-}
 
-let todo = (async (wallpaper_list, index, skin_index, i, local_path) => {
+let todo = (async(wallpaper_list, index, skin_index, i, local_path) => {
     let pic_src = "";
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async(resolve, reject) => {
         let px = ""
         if (index == 0) {
             //预览皮肤 
@@ -48,20 +43,11 @@ let todo = (async (wallpaper_list, index, skin_index, i, local_path) => {
     })
 })
 
-let getSkinSrc = async (i) => {
-    return new Promise(async (resolve, reject) => {
+let getSkinSrc = async(i) => {
+    return new Promise(async(resolve, reject) => {
 
         HERO[i].skin_list = [];
 
-        //一些英雄皮肤数据没有，不知道为啥，先手动加上
-        if (wallpaper_data[HERO[i].cname]) {
-            if (HERO[i].skin_name) {
-                HERO[i].skin_name += "|"
-            } else {
-                HERO[i].skin_name = ""
-            }
-            HERO[i].skin_name += wallpaper_data[HERO[i].cname].join("|");
-        }
         //捉取图片到本地和七牛云
         let local_path = pic_dir + "/" + HERO[i].cname + "/Wallpaper"
         await baseController.Mkdir(local_path);
@@ -91,8 +77,8 @@ let getSkinSrc = async (i) => {
 }
 
 module.exports = {
-    getData: async () => {
-        return new Promise(async (resolve, reject) => {
+    getData: async() => {
+        return new Promise(async(resolve, reject) => {
             for (let i = 0; i < HERO.length; i++) {
                 await getSkinSrc(i);
                 if (HERO.length > 0) log.info("爬取英雄皮肤壁纸：", Math.ceil(i / HERO.length * 100) + "%");
