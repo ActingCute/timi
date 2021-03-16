@@ -158,7 +158,7 @@ module.exports = {
                     //英雄推荐升级的技能携带的召唤师技能
                     await heroRecommendedUpgradeSkill($, index);
                     //铭文搭配建议
-                    //await heroRecommendedMing($, index)
+                    await heroRecommendedMing($, index)
 
                 })(index)
 
