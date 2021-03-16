@@ -10,31 +10,23 @@ const fs = require("fs");
 var path = require("path");
 const baseController = require("../helper/index");
 const dbConfig = require("../../config/databases");
+const ming = require("../props/ming");
 let skill_pic_dir = "public/hero";
 
 //铭文搭配建议
 let heroRecommendedMing = async ($, index) => {
-    let lis = $(".sugg-u1 img");
-    log.debug("lis-", lis.text());
-
     HERO[index].recommended_ming = {};
     HERO[index].recommended_ming.tips = $("p.sugg-tips").text();
     HERO[index].recommended_ming.data = [];
     return new Promise(async (resolve, reject) => {
-        for (let i = 0; i < lis.length; i++) {
-            let ming_info = lis.eq(i).find("p");
-            let name = "";//铭文名字
-            let attribute = [];//铭文效果
-            for (let mi = 0; mi < ming_info.length; mi++) {
-                let m_text = ming_info.eq(mi).text();
-                if (mi == 0) {
-                    name = m_text;//铭文名字
-                } else {
-                    attribute.push(m_text);//铭文效果
-                }
-            }
-            HERO[index].recommended_ming.data.push({ name, attribute });
-            if (i == lis.length - 1) {
+        let mings = $(".sugg-u1").attr("data-ming").split("|");
+        for (let i = 0; i < mings.length; i++) {
+            let ming_data = ming.getMing(mings[i]);
+            if (!ming_data) continue;
+            let des = ming_data.des;
+            let name = ming_data.name;//铭文名字
+            HERO[index].recommended_ming.data.push({ name, des });
+            if (i == mings.length - 1) {
                 resolve("heroRecommendedMing ok");
             }
         }

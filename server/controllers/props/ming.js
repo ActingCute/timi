@@ -17,6 +17,10 @@ let getMingImg = (ming_id) => {
 }
 
 module.exports = {
+    getMing: (ming_id) => { //获取指定id的铭文
+        ming_id += "";
+        return MING.find(item => item.mid == ming_id) || "";
+    },
     getData: async () => {
         await baseController.Mkdir(pic_dir);
 
@@ -29,7 +33,7 @@ module.exports = {
             //只保留5级的铭文数据
             for (let i = 0; i < MING_temp.length; i++)
                 if (MING_temp[i].ming_grade == "5")
-                    MING.push({ ming_id: MING_temp[i].ming_id, name: MING_temp[i].ming_name });
+                    MING.push({ mid: MING_temp[i].ming_id, name: MING_temp[i].ming_name, des: MING_temp[i].ming_des });
         }
 
         console.log(MING);
