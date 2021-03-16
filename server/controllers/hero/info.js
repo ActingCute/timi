@@ -13,6 +13,38 @@ const dbConfig = require("../../config/databases");
 const ming = require("../props/ming");
 let skill_pic_dir = "public/hero";
 
+
+//出装建议
+let heroRecommendedArms = async($, index) => {
+    HERO[index].recommended_arms = [];
+
+    return new Promise(async(resolve, reject) => {
+        HERO[index].recommended_arms.tips = $("p.sugg-tips").text();
+        HERO[index].recommended_arms.data = [];
+
+        let arms = $(".equip-bd div");
+        for (let i = 0; i < arms.length; i++) {
+            let arms_ids = arms.eq(i).find(".equip-list").attr("data-item").split("|");
+            for (let id_i = 0; id_i < arms_ids.length; id_i++) {
+
+            }
+
+            let arms_data = {};
+            arms_data.tips = arms.eq(i).find(".equip-tips").text();
+            let ming_data = ming.getMing(mings[i]);
+            if (!ming_data) continue;
+            let des = ming_data.des;
+            let name = ming_data.name; //铭文名字
+            HERO[index].recommended_ming.data.push({ name, des });
+            if (i == mings.length - 1) {
+                resolve("heroRecommendedMing ok");
+            }
+        }
+    }).catch(err => {
+        log.error(err);
+    })
+}
+
 //铭文搭配建议
 let heroRecommendedMing = async($, index) => {
     HERO[index].recommended_ming = {};
