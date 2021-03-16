@@ -102,20 +102,27 @@ let getheroRecommendedSummoner = (summoner_name) => {
     return dbConfig.qiniu.Dns + `summoner/${summoner_name}.png`
 }
 
+//获取英雄推荐升级技能
+let getHeroSkill = (index, skill_name, type) => {
+    let skill_data = HERO[index].skill.find(item => item.name == skill_name) || "";
+    if (!skill_name) return { name: "", covor: "" };
+    return { name: skill_data.name, covor: skill_data.covor, type };
+}
+
 //英雄推荐加点和召唤师技能
 let heroRecommendedUpgradeSkill = async ($, index) => {
     return new Promise(async (resolve, reject) => {
         ((index, $) => {
             //加点
-            let lis_skill = $(".sugg-info2.info .sugg-name");
-            HERO[index].skill_recommended = [];
-            for (let i = 0; i < 2; i++) {
-                let desc = lis_skill.eq(i).find("b").text(); //主加还是副加
-                let name = lis_skill.eq(i).find("span").text();//加点的技能名字
+            let n1 = $('.sugg-skill img').eq(0).attr('src')[$('.sugg-skill img').eq(0).attr('src').length - 6],
+                n2 = $('.sugg-skill img').eq(1).attr('src')[$('.sugg-skill img').eq(1).attr('src').length - 6];
+            let mastar_skill_name = $('.skill-show .skill-name b').eq(n1).text();//主加技能
+            let second_skill_name = $('.skill-show .skill-name b').eq(n2).text();//副加技能
 
-
-                HERO[index].skill_recommended.push({ desc, name, covor: getheroRecommendedSkill(HERO[index].cname, name) });
-            }
+            HERO[index].skill_recommended = [
+                getHeroSkill(index, mastar_skill_name, "主加"),
+                getHeroSkill(index, second_skill_name, "副加")
+            ];
 
             //召唤师技能
             let master_skill = $(".sugg-info2.info p.sugg-name3");
@@ -148,10 +155,10 @@ module.exports = {
                     await heroSkillDesc($, index);
                     //英雄技能图片
                     await heroSkillImages($, index);
-                    //英雄推荐升级的技能携带的召唤师技能 TODO://有毒，不知道为啥一直捉的是哪吒的推荐 马德
-                    //await heroRecommendedUpgradeSkill($, index);
+                    //英雄推荐升级的技能携带的召唤师技能
+                    await heroRecommendedUpgradeSkill($, index);
                     //铭文搭配建议
-                    await heroRecommendedMing($, index)
+                    //await heroRecommendedMing($, index)
 
                 })(index)
 
