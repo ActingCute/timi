@@ -15,18 +15,18 @@ const Code = Data.Code;
 const Msg = Data.Msg;
 
 (async () => {
-    await ming.getData();//铭文
-    log.debug("qiniu_data len0:", qiniu_data.length);
-    await heroList.getData(); //爬取英雄列表数据
-    log.debug("qiniu_data len1:", qiniu_data.length);
-    await heroInfo.getData(); //爬取英雄详情，如技能数据
-    log.debug("qiniu_data len2:", qiniu_data.length);
-    await heroWallpaper.getData();//英雄皮肤壁纸
-    log.debug("qiniu_data len3:", qiniu_data.length);
     await arms.getData();//局内装备
+    log.debug("qiniu_data len1:", qiniu_data.length);
+    await ming.getData();//铭文
+    log.debug("qiniu_data len1:", qiniu_data.length);
+    await heroList.getData(); //爬取英雄列表数据
+    log.debug("qiniu_data len2:", qiniu_data.length);
+    await heroInfo.getData(); //爬取英雄详情，如技能数据
+    log.debug("qiniu_data len3:", qiniu_data.length);
+    await heroWallpaper.getData();//英雄皮肤壁纸
     log.debug("qiniu_data len4:", qiniu_data.length);
     await summoner.getData();//召唤师技能
-    log.debug("qiniu_data len4:", qiniu_data.length);
+    log.debug("qiniu_data len5:", qiniu_data.length);
     baseController.UploadQiniu(qiniu_data.length - 1, qiniu_data)
 })();
 

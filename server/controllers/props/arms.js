@@ -16,11 +16,21 @@ let getArmsImg = (item_id) => {
 }
 
 module.exports = {
+    getArms: (item_id) => {
+        return ARMS.find(item => item.item_id == Number(item_id)) || {
+            "item_id": "",
+            "item_name": "",
+            "item_type": 0,
+            "price": 0,
+            "total_price": 0,
+            "des1": "",
+            "covor": ""
+        };
+    },
     getData: async () => {
         await baseController.Mkdir(pic_dir);
 
         let res = await axios.get(arms_json);
-
         if (res.status == 200) {
             ARMS = res.data;
         }

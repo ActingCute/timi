@@ -10,34 +10,31 @@ const fs = require("fs");
 var path = require("path");
 const baseController = require("../helper/index");
 const dbConfig = require("../../config/databases");
-const ming = require("../props/ming");
+const mingController = require("../props/ming");
+const armsController = require("../props/arms");
 let skill_pic_dir = "public/hero";
 
 
 //出装建议
-let heroRecommendedArms = async($, index) => {
+let heroRecommendedArms = async ($, index) => {
     HERO[index].recommended_arms = [];
 
-    return new Promise(async(resolve, reject) => {
-        HERO[index].recommended_arms.tips = $("p.sugg-tips").text();
-        HERO[index].recommended_arms.data = [];
+    return new Promise(async (resolve, reject) => {
 
         let arms = $(".equip-bd div");
+
         for (let i = 0; i < arms.length; i++) {
-            let arms_ids = arms.eq(i).find(".equip-list").attr("data-item").split("|");
-            for (let id_i = 0; id_i < arms_ids.length; id_i++) {
 
-            }
+            let data = [];
+            let arms_ids = arms.eq(i).find("ul").attr("data-item").split("|");
+            for (let id_i = 0; id_i < arms_ids.length; id_i++)
+                data.push(armsController.getArms(arms_ids[id_i]));
 
-            let arms_data = {};
-            arms_data.tips = arms.eq(i).find(".equip-tips").text();
-            let ming_data = ming.getMing(mings[i]);
-            if (!ming_data) continue;
-            let des = ming_data.des;
-            let name = ming_data.name; //铭文名字
-            HERO[index].recommended_ming.data.push({ name, des });
-            if (i == mings.length - 1) {
-                resolve("heroRecommendedMing ok");
+            let tips = arms.eq(i).find(".equip-tips").text();
+
+            HERO[index].recommended_arms.push({ tips, data });
+            if (i == arms.length - 1) {
+                resolve("heroRecommendedArms ok");
             }
         }
     }).catch(err => {
@@ -46,14 +43,14 @@ let heroRecommendedArms = async($, index) => {
 }
 
 //铭文搭配建议
-let heroRecommendedMing = async($, index) => {
+let heroRecommendedMing = async ($, index) => {
     HERO[index].recommended_ming = {};
     HERO[index].recommended_ming.tips = $("p.sugg-tips").text();
     HERO[index].recommended_ming.data = [];
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         let mings = $(".sugg-u1").attr("data-ming").split("|");
         for (let i = 0; i < mings.length; i++) {
-            let ming_data = ming.getMing(mings[i]);
+            let ming_data = mingController.getMing(mings[i]);
             if (!ming_data) continue;
             let des = ming_data.des;
             let name = ming_data.name; //铭文名字
@@ -68,9 +65,9 @@ let heroRecommendedMing = async($, index) => {
 }
 
 //英雄技能描述
-let heroSkillDesc = async($, index) => {
+let heroSkillDesc = async ($, index) => {
     let lis = $(".show-list");
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         for (let i = 0; i < lis.length; i++) {
             let skill_name_desc = lis.eq(i).find(".skill-name");
             let name = skill_name_desc.find("b").text();
@@ -93,9 +90,9 @@ let heroSkillDesc = async($, index) => {
 }
 
 //英雄技能图片
-let heroSkillImages = async($, index) => {
+let heroSkillImages = async ($, index) => {
     let lis_pic = $(".skill-u1 li");
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         for (let i = 0; i < lis_pic.length - 1; i++) {
             let skill_src = lis_pic.eq(i).find("img").attr("src");
             const pic_src = "http:" + skill_src
@@ -142,8 +139,8 @@ let getHeroSkill = (index, skill_name, type) => {
 }
 
 //英雄推荐加点和召唤师技能
-let heroRecommendedUpgradeSkill = async($, index) => {
-    return new Promise(async(resolve, reject) => {
+let heroRecommendedUpgradeSkill = async ($, index) => {
+    return new Promise(async (resolve, reject) => {
         ((index, $) => {
             //加点
             let n1 = $('.sugg-skill img').eq(0).attr('src')[$('.sugg-skill img').eq(0).attr('src').length - 6],
@@ -175,10 +172,10 @@ let heroRecommendedUpgradeSkill = async($, index) => {
 }
 
 module.exports = {
-    getData: async() => {
-        return new Promise(async(resolve, reject) => {
+    getData: async () => {
+        return new Promise(async (resolve, reject) => {
             for (let index = 0; index < HERO.length; index++) {
-                (async(index) => {
+                (async (index) => {
                     HERO[index].skill = [];
                     let homeBody = await cheerioFunc.handleRequestByPromise({ url: "https://pvp.qq.com/web201605/herodetail/" + HERO[index].ename + ".shtml" });
                     homeBody = iconv.decode(homeBody, "GBK"); //进行gbk解码
@@ -202,7 +199,9 @@ module.exports = {
                     //英雄推荐升级的技能携带的召唤师技能
                     await heroRecommendedUpgradeSkill($, index);
                     //铭文搭配建议
-                    await heroRecommendedMing($, index)
+                    await heroRecommendedMing($, index);
+                    //出装推荐
+                    await heroRecommendedArms($, index);
 
                 })(index)
 
