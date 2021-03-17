@@ -20,13 +20,13 @@ var logger;
 })()
 
 module.exports = {
-    info: function (...data) {
+    info: (...data) => {
         logger.info(...data);
     },
-    debug: function (...data) {
+    debug: (...data) => {
         logger.debug(...data);
     },
-    error: function (...data) {
+    error: (...data) => {
         logger.error(...data);
     }
 }

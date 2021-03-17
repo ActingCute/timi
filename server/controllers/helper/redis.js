@@ -5,9 +5,9 @@
 
 const blogConfig = require("../../config/databases");
 const redisConfig = blogConfig.redis;
-const redis = require("redis");
+const redis_ = require("redis");
 
-const redis_client = redis.createClient({ host: redisConfig.RDS_HOST, port: redisConfig.RDS_PORT, ttl: 5 * 60 * 1000 });
+const redis_client = redis_.createClient({ host: redisConfig.RDS_HOST, port: redisConfig.RDS_PORT, ttl: 5 * 60 * 1000 });
 
 redis_client.auth('6478**12', () => {
     log.info('auth succress');
@@ -18,7 +18,7 @@ redis_client.on("error", (err) => {
 redis = {};
 redis.set = (key, value) => {
     value = JSON.stringify(value);
-    return redis_client.set(key, value, function (err) {
+    return redis_client.set(key, value, (err) => {
         if (err) log.error(err);
     });
 };
@@ -32,8 +32,8 @@ redis.setExp = (key, value, exprires) => {
 };
 
 text = async (key) => {
-    doc = await new Promise(function (resolve) {
-        redis_client.get(key, function (err, res) {
+    doc = await new Promise((resolve) => {
+        redis_client.get(key, (err, res) => {
             return resolve(res);
         });
     });
@@ -42,8 +42,8 @@ text = async (key) => {
 }
 
 textHash = async (key) => {
-    doc = await new Promise(function (resolve) {
-        redis_client.hget(key, function (err, res) {
+    doc = await new Promise((resolve) => {
+        redis_client.hget(key, (err, res) => {
             return resolve(res);
         });
     });

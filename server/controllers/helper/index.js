@@ -116,7 +116,7 @@ let DownloadFileFuc = async (url, name, pic_dir) => {
         await Mkdir(pic_dir);
         const mypath = path.resolve(pic_dir, name);
         http.request(url)
-            .on('response', function (res) {
+            .on('response', (res) => {
                 if (!~[200, 304].indexOf(res.statusCode)) {
                     reject(new Error('Received an invalid status code.', res.statusCode));
                 } else
@@ -127,15 +127,15 @@ let DownloadFileFuc = async (url, name, pic_dir) => {
                         var body = ''
                         res.setEncoding('binary')
                         res
-                            .on('error', function (err) {
+                            .on('error', (err) => {
                                 reject(err);
                             })
-                            .on('data', function (chunk) {
+                            .on('data', (chunk) => {
                                 body += chunk
                             })
-                            .on('end', function () {
+                            .on('end', () => {
                                 // What about Windows?!
-                                fs.writeFile(mypath, body, 'binary', function (err) {
+                                fs.writeFile(mypath, body, 'binary', (err) => {
 
                                     if (err) {
                                         reject(err);
@@ -146,7 +146,7 @@ let DownloadFileFuc = async (url, name, pic_dir) => {
                             })
                     }
             })
-            .on('error', function (err) {
+            .on('error', (err) => {
                 reject(err);
             })
             .end();

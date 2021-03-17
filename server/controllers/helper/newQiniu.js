@@ -38,8 +38,8 @@ module.exports = {
             let uploadToken = qiniuController.WebToken(fname)
 
             // 文件分片上传
-            resumeUploader.putFile(uploadToken, key, localFile, putExtra, function (respErr,
-                respBody, respInfo) {
+            resumeUploader.putFile(uploadToken, key, localFile, putExtra, (respErr,
+                respBody, respInfo) => {
                 if (respErr) {
                     log.error(respErr);
                     resolve("error");
