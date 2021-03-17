@@ -8,9 +8,11 @@ const fs = require("fs");
 const path = require("path");
 const http = require("http");
 const qn = require("./qiniu");
+const newQn = require("./newQiniu");
 //引入配置
 const Data = require("../../config/code");
 const MsgCode = Data.Code;
+const config = require("../../config/databases");
 
 //格式化时间
 Date.prototype.Format = (fmt) => {
@@ -51,7 +53,7 @@ let Result = (Code, Msg, Data, res) => {
 //判断文件夹不存在就创建
 let Mkdir = (async (reaPath) => {
     reaPath = path.resolve(reaPath);
-    if (!fs.existsSync(reaPath)) {
+    if (!await fs.existsSync(reaPath)) {
         fs.mkdir(reaPath, { recursive: true }, (err) => {
             if (err) log.error(err)
         });
@@ -60,33 +62,66 @@ let Mkdir = (async (reaPath) => {
 
 //递归上传至七牛
 let UploadQiniu = (index, data) => {
-    if (!qn.need_upload) {
+
+    if (!config.qiniu.Need_Upload) {
         return;
     }
-    if (data.length > 0) log.info("上传图片到七牛云：", data.length - index - 1 + "/" + data.length, Math.ceil((data.length - 1 - index) / data.length * 100) + "%");
+
+    let qiniu_path = (index > -1) ? data[index].qiniu_path : 0;
+
+    if (data.length > 0) log.info("上传图片到七牛云：", data.length - index - 1 + "/" + data.length, Math.ceil((data.length - 1 - index) / data.length * 100) + "%", qiniu_path);
+
     if (index > -1) {
-        let { pic_src, qiniu_path, local_path } = data[index--];
-        qn.toQiniu(pic_src, qiniu_path, local_path).then(res => {
-            UploadQiniu(index, data);
-        })
+
+        let { pic_src, qiniu_path, local_path, pic_name } = data[index--];
+
+        if (config.qiniu.UseSliceUpload) {
+
+            newQn.putFile(local_path, pic_name, qiniu_path).then(res => {
+                UploadQiniu(index, data);
+            })
+
+        } else {
+
+            qn.toQiniu(pic_src, qiniu_path, local_path).then(res => {
+                UploadQiniu(index, data);
+            })
+        }
     }
 }
-//暴露函数
-module.exports = {
-    UploadQiniu: (index, data) => {
-        UploadQiniu(index, data);
-    },
-    //下载图片到本地
-    DownloadFile: async (url, name, pic_dir) => {
-        return new Promise(async (resolve, reject) => {
-            await Mkdir(pic_dir);
-            const mypath = path.resolve(pic_dir, name);
 
-            http.request(url)
-                .on('response', function (res) {
-                    if (!~[200, 304].indexOf(res.statusCode)) {
-                        reject(new Error('Received an invalid status code.'));
-                    } else if (!res.headers['content-type'].match(/image/)) {
+//递归下载图片本地
+let DownloadFileResolve;
+let DownloadFile = async (index, data) => {
+    return new Promise(async (resolve, reject) => {
+
+        let show_pic_name = index > 1 ? data[index - 1].pic_name : "";
+        if (index == data.length - 1) DownloadFileResolve = resolve;
+        if (data.length > 0)
+            log.info("下载图片到本地：", data.length - index - 1 + "/" + data.length, Math.ceil((data.length - 1 - index) / data.length * 100) + "%", show_pic_name);
+        if (index > -1) {
+            let { pic_src, local_path, pic_name } = data[index--];
+            await DownloadFileFuc(pic_src, pic_name, local_path);
+            DownloadFile(index, data);
+        } else {
+            DownloadFileResolve("ok");
+        }
+    }).catch(err => {
+        log.error(err);
+    });
+}
+
+let DownloadFileFuc = async (url, name, pic_dir) => {
+    return new Promise(async (resolve, reject) => {
+        await Mkdir(pic_dir);
+        const mypath = path.resolve(pic_dir, name);
+        http.request(url)
+            .on('response', function (res) {
+                if (!~[200, 304].indexOf(res.statusCode)) {
+                    reject(new Error('Received an invalid status code.', res.statusCode));
+                } else
+
+                    if (!res.headers['content-type'].match(/image/)) {
                         reject(new Error('Not an image.'));
                     } else {
                         var body = ''
@@ -110,16 +145,30 @@ module.exports = {
                                 })
                             })
                     }
-                })
-                .on('error', function (err) {
-                    reject(err);
-                })
-                .end();
+            })
+            .on('error', function (err) {
+                reject(err);
+            })
+            .end();
+    }).catch(err => {
+        log.error(err);
+    })
+}
+//暴露函数
+module.exports = {
+    UploadQiniu: (index, data) => {
+        UploadQiniu(index, data);
+    },
+    //下载图片到本地
+    DownloadFile: async (index, data) => {
+        return new Promise(async (resolve, reject) => {
+            DownloadFile(index, data).then(res => {
+                resolve(res);
+            })
         }).catch(err => {
             log.error(err);
         })
     },
-
     //消息结构体
     Result,
     DoFunc: (func, res) => {

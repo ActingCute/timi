@@ -9,11 +9,48 @@ const iconv = require('iconv-lite');
 const fs = require("fs");
 var path = require("path");
 const baseController = require("../helper/index");
+const heroController = require("./list");
 const dbConfig = require("../../config/databases");
 const mingController = require("../props/ming");
 const armsController = require("../props/arms");
 let skill_pic_dir = "public/hero";
 
+//英雄关系
+let heroRelation = async ($, index) => {
+    HERO[index].relation = { "desc": "英雄关系" };
+
+    return new Promise(async (resolve, reject) => {
+
+        let relation = $(".hero-info-box .hero-info.l.info");
+
+        for (let i = 0; i < relation.length; i++) {
+
+            let title = relation.find(".hero-f1.fl").text(); //关系描述
+            //log.debug("title:", title)
+            let hero_relate_list_id = relation.find(".hero-list.hero-relate-list.fl li a")
+            for (let ri = 0; ri < hero_relate_list_id.length; ri++) {
+                //关系对应的英雄id
+                let ename = hero_relate_list_id.eq(ri).attr("href").replace(/[^0-9]/ig, "");
+                let { cname, covor } = heroController.getHero(ename);
+                //log.debug("id:", cname)
+            }
+
+            // let data = [];
+            // let arms_ids = arms.eq(i).find("ul").attr("data-item").split("|");
+            // for (let id_i = 0; id_i < arms_ids.length; id_i++)
+            //     data.push(armsController.getArms(arms_ids[id_i]));
+
+            // let tips = arms.eq(i).find(".equip-tips").text();
+
+            // HERO[index].recommended_arms.push({ tips, data });
+            if (i == relation.length - 1) {
+                resolve("heroRelation ok");
+            }
+        }
+    }).catch(err => {
+        log.error(err);
+    })
+}
 
 //出装建议
 let heroRecommendedArms = async ($, index) => {
@@ -107,9 +144,9 @@ let heroSkillImages = async ($, index) => {
             HERO[index].skill[i].covor = covor;
             const filePath = path.resolve(local_path, HERO[index].skill[i].name + ".png");
 
-            if (!fs.existsSync(filePath)) {
-                qiniu_data.push({ pic_src, qiniu_path, local_path });
-                baseController.DownloadFile(pic_src, pic_name, local_path);
+            if (!await fs.existsSync(filePath)) {
+                QINIU_DATA.push({ pic_src, qiniu_path, local_path, pic_name });
+                LOCAL_DATA.push({ pic_src, pic_name, local_path });
             }
 
             if (i == lis_pic.length - 2) resolve("heroSkillImages ok");
@@ -175,38 +212,39 @@ module.exports = {
     getData: async () => {
         return new Promise(async (resolve, reject) => {
             for (let index = 0; index < HERO.length; index++) {
-                (async (index) => {
-                    HERO[index].skill = [];
-                    let homeBody = await cheerioFunc.handleRequestByPromise({ url: "https://pvp.qq.com/web201605/herodetail/" + HERO[index].ename + ".shtml" });
-                    homeBody = iconv.decode(homeBody, "GBK"); //进行gbk解码
-                    let $ = cheerio.load(homeBody);
-                    //json文件一些英雄皮肤数据没有，所以要重新获取皮肤数据
-                    let skin_data = $(".pic-pf-list.pic-pf-list3").attr("data-imgname");
-                    let skin_datas = skin_data.split("|");
-                    let skin_str = [];
-                    skin_datas.forEach((ele, ele_index) => {
-                        let skill_name = ele.split("&");
-                        if (skill_name.length > 0) {
-                            skill_name = skill_name[0];
-                            skin_str.push(skill_name);
-                        }
-                    })
-                    if (skin_str) HERO[index].skin_name = skin_str.join("|");
-                    //英雄技能
-                    await heroSkillDesc($, index);
-                    //英雄技能图片
-                    await heroSkillImages($, index);
-                    //英雄推荐升级的技能携带的召唤师技能
-                    await heroRecommendedUpgradeSkill($, index);
-                    //铭文搭配建议
-                    await heroRecommendedMing($, index);
-                    //出装推荐
-                    await heroRecommendedArms($, index);
 
-                })(index)
+                HERO[index].skill = [];
+                let homeBody = await cheerioFunc.handleRequestByPromise({ url: "https://pvp.qq.com/web201605/herodetail/" + HERO[index].ename + ".shtml" });
+                homeBody = iconv.decode(homeBody, "GBK"); //进行gbk解码
+                let $ = cheerio.load(homeBody);
+                //json文件一些英雄皮肤数据没有，所以要重新获取皮肤数据
+                let skin_data = $(".pic-pf-list.pic-pf-list3").attr("data-imgname");
+                let skin_datas = skin_data.split("|");
+
+                let skin_str = [];
+                skin_datas.forEach((ele, ele_index) => {
+                    let skill_name = ele.split("&");
+                    if (skill_name.length > 0) {
+                        skill_name = skill_name[0];
+                        skin_str.push(skill_name);
+                    }
+                })
+                if (skin_str) HERO[index].skin_name = skin_str.join("|");
+                //英雄技能
+                await heroSkillDesc($, index);
+                //英雄技能图片
+                await heroSkillImages($, index);
+                //英雄推荐升级的技能携带的召唤师技能
+                await heroRecommendedUpgradeSkill($, index);
+                //铭文搭配建议
+                await heroRecommendedMing($, index);
+                //出装推荐
+                await heroRecommendedArms($, index);
+                //英雄关系
+                await heroRelation($, index);
 
                 if (HERO.length > 0) log.info("爬取英雄技能：", Math.ceil(index / HERO.length * 100) + "%");
-                if (index == HERO.length - 1) resolve(qiniu_data);
+                if (index == HERO.length - 1) resolve(QINIU_DATA);
             }
         }).catch(err => {
             log.error(err);

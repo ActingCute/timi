@@ -34,14 +34,14 @@ module.exports = {
 
                 const pic_name = SUMMONER[i].summoner_name + ".png";
                 const qiniu_path = "summoner/" + pic_name;
-                let covor = dbConfig.qiniu.Dns + qiniu_path;
+                let cover = dbConfig.qiniu.Dns + qiniu_path;
                 const pic_src = getArmsImg(SUMMONER[i].summoner_id);
-                SUMMONER[i].cover = covor;
+                SUMMONER[i].cover = cover;
                 const file_path = path.resolve(local_path, pic_name);
 
-                if (!fs.existsSync(file_path)) {
-                    qiniu_data.push({ pic_src, qiniu_path, local_path });
-                    baseController.DownloadFile(pic_src, pic_name, local_path);
+                if (!await fs.existsSync(file_path)) {
+                    QINIU_DATA.push({ pic_src, qiniu_path, local_path, pic_name });
+                    LOCAL_DATA.push({ pic_src, pic_name, local_path });
                 }
                 if (SUMMONER.length > 0) log.info("爬取召唤师技能：", Math.ceil(i / SUMMONER.length * 100) + "%");
                 if (i == SUMMONER.length - 1) {

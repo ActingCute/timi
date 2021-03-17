@@ -36,8 +36,6 @@ module.exports = {
                     MING.push({ mid: MING_temp[i].ming_id, name: MING_temp[i].ming_name, des: MING_temp[i].ming_des });
         }
 
-        console.log(MING);
-
         return new Promise(async (resolve, reject) => {
             for (let i = 0; i < MING.length; i++) {
                 //捉取图片到本地和七牛云
@@ -46,14 +44,15 @@ module.exports = {
 
                 const pic_name = MING[i].name + ".png";
                 const qiniu_path = "ming/" + pic_name;
-                let covor = dbConfig.qiniu.Dns + qiniu_path;
-                const pic_src = getMingImg(MING[i].ming_id);
-                MING[i].cover = covor;
+                let cover = dbConfig.qiniu.Dns + qiniu_path;
+                const pic_src = getMingImg(MING[i].mid);
+
+                MING[i].cover = cover;
                 const file_path = path.resolve(local_path, pic_name);
 
-                if (!fs.existsSync(file_path)) {
-                    qiniu_data.push({ pic_src, qiniu_path, local_path });
-                    baseController.DownloadFile(pic_src, pic_name, local_path);
+                if (!await fs.existsSync(file_path)) {
+                    QINIU_DATA.push({ pic_src, qiniu_path, local_path, pic_name });
+                    LOCAL_DATA.push({ pic_src, pic_name, local_path });
                 }
                 if (MING.length > 0) log.info("爬取铭文：", Math.ceil(i / MING.length * 100) + "%");
                 if (i == MING.length - 1) {

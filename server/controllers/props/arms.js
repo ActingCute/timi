@@ -24,7 +24,7 @@ module.exports = {
             "price": 0,
             "total_price": 0,
             "des1": "",
-            "covor": ""
+            "cover": ""
         };
     },
     getData: async () => {
@@ -43,14 +43,14 @@ module.exports = {
 
                 const pic_name = ARMS[i].item_name + ".png";
                 const qiniu_path = "arms/" + pic_name;
-                let covor = dbConfig.qiniu.Dns + qiniu_path;
+                let cover = dbConfig.qiniu.Dns + qiniu_path;
                 const pic_src = getArmsImg(ARMS[i].item_id);
-                ARMS[i].cover = covor;
+                ARMS[i].cover = cover;
                 const file_path = path.resolve(local_path, pic_name);
 
-                if (!fs.existsSync(file_path)) {
-                    qiniu_data.push({ pic_src, qiniu_path, local_path });
-                    baseController.DownloadFile(pic_src, pic_name, local_path);
+                if (!await fs.existsSync(file_path)) {
+                    QINIU_DATA.push({ pic_src, qiniu_path, local_path, pic_name });
+                    LOCAL_DATA.push({ pic_src, pic_name, local_path });
                 }
                 if (ARMS.length > 0) log.info("爬取局内装备：", Math.ceil(i / ARMS.length * 100) + "%");
                 if (i == ARMS.length - 1) {

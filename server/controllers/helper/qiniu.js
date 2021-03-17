@@ -1,3 +1,8 @@
+/**
+ * Created by 张辉 2021/03/11 11:10:09
+ * 这函数是将线上的图片地址转为base64再上传到七牛
+ */
+
 var qiniu = require("qiniu");
 var http = require("http");
 var configData = require("../../config/databases");
@@ -30,6 +35,7 @@ let WebToken = (name) => {
 }
 
 module.exports = {
+    WebToken,
     need_upload,
     toQiniu: async (url, pic_name, pic_src) => {
         return new Promise((resolve, reject) => {
@@ -78,7 +84,7 @@ module.exports = {
 
                     var url = "http://up.qiniu.com/putb64/" + fileSize(picBase);
                     var xhr = new XMLHttpRequest();
-                    xhr.timeout = 100000;
+                    //xhr.timeout = 1000 * 10;
 
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState == 4) {

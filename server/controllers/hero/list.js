@@ -11,6 +11,9 @@ const axios = require("axios");
 const fs = require("fs");
 
 module.exports = {
+    getHero: (ename) => { //获取指定id的英雄
+        return HERO.find(item => item.ename == Number(ename)) || "";
+    },
     getData: async () => {
         await baseController.Mkdir(pic_dir);
 
@@ -26,16 +29,15 @@ module.exports = {
                 let local_path = pic_dir + "/" + HERO[i].cname
                 await baseController.Mkdir(local_path);
 
-                const pic_name = "covor.png"
+                const pic_name = "cover.png"
                 const qiniu_path = "hero/" + HERO[i].cname + "/" + pic_name
-                let covor = dbConfig.qiniu.Dns + qiniu_path;
+                let cover = dbConfig.qiniu.Dns + qiniu_path;
                 const pic_src = "http://game.gtimg.cn/images/yxzj/img201606/heroimg/" + HERO[i].ename + "/" + HERO[i].ename + ".jpg";
-                HERO[i].cover = covor;
+                HERO[i].cover = cover;
                 const file_path = path.resolve(local_path, pic_name);
-
-                if (!fs.existsSync(file_path)) {
-                    qiniu_data.push({ pic_src, qiniu_path, local_path });
-                    baseController.DownloadFile(pic_src, pic_name, local_path);
+                if (!await fs.existsSync(file_path)) {
+                    QINIU_DATA.push({ pic_src, qiniu_path, local_path, pic_name });
+                    LOCAL_DATA.push({ pic_src, pic_name, local_path });
                 }
                 if (HERO.length > 0) log.info("爬取英雄列表：", Math.ceil(i / HERO.length * 100) + "%");
                 if (i == HERO.length - 1) resolve("get hero list ok");

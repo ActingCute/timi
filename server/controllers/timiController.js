@@ -16,18 +16,16 @@ const Msg = Data.Msg;
 
 (async () => {
     await arms.getData();//局内装备
-    log.debug("qiniu_data len1:", qiniu_data.length);
     await ming.getData();//铭文
-    log.debug("qiniu_data len1:", qiniu_data.length);
     await heroList.getData(); //爬取英雄列表数据
-    log.debug("qiniu_data len2:", qiniu_data.length);
     await heroInfo.getData(); //爬取英雄详情，如技能数据
-    log.debug("qiniu_data len3:", qiniu_data.length);
-    await heroWallpaper.getData();//英雄皮肤壁纸
-    log.debug("qiniu_data len4:", qiniu_data.length);
+    await heroWallpaper.getData();//英雄皮肤
     await summoner.getData();//召唤师技能
-    log.debug("qiniu_data len5:", qiniu_data.length);
-    baseController.UploadQiniu(qiniu_data.length - 1, qiniu_data)
+    log.debug("QINIU_DATA len:", QINIU_DATA.length);
+    log.debug("LOCAL_DATA len:", LOCAL_DATA.length);
+    let msg = await baseController.DownloadFile(LOCAL_DATA.length - 1, LOCAL_DATA);
+    log.info("下载图片到本地：", msg);
+    baseController.UploadQiniu(QINIU_DATA.length - 1, QINIU_DATA)
 })();
 
 module.exports = {

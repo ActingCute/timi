@@ -33,7 +33,9 @@ global.SUMMONER = [];//召唤师技能
 global.MING = [];//铭文
 
 //全局待上传的七牛图片
-global.qiniu_data = [];
+global.QINIU_DATA = [];
+//全局待下载本地的图片
+global.LOCAL_DATA = [];
 
 //绑定控制器
 expressControllers.setDirectory(__dirname + "\\controllers").bind(router);

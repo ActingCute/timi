@@ -1,8 +1,9 @@
 //日志输出
 const log4js = require('log4js');
+const baseController = require('./index');
 var logger;
 
-(() => {
+(async () => {
     log4js.configure({
         appenders: {
             out: { type: 'console' },
@@ -14,6 +15,8 @@ var logger;
         }
     });
     logger = log4js.getLogger(' ');
+    //七牛断点记录文件
+    await baseController.Mkdir("log/qiniu");
 })()
 
 module.exports = {
