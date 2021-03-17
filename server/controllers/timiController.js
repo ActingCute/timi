@@ -3,6 +3,7 @@
  * timi 逻辑
  */
 //引入外部包
+const redis = require('./helper/redis');
 const heroList = require('./hero/list');
 const heroInfo = require('./hero/info');
 const heroWallpaper = require('./hero/skin');
@@ -13,19 +14,46 @@ const baseController = require('./helper/index');
 const Data = require("../config/code");
 const Code = Data.Code;
 const Msg = Data.Msg;
+const TIMI_DATA = "TIMI_DATA";
 
+//初始化
 (async () => {
-    await arms.getData();//局内装备
-    await ming.getData();//铭文
-    await heroList.getData(); //爬取英雄列表数据
-    await heroInfo.getData(); //爬取英雄详情，如技能数据
-    await heroWallpaper.getData();//英雄皮肤
-    await summoner.getData();//召唤师技能
-    log.debug("QINIU_DATA len:", QINIU_DATA.length);
-    log.debug("LOCAL_DATA len:", LOCAL_DATA.length);
-    let msg = await baseController.DownloadFile(LOCAL_DATA.length - 1, LOCAL_DATA);
-    log.info("下载图片到本地：", msg);
-    baseController.UploadQiniu(QINIU_DATA.length - 1, QINIU_DATA)
+
+    try {
+        //判断缓存数据是否存在
+        let timi_data = await redis.get(TIMI_DATA) || "";
+        if (timi_data) {
+            //存在缓存数据
+            log.info("存在缓存数据！");
+            let { HERO, ARMS, SUMMONER, MING } = JSON.parse(timi_data);
+            global.HERO = HERO; //英雄数据
+            global.ARMS = ARMS; //装备
+            global.SUMMONER = SUMMONER;//召唤师技能
+            global.MING = MING;//铭文
+            return;
+        }
+        log.info("缓存数据不存在！");
+        //爬取数据
+        await arms.getData();//局内装备
+        await ming.getData();//铭文
+        await heroList.getData(); //爬取英雄列表数据
+        await heroInfo.getData(); //爬取英雄详情，如技能数据
+        await heroWallpaper.getData();//英雄皮肤
+        await summoner.getData();//召唤师技能
+        log.debug("QINIU_DATA len:", QINIU_DATA.length);
+        log.debug("LOCAL_DATA len:", LOCAL_DATA.length);
+        let msg = await baseController.DownloadFile(LOCAL_DATA.length - 1, LOCAL_DATA);
+        log.info("下载图片到本地：", msg);
+        msg = baseController.UploadQiniu(QINIU_DATA.length - 1, QINIU_DATA);
+        log.info("上传七牛：", msg);
+        //将数据缓存起来
+        redis.set(TIMI_DATA, JSON.stringify({ HERO, ARMS, SUMMONER, MING }));
+        log.info("数据已存入redis");
+    } catch (err) {
+        log.error(err);
+    }
+
+
 })();
 
 module.exports = {
