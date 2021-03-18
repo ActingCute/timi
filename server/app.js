@@ -31,6 +31,8 @@ global.HERO = []; //英雄数据
 global.ARMS = []; //装备
 global.SUMMONER = [];//召唤师技能
 global.MING = [];//铭文
+global.NOVICE_HERO = [];//新手推荐英雄
+global.FREE_HERO = [];//周限免英雄
 
 //全局待上传的七牛图片
 global.QINIU_DATA = [];

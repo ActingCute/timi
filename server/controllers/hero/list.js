@@ -46,5 +46,14 @@ module.exports = {
         }).catch(err => {
             log.error(err);
         })
+    },
+    getNoviceFreeHeroData: () => {
+        for (let hi = 0; hi < HERO.length; hi++) {
+            if (HERO[hi].pay_type && HERO[hi].pay_type == 10) {
+                FREE_HERO.push(HERO[hi]);//周限免英雄
+            } else if (HERO[hi].pay_type && HERO[hi].pay_type == 11) {
+                NOVICE_HERO.push(HERO[hi]); //新手推荐英雄
+            }
+        }
     }
 }

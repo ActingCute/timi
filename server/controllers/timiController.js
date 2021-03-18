@@ -32,6 +32,7 @@ const TIMI_DATA = "TIMI_DATA";
             global.ARMS = ARMS; //装备
             global.SUMMONER = SUMMONER;//召唤师技能
             global.MING = MING;//铭文
+            heroList.getNoviceFreeHeroData();//获取周限免英雄和新手推荐英雄
             return;
         }
         log.info("缓存数据不存在！");
@@ -42,6 +43,7 @@ const TIMI_DATA = "TIMI_DATA";
         await heroInfo.getData(); //爬取英雄详情，如技能数据
         await heroWallpaper.getData();//英雄皮肤
         await summoner.getData();//召唤师技能
+        heroList.getNoviceFreeHeroData();//获取周限免英雄和新手推荐英雄
         log.debug("QINIU_DATA len:", QINIU_DATA.length);
         log.debug("LOCAL_DATA len:", LOCAL_DATA.length);
         await baseController.DownloadFile(LOCAL_DATA.length - 1, LOCAL_DATA);
@@ -69,6 +71,16 @@ module.exports = {
     get_summoner: (req, res) => { //召唤师技能接口
         baseController.DoFunc(() => {
             baseController.Result(Code.Success, Msg.Success, SUMMONER, res);
+        }, res)
+    },
+    get_freehero: (req, res) => { //周限免英雄
+        baseController.DoFunc(() => {
+            baseController.Result(Code.Success, Msg.Success, FREE_HERO, res);
+        }, res)
+    },
+    get_novicehero: (req, res) => { //新手推荐英雄
+        baseController.DoFunc(() => {
+            baseController.Result(Code.Success, Msg.Success, NOVICE_HERO, res);
         }, res)
     }
 }
