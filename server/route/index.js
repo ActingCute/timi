@@ -49,5 +49,20 @@ module.exports = {
             }
             baseController.Result(Code.Success, Msg.Success, story, res);
         }, res)
+    },
+    get_hero: (req, res) => { //英雄故事
+        baseController.DoFunc(() => {
+            let ename = req.query.ename || 0;
+            if (!ename) {
+                baseController.Result(Code.MissingParameter, Msg.MissingParameter, {}, res);
+                return;
+            }
+            let hero = HERO.find(item => item.ename == Number(ename)) || "";
+            if (!hero) {
+                baseController.Result(Code.Nothingness, Msg.Nothingness, {}, res);
+                return;
+            }
+            baseController.Result(Code.Success, Msg.Success, hero, res);
+        }, res)
     }
 }
