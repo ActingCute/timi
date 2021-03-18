@@ -17,34 +17,47 @@ let skill_pic_dir = "public/hero";
 
 //英雄关系
 let heroRelation = async ($, index) => {
-    HERO[index].relation = { "desc": "英雄关系" };
+    HERO[index].relation = { "desc": "英雄关系", data: [] };
 
     return new Promise(async (resolve, reject) => {
 
         let relation = $(".hero-info-box .hero-info.l.info");
 
         for (let i = 0; i < relation.length; i++) {
+            let title_key = 0;
             let relation_data = {};
-            relation_data.title = relation.find(".hero-f1.fl").text(); //关系描述
             relation_data.data = [];
+            if (0 == i) {//最佳搭档
+            } else if (1 == i) {//压制英雄
+                title_key = 1;
+            } else { //被压制英雄
+                title_key = 2;
+            }
+            relation_data.title = relation.find(".hero-f1.fl").eq(title_key).text();
             let hero_relate_list_id = relation.find(".hero-list.hero-relate-list.fl li a")
-            let relation_desc = relation.eq(i).find(".hero-list-desc p");
+            let relation_desc = relation.find(".hero-list-desc p");
+
             for (let ri = 0; ri < hero_relate_list_id.length; ri++) {
                 //关系对应的英雄id
                 let ename = hero_relate_list_id.eq(ri).attr("href").replace(/[^0-9]/ig, "");
                 let desc = relation_desc.eq(ri).text();
                 let { cname, cover } = heroController.getHero(ename);
-                relation_data.data.push({ cname, cover, desc });
+
+                if (0 == i) {//最佳搭档
+                    if (ri == 0 || ri == 1) {
+                        relation_data.data.push({ cname, cover, desc });
+                    }
+                } else if (1 == i) {//压制英雄
+                    if (ri == 2 || ri == 3) {
+                        relation_data.data.push({ cname, cover, desc });
+                    }
+                } else { //被压制英雄
+                    if (ri == 4 || ri == 5) {
+                        relation_data.data.push({ cname, cover, desc });
+                    }
+                }
             }
-            log.debug("relation_data-", relation_desc.length)
-            // let data = [];
-            // let arms_ids = arms.eq(i).find("ul").attr("data-item").split("|");
-            // for (let id_i = 0; id_i < arms_ids.length; id_i++)
-            //     data.push(armsController.getArms(arms_ids[id_i]));
-
-            // let tips = arms.eq(i).find(".equip-tips").text();
-
-            // HERO[index].recommended_arms.push({ tips, data });
+            HERO[index].relation.data.push(relation_data);
             if (i == relation.length - 1) {
                 resolve("heroRelation ok");
             }
