@@ -15,6 +15,26 @@ const mingController = require("../props/ming");
 const armsController = require("../props/arms");
 let skill_pic_dir = "public/hero";
 
+//英雄故事和历史上的TA
+let heroStory = async ($, index) => {
+    let story_data = { ename: HERO[index].ename, data: [] };
+    return new Promise(async (resolve, reject) => {
+        let story = $(".pop-bd");
+        for (let i = 0; i < 2; i++) {
+            let data = story.eq(0).html();
+            if (i == 0) {
+                story_data.data.push({ title: "英雄故事", text: data });
+            } else {
+                story_data.data.push({ title: "历史上的TA", text: data });
+            }
+        }
+        HERO_STORY.push(story_data);
+        resolve("heroStory ok");
+    }).catch(err => {
+        log.error(err);
+    })
+}
+
 //英雄关系
 let heroRelation = async ($, index) => {
     HERO[index].relation = { "desc": "英雄关系", data: [] };
@@ -257,8 +277,10 @@ module.exports = {
                 await heroRecommendedArms($, index);
                 //英雄关系
                 await heroRelation($, index);
+                //英雄故事
+                await heroStory($, index);
 
-                if (HERO.length > 0) log.info("爬取英雄技能：", Math.ceil(index / HERO.length * 100) + "%");
+                if (HERO.length > 0) log.info("爬取英雄详情：", Math.ceil(index / HERO.length * 100) + "%");
                 if (index == HERO.length - 1) resolve(QINIU_DATA);
             }
         }).catch(err => {

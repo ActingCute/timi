@@ -11,9 +11,7 @@ const arms = require('./props/arms');
 const summoner = require('./props/summoner');
 const ming = require('./props/ming');
 const baseController = require('./helper/index');
-const Data = require("../config/code");
-const Code = Data.Code;
-const Msg = Data.Msg;
+const route = require("../route");
 const TIMI_DATA = "TIMI_DATA";
 
 //初始化
@@ -27,11 +25,14 @@ const TIMI_DATA = "TIMI_DATA";
         if (timi_data) {
             //存在缓存数据
             log.info("存在缓存数据！");
-            let { HERO, ARMS, SUMMONER, MING } = JSON.parse(timi_data);
+            let { HERO, ARMS, SUMMONER, MING, NOVICE_HERO, FREE_HERO, HERO_STORY } = JSON.parse(timi_data);
             global.HERO = HERO; //英雄数据
             global.ARMS = ARMS; //装备
             global.SUMMONER = SUMMONER;//召唤师技能
             global.MING = MING;//铭文
+            global.NOVICE_HERO = NOVICE_HERO; //新手推荐英雄
+            global.FREE_HERO = FREE_HERO;//周限免英雄
+            global.HERO_STORY = HERO_STORY;//英雄故事
             heroList.getNoviceFreeHeroData();//获取周限免英雄和新手推荐英雄
             return;
         }
@@ -49,7 +50,7 @@ const TIMI_DATA = "TIMI_DATA";
         await baseController.DownloadFile(LOCAL_DATA.length - 1, LOCAL_DATA);
         baseController.UploadQiniu(QINIU_DATA.length - 1, QINIU_DATA);
         //将数据缓存起来
-        redis.set(TIMI_DATA, JSON.stringify({ HERO, ARMS, SUMMONER, MING }));
+        redis.set(TIMI_DATA, JSON.stringify({ HERO, ARMS, SUMMONER, MING, NOVICE_HERO, FREE_HERO, HERO_STORY }));
         log.info("数据已存入redis");
     } catch (err) {
         log.error(err);
@@ -57,30 +58,4 @@ const TIMI_DATA = "TIMI_DATA";
 
 })();
 
-module.exports = {
-    get_index: (req, res) => { //英雄列表数据接口
-        baseController.DoFunc(() => {
-            baseController.Result(Code.Success, Msg.Success, HERO, res);
-        }, res)
-    },
-    get_arms: (req, res) => { //局内道具接口
-        baseController.DoFunc(() => {
-            baseController.Result(Code.Success, Msg.Success, ARMS, res);
-        }, res)
-    },
-    get_summoner: (req, res) => { //召唤师技能接口
-        baseController.DoFunc(() => {
-            baseController.Result(Code.Success, Msg.Success, SUMMONER, res);
-        }, res)
-    },
-    get_freehero: (req, res) => { //周限免英雄
-        baseController.DoFunc(() => {
-            baseController.Result(Code.Success, Msg.Success, FREE_HERO, res);
-        }, res)
-    },
-    get_novicehero: (req, res) => { //新手推荐英雄
-        baseController.DoFunc(() => {
-            baseController.Result(Code.Success, Msg.Success, NOVICE_HERO, res);
-        }, res)
-    }
-}
+module.exports = route;
