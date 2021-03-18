@@ -50,7 +50,7 @@ module.exports = {
             baseController.Result(Code.Success, Msg.Success, story, res);
         }, res)
     },
-    get_hero: (req, res) => { //英雄故事
+    get_hero: (req, res) => { //英雄数据
         baseController.DoFunc(() => {
             let ename = req.query.ename || 0;
             if (!ename) {
