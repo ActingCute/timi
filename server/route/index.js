@@ -64,5 +64,21 @@ module.exports = {
             }
             baseController.Result(Code.Success, Msg.Success, hero, res);
         }, res)
+    },
+    get_announcement: (req, res) => { //新闻 公告 活动数据
+        baseController.DoFunc(() => {
+            let id = req.query.id || 0;
+            let data;
+            if (id) {
+                data = ANNOUNCEMENT.find(item => item.data.iNewsId == id) || "";
+                if (!data) {
+                    baseController.Result(Code.Nothingness, Msg.Nothingness, "嘤嘤没有数据啊~", res);
+                    return;
+                }
+            } else {
+                data = ANNOUNCEMENT;
+            }
+            baseController.Result(Code.Success, Msg.Success, data, res);
+        }, res)
     }
 }
