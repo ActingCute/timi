@@ -15,6 +15,22 @@ const mingController = require("../props/ming");
 const armsController = require("../props/arms");
 let skill_pic_dir = "public/hero";
 
+//基础属性
+let heroBasicAttributes = async ($, index) => {
+    HERO[index].attributes = { desc: "英雄基础属性", data: [] };
+    return new Promise(async (resolve, reject) => {
+        let attributes = $(".cover-list li");
+        for (let i = 0; i < attributes.length; i++) {
+            let title = attributes.eq(i).find("em").text();
+            let value = Number(attributes.eq(i).find(".ibar").attr("style").replace(/[^0-9]/ig, "")) / 100;
+            HERO[index].attributes.data.push({ title, value });
+        }
+        resolve("heroBasicAttributes ok");
+    }).catch(err => {
+        log.error(err);
+    })
+}
+
 //英雄故事和历史上的TA
 let heroStory = async ($, index) => {
     let story_data = { ename: HERO[index].ename, data: [] };
@@ -279,6 +295,8 @@ module.exports = {
                 await heroRelation($, index);
                 //英雄故事
                 await heroStory($, index);
+                //基础属性
+                await heroBasicAttributes($, index);
 
                 if (HERO.length > 0) log.info("爬取英雄详情：", Math.ceil(index / HERO.length * 100) + "%");
                 if (index == HERO.length - 1) resolve(QINIU_DATA);

@@ -1,7 +1,7 @@
 {
   "name": "timi",
   "version": "1.0.0",
-  "description": "王者主页捉包程序",
+  "description": "王者驿站服务器",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

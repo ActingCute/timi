@@ -20,7 +20,6 @@ let todo = async (wallpaper_list, index, skin_index, i, local_path) => {
         if (index == 0) {
             //预览皮肤 
             px = "-smallskin-";
-            if (wallpaper_list.indexOf("机关造物") != -1) log.debug(wallpaper_list, skin_index)
             pic_src = smallskin_base_url + HERO[i].ename + "/" + HERO[i].ename + px + (skin_index + 1) + ".jpg"
         } else {
             //大的皮肤
