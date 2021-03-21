@@ -1,4 +1,6 @@
 <view class="body container">
   <cute-head titleIconWidth="{{titleIconWidth}}" titleIconHeight="{{titleIconHeight}}" titleFontSize="{{titleFontSize}}" titleHomeIcon="{{titleHomeIcon}}" titleBackIcon="{{titleBackIcon}}" titleImg="{{titleImg}}" titleColor="{{titleColor}}" titleBackground="{{titleBackground}}" titleText="{{titleText}}" />
-  <slot></slot>
+  <view class="timi-centent">
+    <slot></slot>
+  </view>
 </view>

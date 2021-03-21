@@ -8,3 +8,25 @@
   padding: 200rpx 0;
   box-sizing: border-box;
 } 
+
+.card{
+  background-color: #ffffff;
+  margin: 20rpx 0 0 0;
+  width: 100%;
+  max-width: 100%;
+  padding-bottom: 10rpx;
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  position: relative;
+  border-bottom:1rpx solid #F5F5F5;
+}
+
+.card-title-text{
+  height: 50rpx;
+  color: #696969;
+  font-size: 35rpx;
+  padding: 8rpx;
+}

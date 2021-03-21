@@ -1,7 +1,8 @@
 const app = getApp()
 const globalData = app.globalData;
-const CODE = globalData.CODE;
-const MSG = globalData.MSG;
+const { CODE, MSG, BASE_URL } = globalData;
+
+console.log("BASE_URL", BASE_URL);
 
 Page({
     data: {
@@ -18,7 +19,7 @@ Page({
     getData() {
         let that = this;
         wx.request({
-            url: 'http://127.0.0.1:5000/timi/home',
+            url: BASE_URL + '/timi/home',
             data: {},
             header: {
                 'content-type': 'application/json'

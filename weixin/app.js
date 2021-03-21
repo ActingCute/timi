@@ -1,4 +1,27 @@
 const code = require("./utils/code");
+let base_url = "";
+
+(() => {
+  const version = __wxConfig.envVersion;
+  console.log("version:", version)
+  switch (version) {
+    case "develop": //开发预览版
+      base_url = "http://106.12.116.12:5000";
+      break;
+    case 'trial': //体验版
+      base_url = "http://106.12.116.12:5000";
+      break;
+    // break;
+    case 'release': //正式版
+      base_url = "http://haibarai.com:5000";
+      break;
+    default: //未知,默认调用正式版
+      base_url = "http://106.12.116.12:5000";
+      break;
+  }
+
+})()
+
 
 //app.js
 App({
@@ -37,6 +60,7 @@ App({
   globalData: {
     userInfo: null,
     CODE: code.Code,
-    MSG: code.Msg
+    MSG: code.Msg,
+    BASE_URL: base_url
   }
 })
