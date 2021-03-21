@@ -154,8 +154,30 @@ let DownloadFileFuc = async (url, name, pic_dir) => {
         log.error(err);
     })
 }
+
+//判断数字是否存在
+let isNumExist = (arr, ran) => {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == ran) {
+            return true;
+        }
+    }
+    return false;
+}
+
 //暴露函数
 module.exports = {
+    RandomNums: (n, min, max) => { //指定范围内多个随机数
+        var arr = [];
+        for (i = 0; i < n; i++) {
+            var ran = Math.ceil(Math.random() * (max - min) + min);
+            while (isNumExist(arr, ran)) {
+                ran = Math.ceil(Math.random() * (max - min) + min);
+            }
+            arr[i] = ran;
+        }
+        return arr;
+    },
     UploadQiniu: (index, data) => {
         UploadQiniu(index, data);
     },

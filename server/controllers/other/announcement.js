@@ -54,7 +54,12 @@ let getList = async () => {
             var channelId = news.eq(i).attr('data-channelid')
             //var tagId = news.eq(i).attr('data-tagid')
             channelParams.chanid = channelId;
-            let res = await axios({ method: "get", url: newsUrl, params: channelParams });
+            let res = await axios({
+                method: "get", url: newsUrl, params: channelParams,
+                headers: {
+                    referer: "https://pvp.qq.com/"
+                }
+            });
             if (res.status != 200) continue;
             let data = res.data.data;
             data.items.forEach(ele => {
@@ -76,7 +81,7 @@ let getList = async () => {
 }
 
 //内容页面
-let getUrl = (iNewsId) => {
+let getInfoUrl = (iNewsId) => {
     return `https://apps.game.qq.com/wmp/v3.1/public/searchNews.php?p0=18&source=web_pc&id=${iNewsId}`;
 }
 
@@ -86,8 +91,12 @@ let getInfo = async (items) => {
         let ci = 1;
         items.forEach(async (item) => {
             (async (item) => {
-                let url = getUrl(item.data.iNewsId);
-                let res = await axios.get(url);
+                let url = getInfoUrl(item.data.iNewsId);
+                let res = await axios.get(url, {
+                    headers: {
+                        referer: "https://pvp.qq.com/"
+                    }
+                });
                 if (res.status != 200) return;
                 let data = res.data;
                 if (data) {
@@ -105,11 +114,10 @@ let getInfo = async (items) => {
                 ci++;
                 if (items.length > 0) log.info("爬取新闻公告：", Math.ceil(ci / items.length * 100) + "%");
             })(item)
-
-
         });
     })
 }
+
 module.exports = {
     getData: async () => {
         return new Promise(async (resolve, reject) => {

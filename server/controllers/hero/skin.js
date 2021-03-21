@@ -7,7 +7,6 @@ const path = require("path");
 const baseController = require("../helper/index");
 const dbConfig = require("../../config/databases");
 const pic_dir = "public/hero"
-const axios = require("axios");
 const fs = require("fs");
 
 const bigskin_base_url = "http://game.gtimg.cn/images/yxzj/img201606/skin/hero-info/"

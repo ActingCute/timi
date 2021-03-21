@@ -35,6 +35,8 @@ global.NOVICE_HERO = [];//新手推荐英雄
 global.FREE_HERO = [];//周限免英雄
 global.HERO_STORY = [];//英雄故事
 global.ANNOUNCEMENT = [];//公告 新闻 活动
+global.STRATEGY = [];//攻略
+global.SHOW_LIST = {};//一些列表数据
 
 //全局待上传的七牛图片
 global.QINIU_DATA = [];

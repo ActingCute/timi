@@ -80,5 +80,26 @@ module.exports = {
             }
             baseController.Result(Code.Success, Msg.Success, data, res);
         }, res)
-    }
+    },
+    get_strategy: (req, res) => { //新闻 公告 活动数据
+        baseController.DoFunc(() => {
+            let id = req.query.id || 0;
+            let data;
+            if (id) {
+                data = STRATEGY.find(item => item.iNewsId == id) || "";
+                if (!data) {
+                    baseController.Result(Code.Nothingness, Msg.Nothingness, "嘤嘤没有数据啊~", res);
+                    return;
+                }
+            } else {
+                data = STRATEGY;
+            }
+            baseController.Result(Code.Success, Msg.Success, data, res);
+        }, res)
+    },
+    get_home: (req, res) => { //主页数据
+        baseController.DoFunc(() => {
+            baseController.Result(Code.Success, Msg.Success, SHOW_LIST.home, res);
+        }, res)
+    },
 }

@@ -17,7 +17,11 @@ module.exports = {
     getData: async () => {
         await baseController.Mkdir(pic_dir);
 
-        let res = await axios.get("https://pvp.qq.com/web201605/js/herolist.json");
+        let res = await axios.get("https://pvp.qq.com/web201605/js/herolist.json", {
+            headers: {
+                referer: "https://pvp.qq.com/"
+            }
+        });
 
         if (res.status == 200) {
             HERO = res.data;

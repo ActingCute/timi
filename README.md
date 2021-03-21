@@ -67,3 +67,21 @@
     GET
     参数 ename (int)
     path /timi/hero      
+
+7.新闻 公告 活动数据
+    
+    GET
+    参数 id (string) 当传入id时候获取指定id数据，否则获取全部数据
+    path /timi/announcement      
+
+8.攻略
+    
+    GET
+    参数 id (string) 当传入id时候获取指定id数据，否则获取全部数据
+    path /timi/strategy
+
+9.主页数据
+    
+    GET
+    参数 无
+    path /timi/home          

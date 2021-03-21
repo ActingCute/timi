@@ -24,7 +24,11 @@ module.exports = {
     getData: async () => {
         await baseController.Mkdir(pic_dir);
 
-        let res = await axios.get(ming_json);
+        let res = await axios.get(ming_json, {
+            headers: {
+                referer: "https://pvp.qq.com/"
+            }
+        });
 
         if (res.status == 200) {
             MING_temp = res.data;
