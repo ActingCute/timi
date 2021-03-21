@@ -1,3 +1,5 @@
+const code = require("./utils/code");
+
 //app.js
 App({
   onLaunch: function () {
@@ -33,6 +35,8 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    CODE: code.Code,
+    MSG: code.Msg
   }
 })

@@ -1,1 +1,9 @@
-<timi-body footCurrent="0">首页</timi-body>
+<timi-body footCurrent="0">
+    <view class="page-section page-section-spacing swiper">
+        <swiper height="500" autoplay indicator-dots>
+            <block wx:for="{{home_data.carousel.data}}" wx:key="*this">
+                <swiper-item style="background:url({{item.pic.data[1]}});background-repeat: no-repeat;background-size:100% auto; "></swiper-item>
+            </block>
+        </swiper>
+    </view>
+</timi-body>

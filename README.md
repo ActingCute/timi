@@ -15,6 +15,8 @@
 
 ### server
 #### 环境 node:`v14.5.0`, redis
+#### 开发工具 vscode,微信开发工具1.05.2102010
+#### 微信ui: [weui](https://developers.weixin.qq.com/miniprogram/dev/extended/weui/)
 #### 安装依赖
 
     cd server
