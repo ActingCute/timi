@@ -16,11 +16,15 @@ const baseController = require('./helper/index');
 const route = require("../route");
 const TIMI_DATA = "TIMI_DATA";
 const indexController = require("./index");
+const cronController = require("./helper/cron");
+
 //初始化
-(async () => {
+let init = async (need_clean) => {
     try {
+        QINIU_DATA = [];
+        LOCAL_DATA = [];
         //清空缓存
-        //redis.set(TIMI_DATA, "");
+        if (need_clean) redis.set(TIMI_DATA, "");
         //判断缓存数据是否存在
         let timi_data = await redis.get(TIMI_DATA) || "";
         if (timi_data) {
@@ -36,11 +40,17 @@ const indexController = require("./index");
             global.HERO_STORY = HERO_STORY;//英雄故事
             global.ANNOUNCEMENT = ANNOUNCEMENT;//新闻公告
             global.STRATEGY = STRATEGY;
+            global.DATA = { HERO, ARMS, SUMMONER, MING, NOVICE_HERO, FREE_HERO, HERO_STORY, ANNOUNCEMENT, STRATEGY, SHOW_LIST: {} };
             //初始化数据
             indexController.initData();
             return;
         }
-        log.info("缓存数据不存在！");
+        if (need_clean) {
+            log.info("更新缓存：", new Date());
+        } else {
+            log.info("缓存数据不存在！");
+        }
+
         //爬取数据
         await arms.getData();//局内装备
         await ming.getData();//铭文
@@ -61,11 +71,17 @@ const indexController = require("./index");
         log.info("数据已存入redis");
 
         //初始化数据
+        global.DATA = { HERO, ARMS, SUMMONER, MING, NOVICE_HERO, FREE_HERO, HERO_STORY, ANNOUNCEMENT, STRATEGY, SHOW_LIST: {} };
         indexController.initData();
     } catch (err) {
         log.error(err);
     }
 
-})();
+}
+
+(() => {
+    init(false);
+    cronController.initCron(init, "00 10 10  * * *", true); //每天10:10:00更新数据
+})()
 
 module.exports = route;
