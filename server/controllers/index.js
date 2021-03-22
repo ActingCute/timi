@@ -7,6 +7,7 @@ const config = require("../config/databases");
 const baseController = require("../controllers/helper/index");
 let timi = config.timi;
 
+//初始化小程序首页数据
 let initHomeData = (olny_update_carousel) => {
     //随机轮播图
     let carousel = { desc: "轮播图", data: [] };
@@ -44,9 +45,19 @@ let initHomeData = (olny_update_carousel) => {
     DATA.SHOW_LIST.home = { carousel, announcement, free_hero, strategy };
 }
 
+//初始化小程序英雄列表页面数据
+let initHeroListData = () => {
+    DATA.SHOW_LIST.hero_list = []
+    DATA.HERO.forEach(ele => {
+        let { cname, cover, ename, hero_type } = ele;
+        DATA.SHOW_LIST.hero_list.push({ cname, cover, ename, hero_type });
+    })
+}
+
 module.exports = {
     initData: () => {
         initHomeData(false);
+        initHeroListData();
     },
     initHomeData: () => {
         initHomeData(true);

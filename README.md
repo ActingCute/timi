@@ -84,8 +84,14 @@
     参数 id (string) 当传入id时候获取指定id数据，否则获取全部数据
     path /timi/strategy
 
-9.主页数据
+9.小程序主页数据
     
     GET
     参数 无
-    path /timi/home          
+    path /timi/home        
+
+9.小程序英雄列表数据
+    
+    GET
+    参数 无
+    path /timi/herolist          

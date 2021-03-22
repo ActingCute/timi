@@ -104,4 +104,10 @@ module.exports = {
             baseController.Result(Code.Success, Msg.Success, DATA.SHOW_LIST.home, res);
         }, res)
     },
+    get_herolist: (req, res) => { //主页数据
+        baseController.DoFunc(() => {
+            indexController.initHomeData();
+            baseController.Result(Code.Success, Msg.Success, DATA.SHOW_LIST.hero_list, res);
+        }, res)
+    },
 }
