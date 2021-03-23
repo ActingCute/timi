@@ -9,14 +9,14 @@ const path = require("path");
 const fs = require("fs");
 var config = new qiniu.conf.Config();
 // 空间对应的机房
-config.zone = qiniu.zone.Zone_z0;
+config.zone = qiniu.zone.Zone_z2;
 // 是否使用https域名
 //config.useHttpsDomain = true;
 // 上传是否使用cdn加速
 //config.useCdnDomain = true;
 module.exports = {
-    putFile: async (localPath, fname, key) => {
-        return new Promise(async (resolve, reject) => {
+    putFile: async(localPath, fname, key) => {
+        return new Promise(async(resolve, reject) => {
 
             const localFile = path.resolve(localPath, fname);
             if (!await fs.existsSync(localFile)) {
@@ -40,6 +40,13 @@ module.exports = {
             // 文件分片上传
             resumeUploader.putFile(uploadToken, key, localFile, putExtra, (respErr,
                 respBody, respInfo) => {
+
+
+                if (respBody.error) {
+                    log.error(respBody);
+                    resolve("error");
+                }
+
                 if (respErr) {
                     log.error(respErr);
                     resolve("error");

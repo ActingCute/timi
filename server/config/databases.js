@@ -8,13 +8,13 @@ module.exports = {
     qiniu: {
         AK: "JMeo2KqeIeTl48kkN0mvKgYtDdspccphTM8kZ5Bh",
         SK: "VOrSt7BgbrQrtLNm2nCzo2S0X1Fhn-WES90gCFWC",
-        Bucket_Name: "lovely",
-        Dns: "https://lovely.haibarai.com/",
+        Bucket_Name: "wzyz",
+        Dns: "https://wzyz.haibarai.com/",
         Need_Upload: false, //第一次上传之后，除非是官网有更新，否则不应该每次都上传七牛
-        UseSliceUpload: true//使用分片上传
+        UseSliceUpload: true //使用分片上传
     },
     timi: {
-        CarouselNumber: 4,//轮播图数量
-        FreeHero: 4//周免英雄应该小于7大于0
+        CarouselNumber: 4, //轮播图数量
+        FreeHero: 4 //周免英雄应该小于7大于0
     }
 }

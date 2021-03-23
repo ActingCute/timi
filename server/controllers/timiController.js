@@ -19,7 +19,7 @@ const indexController = require("./index");
 const cronController = require("./helper/cron");
 
 //初始化
-let init = async (need_clean) => {
+let init = async(need_clean) => {
     try {
         QINIU_DATA = [];
         LOCAL_DATA = [];
@@ -33,12 +33,12 @@ let init = async (need_clean) => {
             let { HERO, ARMS, SUMMONER, MING, NOVICE_HERO, FREE_HERO, HERO_STORY, ANNOUNCEMENT, STRATEGY } = JSON.parse(timi_data);
             global.HERO = HERO; //英雄数据
             global.ARMS = ARMS; //装备
-            global.SUMMONER = SUMMONER;//召唤师技能
-            global.MING = MING;//铭文
+            global.SUMMONER = SUMMONER; //召唤师技能
+            global.MING = MING; //铭文
             global.NOVICE_HERO = NOVICE_HERO; //新手推荐英雄
-            global.FREE_HERO = FREE_HERO;//周限免英雄
-            global.HERO_STORY = HERO_STORY;//英雄故事
-            global.ANNOUNCEMENT = ANNOUNCEMENT;//新闻公告
+            global.FREE_HERO = FREE_HERO; //周限免英雄
+            global.HERO_STORY = HERO_STORY; //英雄故事
+            global.ANNOUNCEMENT = ANNOUNCEMENT; //新闻公告
             global.STRATEGY = STRATEGY;
             global.DATA = { HERO, ARMS, SUMMONER, MING, NOVICE_HERO, FREE_HERO, HERO_STORY, ANNOUNCEMENT, STRATEGY, SHOW_LIST: {} };
             //初始化数据
@@ -52,16 +52,16 @@ let init = async (need_clean) => {
         }
 
         //爬取数据
-        await arms.getData();//局内装备
-        await ming.getData();//铭文
+        await arms.getData(); //局内装备
+        await ming.getData(); //铭文
         await heroList.getData(); //爬取英雄列表数据
         await heroInfo.getData(); //爬取英雄详情，如技能数据
-        await heroWallpaper.getData();//英雄皮肤
-        await summoner.getData();//召唤师技能
-        await announcement.getData();//新闻 公告 
-        await strategy.getData();//攻略
+        await heroWallpaper.getData(); //英雄皮肤
+        await summoner.getData(); //召唤师技能
+        await announcement.getData(); //新闻 公告 
+        await strategy.getData(); //攻略
 
-        heroList.getNoviceFreeHeroData();//获取周限免英雄和新手推荐英雄
+        heroList.getNoviceFreeHeroData(); //获取周限免英雄和新手推荐英雄
         log.debug("QINIU_DATA len:", QINIU_DATA.length);
         log.debug("LOCAL_DATA len:", LOCAL_DATA.length);
         await baseController.DownloadFile(LOCAL_DATA.length - 1, LOCAL_DATA);
