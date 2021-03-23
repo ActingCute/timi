@@ -1,1 +1,30 @@
-<timi-body footCurrent="1">英雄</timi-body>
+<timi-body footCurrent="1">
+    <view class="card">
+        <view class="card-centent hero-box">
+            <view class="hero-type-box weui-flex">
+                <view class="hero-type weui-flex">
+                    <block wx:for="{{hero_type}}" wx:key="*this">
+                        <view class="hero-type-text weui-flex__item" wx:if="{{index !=0 && index != hero_type.length}}">
+                            |
+                        </view>
+                        <view class="hero-type-item weui-flex__item">
+                            <view data-index="{{index}}" class="hero-type-px {{current_type==index?'current_type':''}}" bind:tap="setHeroType">
+                                {{item}}
+                            </view>
+                        </view>
+                    </block>
+                </view>
+            </view>
+            <view class="hero-info-box">
+                <block wx:for="{{hero_show_list}}" wx:key="*this">
+                    <view class="hero-info">
+                        <image mode="aspectFit" class="hero-img" src="{{item.cover}}" />
+                        <view class="hero-name">
+                            <view class="hero-name-text">{{item.cname}}</view>
+                        </view>
+                    </view>
+                </block>
+            </view>
+        </view>
+    </view>
+</timi-body>

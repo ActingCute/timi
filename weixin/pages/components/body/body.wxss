@@ -11,7 +11,3 @@ page{
     background-color: #F8F8FF;
     
 }
-
-.timi-centent{
-    padding-top:120rpx;
-}

@@ -7,7 +7,7 @@
 
 
 .navbar{
-    position: relative
+    position: relative;
 }
 .back-icon, .home-icon{
     width: 28px;

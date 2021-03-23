@@ -1,6 +1,10 @@
+const app = getApp()
+const globalData = app.globalData;
+const { NAV_DATA } = globalData;
+
 Component({
   data: {
-
+    paddingTop: "64px",
     foot: {
       current: 0,
       show: true,
@@ -37,7 +41,11 @@ Component({
     },
 
   },
-
+  attached: function () {
+    this.setData({
+      paddingTop: NAV_DATA.status + NAV_DATA.height + "px"
+    })
+  },
   properties: {
     footCurrent: {
       type: Number,

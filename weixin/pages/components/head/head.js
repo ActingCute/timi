@@ -1,3 +1,7 @@
+const app = getApp()
+const globalData = app.globalData;
+const { NAV_DATA } = globalData;
+
 Component({
   properties: {
     titleBackground: {
@@ -47,19 +51,10 @@ Component({
   methods: {
     // 通过获取系统信息计算导航栏高度        
     setNavSize: function () {
-      var that = this
-        , sysinfo = wx.getSystemInfoSync()
-        , statusHeight = sysinfo.statusBarHeight
-        , isiOS = sysinfo.system.indexOf('iOS') > -1
-        , navHeight;
-      if (!isiOS) {
-        navHeight = 48;
-      } else {
-        navHeight = 44;
-      }
-      that.setData({
-        status: statusHeight,
-        navHeight: navHeight
+      console.log("NAV_DATA:", NAV_DATA);
+      this.setData({
+        status: NAV_DATA.status,
+        navHeight: NAV_DATA.height
       })
     },
     setStyle: function () {

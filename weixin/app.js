@@ -1,7 +1,8 @@
 const code = require("./utils/code");
 let base_url = "";
-
+let NAV_DATA = {};
 (() => {
+  //http请求url
   const version = __wxConfig.envVersion;
   console.log("version:", version)
   switch (version) {
@@ -20,6 +21,20 @@ let base_url = "";
       break;
   }
 
+  // 通过获取系统信息计算导航栏高度
+  let sysinfo = wx.getSystemInfoSync()
+    , statusHeight = sysinfo.statusBarHeight
+    , isiOS = sysinfo.system.indexOf('iOS') > -1
+    , navHeight;
+  if (!isiOS) {
+    navHeight = 48;
+  } else {
+    navHeight = 44;
+  }
+  NAV_DATA = {
+    status: statusHeight,
+    height: navHeight
+  }
 })()
 
 
@@ -61,6 +76,7 @@ App({
     userInfo: null,
     CODE: code.Code,
     MSG: code.Msg,
-    BASE_URL: base_url
+    BASE_URL: base_url,
+    NAV_DATA
   }
 })
