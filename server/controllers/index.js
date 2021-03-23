@@ -50,7 +50,16 @@ let initHeroListData = () => {
     DATA.SHOW_LIST.hero_list = []
     DATA.HERO.forEach(ele => {
         let { cname, cover, ename, hero_type } = ele;
-        DATA.SHOW_LIST.hero_list.push({ cname, cover, ename, hero_type });
+        DATA.SHOW_LIST.hero_list.push({ id: ename, cover, name: cname, type: hero_type });
+    })
+}
+
+//初始化小程序装备列表页面数据
+let initArmsListData = () => {
+    DATA.SHOW_LIST.arms_list = []
+    DATA.ARMS.forEach(ele => {
+        let { item_id, cover, item_name, item_type } = ele;
+        DATA.SHOW_LIST.arms_list.push({ id: item_id, cover, name: item_name, type: item_type });
     })
 }
 
@@ -58,6 +67,7 @@ module.exports = {
     initData: () => {
         initHomeData(false);
         initHeroListData();
+        initArmsListData();
     },
     initHomeData: () => {
         initHomeData(true);

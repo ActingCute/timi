@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "timi-body": "../../components/body/body"
+  }
+}

@@ -9,5 +9,5 @@ page{
     height: 100%;
     position: relative;
     background-color: #F8F8FF;
-    
+    font-size: 35rpx;
 }

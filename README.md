@@ -95,3 +95,9 @@
     GET
     参数 无
     path /timi/herolist          
+
+10.小程序装备列表数据
+    
+    GET
+    参数 无
+    path /timi/armslist          

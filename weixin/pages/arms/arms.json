@@ -1,5 +1,5 @@
 {
     "usingComponents": {
-        "timi-body": "../components/body/body"
+        "data-body": "../components/hero-and-arms/hero-and-arms"
     }
 }
