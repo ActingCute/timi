@@ -1,0 +1,4 @@
+<!-- 文章组件 -->
+<timi-body>
+  <rich-text nodes="{{sContent}}"></rich-text>
+</timi-body>

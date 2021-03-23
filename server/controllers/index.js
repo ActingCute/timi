@@ -23,7 +23,7 @@ let initHomeData = (olny_update_carousel) => {
     let announcement = { desc: "新闻公告", data: [] };
     let ai = DATA.ANNOUNCEMENT.length > 2 ? 3 : DATA.ANNOUNCEMENT.length;
     for (let i = 0; i < ai; i++) {
-        announcement.data.push({ title: DATA.ANNOUNCEMENT[i].data.sTitle, type: DATA.ANNOUNCEMENT[i].desc, time: DATA.ANNOUNCEMENT[i].data.sIdxTime });
+        announcement.data.push({ id: DATA.ANNOUNCEMENT[i].data.iNewsId, title: DATA.ANNOUNCEMENT[i].data.sTitle, type: DATA.ANNOUNCEMENT[i].desc, time: DATA.ANNOUNCEMENT[i].data.sIdxTime });
     }
 
     //周免英雄
@@ -40,7 +40,7 @@ let initHomeData = (olny_update_carousel) => {
     let strategy = { desc: "攻略", data: [] };
     let si = DATA.STRATEGY.length > 3 ? 4 : DATA.STRATEGY.length;
     for (let i = 0; i < si; i++) {
-        strategy.data.push({ title: DATA.STRATEGY[i].sTitle, type: "攻略", time: DATA.STRATEGY[i].sIdxTime, cover: DATA.STRATEGY[i].sIMG });
+        strategy.data.push({ id: DATA.STRATEGY[i].iNewsId, title: DATA.STRATEGY[i].sTitle, type: "攻略", time: DATA.STRATEGY[i].sIdxTime, cover: DATA.STRATEGY[i].sIMG });
     }
     DATA.SHOW_LIST.home = { carousel, announcement, free_hero, strategy };
 }

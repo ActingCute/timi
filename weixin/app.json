@@ -5,7 +5,8 @@
     "pages/arms/arms",
     "pages/ming/ming",
     "pages/summoner/summoner",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/article/article"
   ],
   "tabBar": {
     "list": [

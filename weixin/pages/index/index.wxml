@@ -14,12 +14,14 @@
         </view>
         <view class="card-centent announcement">
             <block wx:for="{{home_data.announcement.data}}" wx:key="*this">
-                <view class="announcement-box">
-                    <view class="announcement-type">{{item.type}}</view>
-                    <view class="announcement-title">
-                        <view class="announcement-title-text">{{item.title}}</view>
+                <navigator url="../article/article?url=announcement&id={{item.id}}">
+                    <view class="announcement-box">
+                        <view class="announcement-type">{{item.type}}</view>
+                        <view class="announcement-title">
+                            <view class="announcement-title-text">{{item.title}}</view>
+                        </view>
                     </view>
-                </view>
+                </navigator>
             </block>
         </view>
     </view>
@@ -48,15 +50,17 @@
         </view>
         <view class="card-centent strategy">
             <block wx:for="{{home_data.strategy.data}}" wx:key="*this">
-                <view class="strategy-box">
-                    <image class="strategy-img" mode="aspectFit" src="{{item.cover}}" />
-                    <view class="strategy-title">
-                        <view class="strategy-title-text">{{item.title}}</view>
+                <navigator url="../article/article?url=strategy&id={{item.id}}">
+                    <view class="strategy-box">
+                        <image class="strategy-img" mode="aspectFit" src="{{item.cover}}" />
+                        <view class="strategy-title">
+                            <view class="strategy-title-text">{{item.title}}</view>
+                        </view>
+                        <view class="strategy-time">
+                            <view class="strategy-time-text">{{item.time}}</view>
+                        </view>
                     </view>
-                    <view class="strategy-time">
-                        <view class="strategy-time-text">{{item.time}}</view>
-                    </view>
-                </view>
+                </navigator>
             </block>
         </view>
     </view>
