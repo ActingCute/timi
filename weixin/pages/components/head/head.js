@@ -3,6 +3,9 @@ const globalData = app.globalData;
 const { NAV_DATA } = globalData;
 
 Component({
+  data: {
+    need_back: false
+  },
   properties: {
     titleBackground: {
       type: String,
@@ -41,6 +44,12 @@ Component({
       value: 58
     }
   },
+  pageLifetimes: {
+    show: function () {
+      var that = this;
+      that.setBackBnt();
+    }
+  },
   attached: function () {
     var that = this;
     that.setNavSize();
@@ -49,6 +58,26 @@ Component({
   data: {
   },
   methods: {
+    setBackBnt() {
+      let route_list = getCurrentPages();
+      let current_route = route_list[route_list.length - 1].route;
+      console.log("current_route-", current_route);
+
+      let url_list = [
+        "pages/index/index",
+        "pages/hero/hero",
+        "pages/arms/arms",
+        "pages/ming/ming",
+        "pages/summoner/summoner",
+        "pages/logs/logs"
+      ];
+
+      this.setData({
+        need_back: url_list.indexOf(current_route) == -1
+      });
+
+      console.log(this.data.need_back);
+    },
     // 通过获取系统信息计算导航栏高度        
     setNavSize: function () {
       console.log("NAV_DATA:", NAV_DATA);

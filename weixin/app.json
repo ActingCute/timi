@@ -49,6 +49,7 @@
     "mp-tabbar": "/miniprogram_npm/weui-miniprogram/tabbar/tabbar",
     "mp-navigation-bar": "/miniprogram_npm/weui-miniprogram/navigation-bar/navigation-bar",
     "mp-cells": "/miniprogram_npm/weui-miniprogram/cells/cells",
-    "mp-cell": "/miniprogram_npm/weui-miniprogram/cell/cell"
+    "mp-cell": "/miniprogram_npm/weui-miniprogram/cell/cell",
+    "mp-icon": "/miniprogram_npm/weui-miniprogram/icon/icon"
   }
 }
