@@ -15,6 +15,7 @@ module.exports = {
     },
     timi: {
         CarouselNumber: 4, //轮播图数量
-        FreeHero: 4 //周免英雄应该小于7大于0
+        FreeHero: 7, //周免英雄应该小于7大于0
+        ClearData: false//启动时候清除数据
     }
 }

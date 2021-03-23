@@ -28,15 +28,17 @@
         <view class="card-title">
             <view class="card-title-text">周免英雄</view>
         </view>
-        <view class="card-centent free-hero-box">
-            <block wx:for="{{home_data.free_hero.data}}" wx:key="*this">
-                <view class="free-hero-info">
-                    <image mode="aspectFit" class="free-hero-img" src="{{item.cover}}" />
-                    <view class="free-hero-name">
-                        <view class="free-hero-name-text">{{item.cname}}</view>
+        <view class="card-centent hero-box">
+            <view class="free-hero-box">
+                <block wx:for="{{home_data.free_hero.data}}" wx:key="*this">
+                    <view class="free-hero-info">
+                        <image mode="aspectFit" class="free-hero-img" src="{{item.cover}}" />
+                        <view class="free-hero-name">
+                            <view class="free-hero-name-text">{{item.cname}}</view>
+                        </view>
                     </view>
-                </view>
-            </block>
+                </block>
+            </view>
         </view>
     </view>
     <!-- 游戏攻略 -->

@@ -14,12 +14,14 @@ const announcement = require('./other/announcement');
 const strategy = require('./other/strategy');
 const baseController = require('./helper/index');
 const route = require("../route");
-const TIMI_DATA = "TIMI_DATA";
 const indexController = require("./index");
 const cronController = require("./helper/cron");
+const config = require("../config/databases");
+
+const TIMI_DATA = "TIMI_DATA";
 
 //初始化
-let init = async(need_clean) => {
+let init = async (need_clean) => {
     try {
         QINIU_DATA = [];
         LOCAL_DATA = [];
@@ -80,7 +82,7 @@ let init = async(need_clean) => {
 }
 
 (() => {
-    init(false);
+    init(config.timi.ClearData);
     cronController.initCron(init, "00 10 10  * * *", true); //每天10:10:00更新数据
 })()
 

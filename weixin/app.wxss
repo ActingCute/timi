@@ -31,3 +31,10 @@
   padding: 8rpx;
 }
 
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+  display:none;
+  width:0;
+  height:0;
+  color:transparent;
+}
