@@ -5,11 +5,11 @@
       <view class="item-type-box">
         <view class="item-type weui-flex">
           <block wx:for="{{typeData}}" wx:key="*this">
-            <view class="item-type-px weui-flex__item" wx:if="{{index !=0 && index != typeData.length}}">
+            <view data-index="{{item.key}}" bind:tap="setHeroType" class="item-type-px weui-flex__item" wx:if="{{index !=0 && index != typeData.length}}">
               |
             </view>
             <view class="item-type-item weui-flex__item">
-              <view data-index="{{item.key}}" class="item-type-text {{current_type==item.key?'current_type':''}}" bind:tap="setHeroType">
+              <view data-index="{{item.key}}" bind:tap="setHeroType" class="item-type-text {{current_type==item.key?'current_type':''}}">
                 {{item.text}}
               </view>
             </view>

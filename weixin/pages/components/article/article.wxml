@@ -1,4 +1,6 @@
 <!-- 文章组件 -->
 <timi-body>
-  <rich-text nodes="{{sContent}}"></rich-text>
+  <view class="c-body">
+    <rich-text nodes="{{sContent}}"></rich-text>
+  </view>
 </timi-body>
