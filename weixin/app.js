@@ -77,6 +77,7 @@ App({
     CODE: code.Code,
     MSG: code.Msg,
     BASE_URL: base_url,
-    NAV_DATA
+    NAV_DATA,
+    SET_TITLE: Function
   }
 })

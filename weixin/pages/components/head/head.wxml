@@ -1,16 +1,10 @@
 <view class='nav' style='height: {{status + navHeight}}px'>
   <view class='status' style='height: {{status}}px;{{containerStyle}}'></view>
   <view class='navbar' style='height:{{navHeight}}px;{{containerStyle}}'>
-    <view style='top: {{(status + navHeight)/2-13}}px' class='back-icon' wx:if="{{need_back}}" bindtap='back'>
-      <mp-icon type="field" icon="back" color="black" size="{{13}}"></mp-icon>
+    <view class='nav-back'>
+      <mp-icon size='{{13}}' wx:if="{{need_back}}" bindtap='back' class="back-icon-img" type="field" icon="back" color="black"></mp-icon>
     </view>
-    <view class='home-icon' wx:if="{{titleHomeIcon}}" bindtap='home'>
-      <image src='{{titleHomeIcon}}'></image>
-    </view>
-    <view class='nav-icon' wx:if="{{titleImg}}">
-      <image src='{{titleImg}}' style='{{iconStyle}}'></image>
-    </view>
-    <view class='nav-title' wx:if="{{titleText && !titleImg}}">
+    <view class='nav-title' wx:if="{{titleText}}">
       <text style='{{textStyle}}'>{{titleText}}</text>
     </view>
   </view>

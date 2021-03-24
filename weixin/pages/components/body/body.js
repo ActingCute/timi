@@ -47,21 +47,6 @@ Component({
     })
   },
   properties: {
-    footCurrent: {
-      type: Number,
-      value: 0,
-      observer: function (newVal) {
-        console.log("new val ", newVal)
-        this.setData({ "foot.current": Number(newVal) })
-      }
-    },
-    footShow: {
-      type: Boolean,
-      value: false,
-      observer: function (newVal) {
-        this.setData({ "foot.show": newVal })
-      }
-    },
     titleBackground: {
       type: String,
       value: 'rgba(255, 255, 255, 1)'
@@ -72,7 +57,7 @@ Component({
     },
     titleText: {
       type: String,
-      value: '导航栏'
+      value: 'timi'
     },
     titleImg: {
       type: String,

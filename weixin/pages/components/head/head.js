@@ -1,10 +1,11 @@
 const app = getApp()
 const globalData = app.globalData;
-const { NAV_DATA } = globalData;
-
+const { NAV_DATA, TITIE_TEXT } = globalData;
+let headHand = null;
 Component({
   data: {
-    need_back: false
+    need_back: false,
+    titleText: "TIMI"
   },
   properties: {
     titleBackground: {
@@ -14,10 +15,6 @@ Component({
     titleColor: {
       type: String,
       value: 'rgba(0, 0, 0, 1)'
-    },
-    titleText: {
-      type: String,
-      value: '导航栏'
     },
     titleImg: {
       type: String,
@@ -52,16 +49,23 @@ Component({
   },
   attached: function () {
     var that = this;
+    headHand = that;
     that.setNavSize();
     that.setStyle();
+    app.globalData.SET_TITLE = that.setTitle;
   },
   data: {
   },
   methods: {
+    setTitle(titleText) {
+      console.log("titleText-", titleText);
+      headHand.setData({
+        titleText
+      })
+    },
     setBackBnt() {
       let route_list = getCurrentPages();
       let current_route = route_list[route_list.length - 1].route;
-      console.log("current_route-", current_route);
 
       let url_list = [
         "pages/index/index",
@@ -76,11 +80,9 @@ Component({
         need_back: url_list.indexOf(current_route) == -1
       });
 
-      console.log(this.data.need_back);
     },
     // 通过获取系统信息计算导航栏高度        
     setNavSize: function () {
-      console.log("NAV_DATA:", NAV_DATA);
       this.setData({
         status: NAV_DATA.status,
         navHeight: NAV_DATA.height

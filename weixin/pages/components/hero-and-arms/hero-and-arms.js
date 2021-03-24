@@ -2,8 +2,6 @@ const app = getApp()
 const globalData = app.globalData;
 const { CODE, MSG, BASE_URL } = globalData;
 
-console.log("BASE_URL", BASE_URL);
-
 Component({
   data: {
     current_type: 0,
@@ -32,7 +30,6 @@ Component({
               list: res.data.Data,
               show_list: res.data.Data
             })
-            console.log(res.data.Data);
           }
         }
       })

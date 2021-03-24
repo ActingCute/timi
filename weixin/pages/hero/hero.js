@@ -1,3 +1,5 @@
+const app = getApp();
+
 Page({
     data: {
         type_data: [
@@ -12,5 +14,7 @@ Page({
         data_url: "/timi/herolist"
     },
     onLoad: function () {
+        //标题
+        app.globalData.SET_TITLE("英雄列表");
     },
 })

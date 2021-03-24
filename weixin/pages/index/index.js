@@ -1,8 +1,6 @@
-const app = getApp()
+const app = getApp();
 const globalData = app.globalData;
 const { CODE, MSG, BASE_URL } = globalData;
-
-console.log("BASE_URL", BASE_URL);
 
 Page({
     data: {
@@ -14,6 +12,8 @@ Page({
         }
     },
     onLoad: function () {
+        //标题
+        app.globalData.SET_TITLE("王者驿站");
         this.getData()
     },
     getData() {

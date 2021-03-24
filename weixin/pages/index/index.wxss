@@ -37,11 +37,16 @@
 .announcement-title{
     display: inline-block;
     margin-left: 20rpx;
+    padding: 5rpx;
+    width: 85%;
+}
+
+.announcement-title-text{
+    /* 超出隐藏 */
+    max-width: 100%;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
-    max-width: 600rpx;
-    padding: 5rpx;
 }
 
 /* 周免英雄 */
