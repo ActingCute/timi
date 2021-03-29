@@ -19,6 +19,37 @@
 #### 环境 node:`v14.5.0`, redis
 #### 开发工具 vscode,微信开发工具1.05.2102010
 #### 微信ui: [weui](https://developers.weixin.qq.com/miniprogram/dev/extended/weui/)
+#### 目录结构
+    ├─server              `服务器`
+    │  ├─config           `服务器配置`
+    │  ├─controllers      `控制器`
+    │  │  ├─helper        `公共函数`
+    │  │  ├─hero          `英雄函数`
+    │  │  ├─other         `王者的其他一些页面函数`
+    │  │  └─props         `召唤师技能和局内道具还有铭文`
+    │  ├─public           `静态文件`
+    │  │  ├─hero          `英雄相关的资源`
+    │  │  └─props         `局内道具资源`
+    │  │      ├─arms      `装备`
+    │  │      ├─ming      `铭文`
+    │  │      └─summoner  `召唤师技能`
+    │  └─route `路由`
+    └─weixin `微信小程序`
+        ├─pages `页面`
+        │  ├─arms `装备页面`
+        │  ├─article `文章页面`
+        │  ├─components `组件`
+        │  │  ├─article `文章组件`
+        │  │  ├─body    `页面body组件`
+        │  │  ├─head    `页面头部组件`
+        │  │  └─hero-and-arms `英雄和局内道具组件`
+        │  ├─hero `英雄页面`
+        │  ├─index `首页`
+        │  ├─logs `日志`
+        │  ├─ming `铭文`
+        │  └─summoner `召唤师技能`
+        └─utils `小程序公共函数`
+    
 #### 安装依赖
 
     cd server
