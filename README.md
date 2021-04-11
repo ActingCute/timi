@@ -131,4 +131,6 @@
     
     GET
     参数 无
-    path /timi/armslist          
+    path /timi/armslist  
+#### 数据流图
+![image.png](/uploads/14DD670A666A4E3B96CF5F4323202B72/image.png)
