@@ -4,6 +4,9 @@
 #### 小程序功能用例图
 ![image.png](/uploads/44D87846AEA74FD88699D30E456337D4/image.png)
 
+#### 主要游戏资料类图
+![image.png](/uploads/D20EBDF856E5480BBD1EB10C35AC04C0/image.png)
+
 
 # 西皮滴滴
 ### 文档说明：本项目仅用于学习`nodejs爬虫`和`微信小程序`
