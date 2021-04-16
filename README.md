@@ -1,6 +1,10 @@
 #### 数据流图
 ![image.png](/uploads/14DD670A666A4E3B96CF5F4323202B72/image.png)
 
+#### 小程序功能用例图
+![image.png](/uploads/44D87846AEA74FD88699D30E456337D4/image.png)
+
+
 # 西皮滴滴
 ### 文档说明：本项目仅用于学习`nodejs爬虫`和`微信小程序`
 
