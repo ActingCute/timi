@@ -7,6 +7,8 @@
 #### 主要游戏资料类图
 ![image.png](/uploads/D20EBDF856E5480BBD1EB10C35AC04C0/image.png)
 
+#### 小程序顺序图
+![image.png](/uploads/796C47271A78470FB015FF66B543C357/image.png)
 
 # 西皮滴滴
 ### 文档说明：本项目仅用于学习`nodejs爬虫`和`微信小程序`
