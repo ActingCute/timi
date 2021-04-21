@@ -7,7 +7,7 @@ let NAV_DATA = {};
     console.log("version:", version)
     switch (version) {
         case "develop": //开发预览版
-            base_url = "http://127.0.0.1:5000";
+            base_url = "http://106.12.116.12:5000";
             break;
         case 'trial': //体验版
             base_url = "http://106.12.116.12:5000";
