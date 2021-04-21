@@ -28,8 +28,8 @@ let makeSign = (source) => {
 }
 
 //获取相关列表
-let getList = async () => {
-    return new Promise(async (resolve, reject) => {
+let getList = async() => {
+    return new Promise(async(resolve, reject) => {
         let homeBody = await cheerioFunc.handleRequestByPromise({ url: "https://pvp.qq.com/" });
         homeBody = iconv.decode(homeBody, "GBK"); //进行gbk解码
         let $ = cheerio.load(homeBody);
@@ -52,10 +52,12 @@ let getList = async () => {
         let data_id_temp = [];
         for (let i = 0; i < news.length; i++) {
             var channelId = news.eq(i).attr('data-channelid')
-            //var tagId = news.eq(i).attr('data-tagid')
+                //var tagId = news.eq(i).attr('data-tagid')
             channelParams.chanid = channelId;
             let res = await axios({
-                method: "get", url: newsUrl, params: channelParams,
+                method: "get",
+                url: newsUrl,
+                params: channelParams,
                 headers: {
                     referer: "https://pvp.qq.com/"
                 }
@@ -69,7 +71,7 @@ let getList = async () => {
                 //将数据添加到对应的列表
                 for (let ti = 0; ti < new_type.length; ti++) {
                     let items = { desc: new_type_text[ti], data: [] };
-                    if (ele.sTagids.indexOf(new_type[ti]) != -1) {
+                    if (ele && ele.sTagids && new_type[ti] && ele.sTagids.indexOf(new_type[ti]) != -1) {
                         items.data = ele;
                         items_array.push(items);
                     }
@@ -86,11 +88,11 @@ let getInfoUrl = (iNewsId) => {
 }
 
 //获取相关内容
-let getInfo = async (items) => {
-    return new Promise(async (resolve, reject) => {
+let getInfo = async(items) => {
+    return new Promise(async(resolve, reject) => {
         let ci = 1;
-        items.forEach(async (item) => {
-            (async (item) => {
+        items.forEach(async(item) => {
+            (async(item) => {
                 let url = getInfoUrl(item.data.iNewsId);
                 let res = await axios.get(url, {
                     headers: {
@@ -119,8 +121,8 @@ let getInfo = async (items) => {
 }
 
 module.exports = {
-    getData: async () => {
-        return new Promise(async (resolve, reject) => {
+    getData: async() => {
+        return new Promise(async(resolve, reject) => {
             let items = await getList();
             ANNOUNCEMENT = await getInfo(items);
             resolve("ok");

@@ -21,7 +21,7 @@ const config = require("../config/databases");
 const TIMI_DATA = "TIMI_DATA";
 
 //初始化
-let init = async (need_clean) => {
+let init = async(need_clean) => {
     try {
         QINIU_DATA = [];
         LOCAL_DATA = [];
