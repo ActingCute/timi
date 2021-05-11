@@ -13,7 +13,7 @@
 # 西皮滴滴
 ### 文档说明：本项目仅用于学习`nodejs爬虫`和`微信小程序`
 
-![avatar](https://git.code.tencent.com/se2021/team01/timi/raw/fcb9f9b5709ead9a4396d242a734409cf0fe7596/server/public/hero/虞姬/Wallpaper/skin-bigskin-启明星使.png)
+![avatar](https://git.code.tencent.com/se2021/team01/timi/raw/19ac91a75e7221ffd54da9cdff4a5952401d6c6e/server/public/hero/%E8%89%BE%E7%90%B3/Wallpaper/skin-bigskin-%E5%A5%B3%E6%AD%A6%E7%A5%9E.png)
 
 本小组的比较喜欢moba类型的游戏，特别是王者荣耀。《王者荣耀》是由腾讯游戏天美工作室群开发的moba类国产手游，建模很精美，与朋友几人一起玩乐趣多。
 
