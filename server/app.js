@@ -12,6 +12,8 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const app = express();
 const router = express.Router();
+const timiController = require("./controllers/timi");
+const cronController = require("./controllers/helper/cron");
 
 //静态文件载入
 app.use(express.static(path.join(__dirname, "public")));
@@ -49,4 +51,6 @@ expressControllers.setDirectory(__dirname + "\\controllers").bind(router);
 //端口启动
 app.listen(5000, function () {
     console.info("port 5000");
+    timiController.init(false);
+    cronController.initCron(timiController.init, "00 10 10  * * *", true); //每天10:10:00更新数据
 });
