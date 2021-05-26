@@ -9,8 +9,6 @@ const Data = require("../config/code");
 const Code = Data.Code;
 const Msg = Data.Msg;
 const indexController = require("../controllers/index");
-const timiController = require("../controllers/timi");
-const cronController = require("../controllers/helper/cron");
 
 
 module.exports = {
