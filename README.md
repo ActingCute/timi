@@ -27,12 +27,15 @@
 本项目前端使用微信小程序，后端采用nodejs,缓存使用redis，cdn使用七牛。
 本项目主要是爬取王者荣耀官网的数据，包括英雄技能的介绍、英雄的玩法教程、装备信息、符文模拟器、野怪信息，该小程序实现了便捷了解游戏主要信息，以帮助游戏爱好者学习游戏的技巧。
 
-### server
+## server
 #### 环境 node:`v14.5.0`, redis
 #### 开发工具 vscode,微信开发工具1.05.2102010
-#### 微信ui: [weui](https://developers.weixin.qq.com/miniprogram/dev/extended/weui/)
+#### 微信ui [weui](https://developers.weixin.qq.com/miniprogram/dev/extended/weui/)
+#### 热更新工具 `npm install -g supervisor  `
 #### 目录结构
+
     ├─server              `服务器`
+    │  ├─bin              `启动程序`
     │  ├─config           `服务器配置`
     │  ├─controllers      `控制器`
     │  │  ├─helper        `公共函数`
@@ -45,7 +48,7 @@
     │  │      ├─arms      `装备`
     │  │      ├─ming      `铭文`
     │  │      └─summoner  `召唤师技能`
-    │  └─route `路由`
+    │  └─routes `路由`
     └─weixin `微信小程序`
         ├─pages `页面`
         │  ├─arms `装备页面`
@@ -69,7 +72,9 @@
 
 #### 运行
 
-    node app.js
+    cd server
+    ./run.bat
+    ./run
 
 #### 接口（端口5000）
 

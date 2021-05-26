@@ -1,4 +1,7 @@
 module.exports = {
+    web: {
+        port: 5000
+    },
     redis: {
         RDS_PORT: 6379, //端口号
         RDS_HOST: "127.0.0.1", //服务器IP

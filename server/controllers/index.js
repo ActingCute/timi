@@ -4,7 +4,7 @@
  */
 
 const config = require("../config/databases");
-const baseController = require("../controllers/helper/index");
+const baseController = require("./helper/index");
 let timi = config.timi;
 
 //初始化小程序首页数据

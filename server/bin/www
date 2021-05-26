@@ -1,0 +1,115 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('timi1:server');
+var http = require('http');
+const config = require('../config/databases');
+const timiController = require("../controllers/timi");
+const cronController = require("../controllers/helper/cron");
+const log = require("../controllers/helper/log");
+//全局变量
+global.log = log; //日志
+global.HERO = []; //英雄数据
+global.ARMS = []; //装备
+global.SUMMONER = [];//召唤师技能
+global.MING = [];//铭文
+global.NOVICE_HERO = [];//新手推荐英雄
+global.FREE_HERO = [];//周限免英雄
+global.HERO_STORY = [];//英雄故事
+global.ANNOUNCEMENT = [];//公告 新闻 活动
+global.STRATEGY = [];//攻略
+global.DATA = {};//给小程序用的数据
+//全局待上传的七牛图片
+global.QINIU_DATA = [];
+//全局待下载本地的图片
+global.LOCAL_DATA = [];
+
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || config.web.port);
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+
+  //启动捉包程序
+  timiController.init(false);
+  cronController.initCron(timiController.init, "00 10 10  * * *", true); //每天10:10:00更新数据
+}

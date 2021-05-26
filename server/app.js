@@ -1,56 +1,41 @@
-/**
- * Created by 张辉 2021/03/13 11:10:09
- * 入口文件
- */
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-//加载引用包
-const log = require("./controllers/helper/log");
-const express = require("express");
-const expressControllers = require("express-controller");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const app = express();
-const router = express.Router();
-const timiController = require("./controllers/timi");
-const cronController = require("./controllers/helper/cron");
+var indexRouter = require('./routes/index');
+var timiRouter = require('./routes/timi');
 
-//静态文件载入
-app.use(express.static(path.join(__dirname, "public")));
+var app = express();
 
-//传输数据json处理
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-//路由控制
-app.use(router);
-console.error("dirname - ", __dirname)
+app.use('/', indexRouter);
+app.use('/timi', timiRouter);
 
-//全局变量
-global.log = log; //日志
-global.HERO = []; //英雄数据
-global.ARMS = []; //装备
-global.SUMMONER = [];//召唤师技能
-global.MING = [];//铭文
-global.NOVICE_HERO = [];//新手推荐英雄
-global.FREE_HERO = [];//周限免英雄
-global.HERO_STORY = [];//英雄故事
-global.ANNOUNCEMENT = [];//公告 新闻 活动
-global.STRATEGY = [];//攻略
-global.DATA = {};//给小程序用的数据
-
-//全局待上传的七牛图片
-global.QINIU_DATA = [];
-//全局待下载本地的图片
-global.LOCAL_DATA = [];
-
-//绑定控制器
-expressControllers.setDirectory(__dirname + "\\controllers").bind(router);
-
-//端口启动
-app.listen(5000, function () {
-    console.info("port 5000");
-    timiController.init(false);
-    cronController.initCron(timiController.init, "00 10 10  * * *", true); //每天10:10:00更新数据
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
 });
+
+// error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+module.exports = app;
