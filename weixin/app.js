@@ -1,6 +1,7 @@
 const code = require("./utils/code");
 let base_url = "";
 let NAV_DATA = {};
+
 (() => {
   //http请求url
   const version = __wxConfig.envVersion;
@@ -51,7 +52,7 @@ App({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       }
-    })
+    });
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -70,7 +71,9 @@ App({
           })
         }
       }
-    })
+    });
+    // 获取铭文json数据
+
   },
   globalData: {
     userInfo: null,

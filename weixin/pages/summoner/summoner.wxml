@@ -1,1 +1,4 @@
-<timi-body footCurrent="4">召唤师技能</timi-body>
+<timi-body footCurrent="4">
+    <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
+    <view show="{{!loading}}" class="c-body">{{data}}</view>
+</timi-body>
