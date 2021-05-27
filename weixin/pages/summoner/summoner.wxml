@@ -1,4 +1,33 @@
 <timi-body footCurrent="4">
     <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
-    <view show="{{!loading}}" class="c-body">{{data}}</view>
+    <view show="{{!loading}}" class="c-body">
+        <view wx:if="{{data.length > 0}}">
+            <image mode="aspectFill" class="summoner-img" src="//game.gtimg.cn/images/yxzj/img201606/summoner/{{data[v_index].summoner_id}}-big.jpg" />
+        </view>
+        <view wx:if="{{data.length > 0}}" class="item-desc-box">
+            <view class="item-desc">
+                <view class="summoner_title">
+                    <view class="summoner_name">{{data[v_index].summoner_name}}</view>
+                    <view class="summoner_rank">{{data[v_index].summoner_rank}}</view>
+                </view>
+                <view>{{data[v_index].summoner_description}}</view>
+            </view>
+        </view>
+        <view class="item-box">
+            <mp-row>
+                <mp-col span="{{6}}" wx:for="{{data}}" wx:key="*this">
+                    <view data-index="{{index}}" bindtap="view" class="item-info col">
+                        <view>
+                            <image mode="aspectFill" class="item-img" src="{{item.cover}}" />
+                            <view class="item-name">
+                                <view class="{{v_index==index?'view':''}} item-name-text">
+                                    {{item.summoner_name}}
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </mp-col>
+            </mp-row>
+        </view>
+    </view>
 </timi-body>

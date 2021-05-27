@@ -20,7 +20,7 @@
         <mp-row>
           <mp-col span="{{6}}" wx:for="{{show_list}}" wx:key="*this">
             <view class="item-info col">
-              <image mode="aspectFit" class="item-img" src="{{item.cover}}" />
+              <image lazy-load="{{true}}" mode="aspectFit" class="item-img" src="{{item.cover}}" />
               <view class="item-name">
                 <view class="item-name-text">{{item.name}}</view>
               </view>

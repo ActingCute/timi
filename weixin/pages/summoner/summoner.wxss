@@ -1,0 +1,69 @@
+.item-box{
+    width: 100%;
+    position: relative;
+}
+.item-info{
+    padding: 5rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-img{
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+    overflow:hidden;
+    display: block;
+}
+
+.summoner-img{
+    width: 100%;
+}
+
+
+.item-name{
+    
+    display: block;
+
+}
+
+.item-name-text{
+    font-size: 25rpx;
+    width: 100%;
+    text-align: center;
+    margin-top: 10rpx;
+}
+
+.summoner_title{
+    position: relative;
+}
+
+.summoner_name{
+    font-weight: bold;
+    font-size: 30rpx;
+    display: inline-block;
+}
+
+.summoner_rank{
+    display: inline-block;
+    margin-left: 10rpx;
+    color: blue;
+}
+
+.item-desc-box{
+    width: 100%;
+    border-bottom: 0.5rpx solid #999999;
+    margin-bottom: 20rpx;
+}
+
+.item-desc{
+    padding: 20rpx;
+    font-size: 25rpx;
+    line-height: 200%;
+}
+
+.view{
+    color: blue;
+    font-weight: bold;
+}

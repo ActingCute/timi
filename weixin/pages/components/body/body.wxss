@@ -8,6 +8,5 @@ page{
     max-width: 100%;
     height: 100%;
     position: relative;
-    background-color: #F8F8FF;
     font-size: 35rpx;
 }

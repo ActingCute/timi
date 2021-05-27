@@ -5,12 +5,19 @@ const { CODE, MSG, BASE_URL } = globalData;
 Page({
     data: {
         MING_JSON: [],
-        data: []
+        data: [],
+        v_index: 0
     },
     onLoad: function () {
         //标题
         app.globalData.SET_TITLE("召唤师技能");
         this.getData();
+    },
+    view: function (e) {
+        let v_index = e.currentTarget.dataset.index || 0;
+        this.setData({
+            v_index
+        });
     },
     getData() {
         let that = this;
