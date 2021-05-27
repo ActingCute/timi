@@ -1,0 +1,37 @@
+
+/* 新闻公告 */
+
+.announcement{
+    margin-top: 20rpx;
+}
+
+.announcement-box{
+    margin: 10rpx;
+    position: relative;
+    display:flex;
+    align-items:center;
+}
+
+.announcement-type{
+    border: 1rpx solid rgba(80, 80, 80, 0.479);
+    display: inline-block;
+    font-size: 30rpx;
+    padding: 8rpx;
+    background-color: rgb(243, 244, 248);
+    color: #555;
+}
+
+.announcement-title{
+    display: inline-block;
+    margin-left: 20rpx;
+    padding: 5rpx;
+    width: 85%;
+}
+
+.announcement-title-text{
+    /* 超出隐藏 */
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}

@@ -1,5 +1,19 @@
 <!-- 攻略组件 -->
 <timi-body>
     <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
-    <view show="{{!loading}}" class="c-body">攻略组件</view>
+    <view show="{{!loading}}" class="c-body">
+        <block wx:for="{{data}}" wx:key="*this">
+            <navigator url="../article/article?url=strategy&id={{item.iNewsId}}">
+                <view class="strategy-box">
+                    <image class="strategy-img" mode="aspectFit" src="{{item.sIMG}}" />
+                    <view class="strategy-title">
+                        <view class="strategy-title-text">{{item.sDesc}}</view>
+                    </view>
+                    <view class="strategy-time">
+                        <view class="strategy-time-text">{{item.sIdxTime}}</view>
+                    </view>
+                </view>
+            </navigator>
+        </block>
+    </view>
 </timi-body>

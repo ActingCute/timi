@@ -1,0 +1,44 @@
+
+/* 游戏攻略 */
+
+.strategy{
+    margin-top: 20rpx;
+}
+
+.strategy-box{
+    margin: 10rpx;
+    position: relative;
+    display:flex;
+    align-items:center;
+    height: 150rpx;
+    border-bottom: 1rpx solid #F5F5F5;
+}
+
+.strategy-img{
+    display: inline-block;
+    width: 30%;
+    height: 150rpx;
+}
+
+.strategy-title{
+    display: inline-block;
+    margin-left: 20rpx;
+    max-width: 70%;
+}
+
+.strategy-title-text{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+
+.strategy-time{
+    position: absolute;
+    right: 10rpx;
+    bottom: 10rpx;
+}
+
+.strategy-time-text{
+    font-size: 25rpx;
+    color: #999999;
+}

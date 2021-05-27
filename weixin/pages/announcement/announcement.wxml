@@ -1,5 +1,16 @@
 <!-- 新闻组件 -->
 <timi-body>
     <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
-    <view show="{{!loading}}" class="c-body">新闻组件</view>
+    <view show="{{!loading}}" class="c-body">
+        <block wx:for="{{data}}" wx:key="*this">
+            <navigator url="../article/article?url=announcement&id={{item.data.iNewsId}}">
+                <view class="announcement-box">
+                    <view class="announcement-type">{{item.desc}}</view>
+                    <view class="announcement-title">
+                        <view class="announcement-title-text">{{item.data.sTitle}}</view>
+                    </view>
+                </view>
+            </navigator>
+        </block>
+    </view>
 </timi-body>

@@ -19,6 +19,7 @@ Component({
   },
   methods: {
     getData(url) {
+      if (!url) return;
       let that = this;
       wx.request({
         url: BASE_URL + url,

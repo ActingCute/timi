@@ -4,6 +4,7 @@ const { CODE, MSG, BASE_URL } = globalData;
 
 Page({
     data: {
+        data: [],
         loading: true,
         animated: true
     },
@@ -15,7 +16,7 @@ Page({
     getData() {
         let that = this;
         wx.request({
-            url: BASE_URL + '/timi/home',
+            url: BASE_URL + '/timi/announcement',
             data: {},
             header: {
                 'content-type': 'application/json'
@@ -27,10 +28,22 @@ Page({
                 });
                 if (res.statusCode == 200 && res.data.Code == CODE.Success) {
                     that.setData({
-                        home_data: res.data.Data
+                        data: res.data.Data
                     })
                     console.log(res.data.Data);
                 }
+            },
+            error(err) {
+                that.setData({
+                    animated: false,
+                    loading: false
+                });
+                wx.showToast({
+                    title: err,
+                    icon: 'error',
+                    duration: 2000
+                });
+                wx.hideToast();
             }
         })
     }
