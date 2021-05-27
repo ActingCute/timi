@@ -31,6 +31,27 @@
   padding: 8rpx;
 }
 
+.card-title-more{
+  position: absolute;
+  right: 10rpx;
+}
+
+.card-title-more-item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-title-more-text{
+  display: inline-block;
+  color: #696969;
+  font-size: 35rpx;
+}
+
+.card-title-more-ico{
+  display: inline-block;
+}
+
 /* 隐藏滚动条 */
 ::-webkit-scrollbar {
   display:none;

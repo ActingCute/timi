@@ -11,6 +11,14 @@
     <view class="card card-first">
         <view class="card-title">
             <view class="card-title-text">新闻</view>
+            <view class="card-title-more">
+                <navigator url="../announcement/announcement">
+                    <view class="card-title-more-item">
+                        <view class="card-title-more-text">更多</view>
+                        <mp-icon class="card-title-more-ico" icon="arrow" color="#696969" size="{{15}}"></mp-icon>
+                    </view>
+                </navigator>
+            </view>
         </view>
         <view class="card-centent announcement">
             <block wx:for="{{home_data.announcement.data}}" wx:key="*this">
@@ -47,6 +55,14 @@
     <view class="card">
         <view class="card-title">
             <view class="card-title-text">游戏攻略</view>
+            <view class="card-title-more">
+                <navigator url="../strategy/strategy">
+                    <view class="card-title-more-item">
+                        <view class="card-title-more-text">更多</view>
+                        <mp-icon class="card-title-more-ico" icon="arrow" color="#696969" size="{{15}}"></mp-icon>
+                    </view>
+                </navigator>
+            </view>
         </view>
         <view class="card-centent strategy">
             <block wx:for="{{home_data.strategy.data}}" wx:key="*this">

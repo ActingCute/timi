@@ -1,0 +1,5 @@
+<!-- 攻略组件 -->
+<timi-body>
+    <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
+    <view show="{{!loading}}" class="c-body">攻略组件</view>
+</timi-body>

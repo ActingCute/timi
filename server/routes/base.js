@@ -83,7 +83,7 @@ module.exports = {
             baseController.Result(Code.Success, Msg.Success, data, res);
         }, res)
     },
-    strategy: (req, res, next) => { //新闻 公告 活动数据
+    strategy: (req, res, next) => { //游戏攻略
         baseController.DoFunc(() => {
             let id = req.query.id || 0;
             let data;

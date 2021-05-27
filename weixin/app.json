@@ -6,7 +6,9 @@
     "pages/ming/ming",
     "pages/summoner/summoner",
     "pages/logs/logs",
-    "pages/article/article"
+    "pages/article/article",
+    "pages/announcement/announcement",
+    "pages/strategy/strategy"
   ],
   "tabBar": {
     "list": [
@@ -45,11 +47,9 @@
     "weui": true
   },
   "usingComponents": {
-    "mp-dialog": "/miniprogram_npm/weui-miniprogram/dialog/dialog",
-    "mp-tabbar": "/miniprogram_npm/weui-miniprogram/tabbar/tabbar",
-    "mp-navigation-bar": "/miniprogram_npm/weui-miniprogram/navigation-bar/navigation-bar",
-    "mp-cells": "/miniprogram_npm/weui-miniprogram/cells/cells",
-    "mp-cell": "/miniprogram_npm/weui-miniprogram/cell/cell",
-    "mp-icon": "/miniprogram_npm/weui-miniprogram/icon/icon"
+    "mp-loading": "weui-miniprogram/loading/loading",
+    "mp-icon": "weui-miniprogram/icon/icon",
+    "mp-col": "@miniprogram-component-plus/col",
+    "mp-row": "@miniprogram-component-plus/row"
   }
 }

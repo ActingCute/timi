@@ -2,3 +2,5 @@ node_modules
 log
 
 server/test/
+
+weixin/node_modules/
