@@ -1,0 +1,82 @@
+<!-- 英雄 玩法 攻略 -->
+<!-- recommended_arms: info.recommended_arms,//推荐出装
+                            recommended_ming: info.recommended_ming,//推荐铭文
+                            master_skill: info.master_skill,//推荐召唤师技能
+                            skill_recommended: info.skill_recommended//推荐加点 -->
+<mp-loading type="circle" show="{{data == null}}" animated="{{data == null}}"></mp-loading>
+<view show="{{data != null}}" class="c-body">
+  <!-- 推荐加点 -->
+  <view class="box skill_recommended_box">
+    <view class="card card-first">
+      <view class="card-title">
+        <view class="card-title-text">技能加点</view>
+        <view class="card-title-more">
+          <view class="card-title-more-item">
+            <view class="card-title-more-text">召唤师技能</view>
+          </view>
+        </view>
+      </view>
+      <view class="card-centent">
+        <view class="skill_recommended">
+          <view class="skill">
+            <!-- 推荐技能 -->
+            <view class="skill_item">
+              <block wx:for="{{data.skill_recommended}}" wx:key="*this">
+                <view class="skill_item_">
+                  <view class="skill_type">{{item.type}}</view>
+                  <image mode="aspectFill" class="skill_item_img" src="{{item.covor}}" />
+                </view>
+              </block>
+            </view>
+            <!-- 召唤师技能 -->
+            <view class="master_skill">
+              <view class="master_skill_box">
+                <!-- <view class="master_skill_name">{{data.master_skill.name}}</view> -->
+              </view>
+              <view class="master_skill_img_box">
+                <block wx:for="{{data.master_skill.covor}}" wx:key="*this">
+                  <image mode="aspectFill" class="master_skill_img" src="{{item}}" />
+                </block>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 铭文搭配 -->
+  <view class="box ming_recommended_box">
+    <view class="card">
+      <view class="card-title">
+        <view class="card-title-text">铭文搭配</view>
+      </view>
+      <view class="card-centent">
+        <mp-row class="ming_box">
+          <mp-col span="{{8}}" wx:for="{{data.recommended_ming.data}}" wx:key="*this">
+            <image mode="aspectFill" class="ming_item_img" src="https://wzyz.haibarai.com/ming/{{item.name}}.png" />
+            <view class="ming_name">{{item.name}}</view>
+            <rich-text nodes="<div style='font-size:13px;color:blue'>{{item.des}}</div>"></rich-text>
+          </mp-col>
+        </mp-row>
+        <view class="ming_tips">{{data.recommended_ming.tips}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 出装搭配 -->
+  <view class="box arms_recommended_box">
+    <view class="card">
+      <view class="card-title">
+        <view class="card-title-text">出装推荐</view>
+      </view>
+      <view class="card-centent">
+        <mp-row class="ming_box">
+          <mp-col span="{{8}}" wx:for="{{data.recommended_arms}}" wx:key="*this">
+            <image mode="aspectFill" class="ming_item_img" src="https://wzyz.haibarai.com/ming/{{item.name}}.png" />
+            <view class="ming_name">{{item.name}}</view>
+            <rich-text nodes="<div style='font-size:13px;color:blue'>{{item.des}}</div>"></rich-text>
+          </mp-col>
+        </mp-row>
+      </view>
+    </view>
+  </view>
+</view>

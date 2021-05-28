@@ -1,0 +1,93 @@
+/* 卡片 */
+@import "../css/index.wxss";
+
+.c-body{
+    padding-top: 70rpx;
+}
+
+.box{
+    margin-top: 20rpx;
+}
+
+/* 技能加点 */
+.skill_item{
+    display: flex;
+    align-items: center;
+}
+
+.skill_item_{
+    display: flex;
+    align-items: center;
+    float: left;
+}
+
+.skill_item_img{
+    width: 50rpx;
+    height: 50rpx;
+    display: inline-block;
+    margin-right: 10rpx;
+}
+
+.skill_type{
+    display: inline-block;
+    margin-right: 10rpx;
+}
+
+.skill_item{
+    display: inline-block;
+    position: relative;
+}
+
+.master_skill{
+    position: relative;
+    float: right;
+}
+
+.master_skill_{
+    
+}
+
+.master_skill_box{
+    font-size: 25rpx;
+    display: flex;
+    align-items: center;
+}
+
+.master_skill_img_box{
+    display: inline-block;
+}
+
+.master_skill_img{
+    width: 60rpx;
+    height: 60rpx;
+    margin-left: 10rpx;
+}
+
+.skill_item_box{
+    display: block;
+}
+
+.skill_name{
+    display: block;
+}
+
+/* 铭文搭配 */
+.ming_recommended_box{
+    margin-top: 20rpx;
+}
+.ming_item_img{
+    width: 80rpx;
+    height: 80rpx;
+}
+
+.ming_box{
+    text-align: center;
+}
+
+.ming_tips{
+    font-size: 30rpx;
+    color: #333333;
+    border-top: 1px solid rgb(212, 173, 173);
+    margin-top: 20rpx;
+    padding-top: 20rpx;
+}

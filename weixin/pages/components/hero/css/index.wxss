@@ -1,0 +1,61 @@
+/* card */
+
+.card{
+    background-color: #ffffff;
+    margin: 0rpx 0 0 0;
+    position: relative;
+
+    box-shadow: 1px 1px 8px 1px rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 1px;
+
+}
+
+.card:hover {
+    box-shadow: 1px 1px 8px 1px rgba(0,0,0,0.2);
+}
+   
+.card-title{
+    display:flex;
+    align-items:center;
+    position: relative;
+    border-bottom:1rpx solid #F5F5F5;
+    padding: 20rpx;
+    font-weight: bold;
+    font-size: 30rpx;
+  }
+  
+  .card-title-text{
+    height: 50rpx;
+    color: #696969;
+    font-size: 35rpx;
+    padding: 8rpx;
+  }
+  
+  .card-title-more{
+    position: absolute;
+    right: 10rpx;
+  }
+  
+  .card-title-more-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card-title-more-text{
+    display: inline-block;
+    color: #696969;
+    font-size: 35rpx;
+  }
+  
+  .card-title-more-ico{
+    display: inline-block;
+  }
+
+  .card-first{
+  }
+
+  .card-centent{
+      padding: 20rpx;
+  }

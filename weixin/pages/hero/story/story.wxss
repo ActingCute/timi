@@ -1,0 +1,10 @@
+.c-body{
+    padding: 10rpx;
+}
+
+.title{
+    font-weight: bold;
+    font-size: 50rpx;
+    margin: 20rpx  0 20rpx 0;
+    color: blue;
+}

@@ -1,0 +1,16 @@
+<!-- 英雄故事组件 -->
+<timi-body>
+    <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
+    <view show="{{!loading}}" class="c-body">
+        <view wx:if="{{!loading}}">
+            <view wx:if="{{info0 != null}}" class="info0">
+                <view class="title">{{info0.title}}</view>
+                <rich-text nodes="{{info0.text}}"></rich-text>
+            </view>
+            <view wx:if="{{info1 != null}}" class="info1">
+                <view class="title">{{info1.title}}</view>
+                <rich-text nodes="{{info1.text}}"></rich-text>
+            </view>
+        </view>
+    </view>
+</timi-body>

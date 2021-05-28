@@ -1,5 +1,8 @@
 {
     "usingComponents": {
-        "timi-body": "../../components/body/body"
+        "timi-body": "../../components/body/body",
+        "hero-relation": "../../components/hero/relation/relation",
+        "hero-skill": "../../components/hero/skill/skill",
+        "hero-strategy": "../../components/hero/strategy/strategy"
     }
 }

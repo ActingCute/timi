@@ -3,6 +3,7 @@
     <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
     <view show="{{!loading}}" class="c-body">
         <view wx:if="{{!loading}}">
+            <!-- 头部 -->
             <view class="hero-head">
                 <!-- 轮播图 -->
                 <swiper class="carousel" autoplay indicator-dots="{{false}}">
@@ -32,9 +33,31 @@
                     </view>
                     <!-- 皮肤 故事 -->
                     <view class="skin-box">
-                        <button class="btn lf">故事</button>
-                        <button class="btn lf">皮肤</button>
+                        <button class="tm-button btn lf" bindtap="story">故事</button>
+                        <button class="tm-button btn lf" bindtap="skin">皮肤</button>
                     </view>
+                </view>
+            </view>
+            <!-- 内容区域 -->
+            <view class="content">
+                <view class="tab-select">
+                    <block wx:for="{{tabs}}" wx:key="*this">
+                        <button class="tm-button btn lf {{activeTab==index?'view':''}}" bindtap="view" data-index="{{index}}">
+                            {{item}}
+                        </button>
+                    </block>
+                </view>
+                <!-- 玩法推荐 -->
+                <view wx:if="{{activeTab == 0}}">
+                    <hero-strategy data="{{strategy}}"></hero-strategy>
+                </view>
+                <!-- 技能详情 -->
+                <view wx:if="{{activeTab == 1}}">
+                    <hero-skill data="{{skill}}"></hero-skill>
+                </view>
+                <!-- 英雄关系 -->
+                <view wx:if="{{activeTab == 2}}">
+                    <hero-relation data="{{relation}}"></hero-relation>
                 </view>
             </view>
         </view>

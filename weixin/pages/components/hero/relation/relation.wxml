@@ -1,0 +1,3 @@
+<!-- 英雄关系组件 -->
+<mp-loading type="circle" show="{{data == null}}" animated="{{data == null}}"></mp-loading>
+<view show="{{data != null}}" class="c-body">英雄关系组件</view>

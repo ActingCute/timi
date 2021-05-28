@@ -4,6 +4,8 @@ const { CODE, MSG, BASE_URL, NAV_DATA } = globalData;
 
 Page({
     data: {
+        activeTab: 0,
+        tabs: ['玩法推荐', '技能详情', '英雄关系'],
         hero_type: "小可爱",
         type_data: [
             { key: 1, text: "战士" },
@@ -16,7 +18,16 @@ Page({
         paddingTop: "48px",
         info: null,
         loading: true,
-        animated: true
+        animated: true,
+        strategy: null,
+        skill: null,
+        relation: null
+    },
+    view(e) {
+        let activeTab = e.currentTarget.dataset.index || 0;
+        this.setData({
+            activeTab
+        })
     },
     onLoad: function (data) {
         this.setData({
@@ -26,7 +37,7 @@ Page({
         let { id } = data;
         //标题
         app.globalData.SET_TITLE("英雄详情");
-        this.getData(id);
+        this.getData(id || 105);
     },
     getData(ename) {
         let that = this;
@@ -43,7 +54,6 @@ Page({
                 });
             },
             success(res) {
-
                 if (res.statusCode == 200 && res.data.Code == CODE.Success) {
                     let ht = that.data.type_data.find((item) => item.key == res.data.Data.hero_type);
                     let hero_type = "";
@@ -57,11 +67,20 @@ Page({
                             hero_type += "/" + ht.text;
                         }
                     }
+                    let info = res.data.Data
                     that.setData({
-                        info: res.data.Data,
-                        hero_type
+                        info,
+                        hero_type,
+                        strategy: {
+                            recommended_arms: info.recommended_arms,//推荐出装
+                            recommended_ming: info.recommended_ming,//推荐铭文
+                            master_skill: info.master_skill,//推荐召唤师技能
+                            skill_recommended: info.skill_recommended//推荐加点
+                        },
+                        skill: info.skill,
+                        relation: info.relation
                     })
-                    console.log(that.data.info);
+                    console.log(that.data.strategy);
                 } else {
                     wx.hideToast();
                     wx.showToast({
@@ -73,7 +92,6 @@ Page({
 
             },
             error(err) {
-
                 wx.hideToast();
                 wx.showToast({
                     title: err,
@@ -82,5 +100,21 @@ Page({
                 });
             }
         })
+    },
+    story() {
+        //查看故事
+        let url = `../story/story?ename=${this.data.info.ename}&cname=${this.data.info.cname}`
+        console.log("url -", url);
+        wx.navigateTo({
+            url, fail(err) {
+                wx.hideToast();
+                wx.showToast({
+                    title: "跳转错误",
+                    icon: 'error',
+                    duration: 2000
+                });
+                console.log(err);
+            }
+        });
     }
 })

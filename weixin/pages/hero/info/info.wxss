@@ -1,6 +1,7 @@
 
 .hero-head{
-
+    height: 350rpx;
+    position: relative;
 }
 
 /* 轮播图 */
@@ -79,7 +80,6 @@
     padding: 5rpx;
 }
 
-.skin-box>.lf{float:left}
 
 .skin-box>.btn{
     color:blue;
@@ -89,7 +89,7 @@
     font-size: 25rpx;
     opacity: 0.70;  
     filter: alpha(opacity=70);
-        
+
     vertical-align:middle ;
     line-height:25rpx;
     margin:0px;
@@ -97,23 +97,43 @@
     Height:50rpx;
 }
 
-.skin-box>button{color:#333;border-color:#ccc}
+.tm-button{color:#333;border-color:#ccc;float:left}
 
-.skin-box>button:not(:first-child):not(:last-child){border-radius:0}
+.tm-button:not(:first-child):not(:last-child){border-radius:0}
 
-.skin-box>button:first-child:not(:last-child){
+.tm-button:first-child:not(:last-child){
     border-top-right-radius:0;
     border-bottom-right-radius:0;
     border-right:1px solid #ddd;
 }
 
-.skin-box>button:last-child:not(:first-child){
+.tm-button:last-child:not(:first-child){
     border-top-left-radius:0;
     border-bottom-left-radius:0;
     border-left:1px solid #ddd;
 }
 
-.skin-box>button.active{
+.tm-button.active{
     color:#fff;
     background:#87CF7B
+}
+
+/* 选项卡 */
+.tab-select>.btn{
+    color:blue;
+    border-radius:4rpx;
+    cursor:pointer;
+    border:none;
+    font-size: 25rpx;
+    opacity: 0.70;  
+    filter: alpha(opacity=70);
+    vertical-align:middle ;
+    line-height:25rpx;
+    margin:0px;
+    width: 33.3%;
+}
+
+.tab-select>.view{
+    background-color: blue;
+    color: white;
 }
