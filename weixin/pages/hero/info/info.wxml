@@ -1,0 +1,5 @@
+<!-- 英雄详情组件 -->
+<timi-body>
+    <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
+    <view show="{{!loading}}" class="c-body"></view>
+</timi-body>

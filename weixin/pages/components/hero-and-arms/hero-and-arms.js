@@ -60,6 +60,23 @@ Component({
       this.setData({
         show_list
       });
+    },
+    view(e) {
+      let v_index = e.currentTarget.dataset.index || 0;
+      let url = `info/info?id=${this.data.show_list[v_index].id}`;
+      console.log("url - ", url);
+      wx.navigateTo({
+        url, fail(err) {
+          wx.hideToast();
+          wx.showToast({
+            title: "跳转错误",
+            icon: 'error',
+            duration: 2000
+          });
+          console.log(err);
+        }
+      });
+
     }
   }
 })

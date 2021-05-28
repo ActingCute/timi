@@ -2,7 +2,9 @@
   "pages": [
     "pages/index/index",
     "pages/hero/hero",
+    "pages/hero/info/info",
     "pages/arms/arms",
+    "pages/arms/info/info",
     "pages/ming/ming",
     "pages/summoner/summoner",
     "pages/logs/logs",

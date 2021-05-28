@@ -4,20 +4,21 @@ const { CODE, MSG, BASE_URL } = globalData;
 
 Page({
     data: {
-        data: [],
+        info: {},
         loading: true,
         animated: true
     },
-    onLoad: function () {
+    onLoad: function (data) {
+        let { id } = data;
         //标题
-        app.globalData.SET_TITLE("攻略");
-        this.getData();
+        app.globalData.SET_TITLE("英雄详情");
+        this.getData(id);
     },
-    getData() {
+    getData(ename) {
         let that = this;
         wx.request({
-            url: BASE_URL + '/timi/strategy',
-            data: {},
+            url: BASE_URL + '/timi/hero',
+            data: { ename },
             header: {
                 'content-type': 'application/json'
             },
@@ -28,9 +29,16 @@ Page({
                 });
                 if (res.statusCode == 200 && res.data.Code == CODE.Success) {
                     that.setData({
-                        data: res.data.Data
+                        info: res.data.Data
                     })
                     console.log(res.data.Data);
+                } else {
+                    wx.hideToast();
+                    wx.showToast({
+                        title: "获取失败",
+                        icon: 'error',
+                        duration: 2000
+                    });
                 }
             },
             error(err) {

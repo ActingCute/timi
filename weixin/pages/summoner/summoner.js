@@ -44,12 +44,12 @@ Page({
                     animated: false,
                     loading: false
                 });
+                wx.hideToast();
                 wx.showToast({
                     title: err,
                     icon: 'error',
                     duration: 2000
                 });
-                wx.hideToast();
             }
         })
     }
