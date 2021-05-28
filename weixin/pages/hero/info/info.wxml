@@ -1,5 +1,42 @@
 <!-- 英雄详情组件 -->
 <timi-body>
     <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
-    <view show="{{!loading}}" class="c-body"></view>
+    <view show="{{!loading}}" class="c-body">
+        <view wx:if="{{!loading}}">
+            <view class="hero-head">
+                <!-- 轮播图 -->
+                <swiper class="carousel" autoplay indicator-dots="{{false}}">
+                    <block wx:for="{{info.skin_list}}" wx:key="*this">
+                        <swiper-item class="carousel-img" style="background:url({{item.data[1]}});background-repeat: no-repeat;background-size:100% 100%;background-position: center;"></swiper-item>
+                    </block>
+                </swiper>
+                <view class="hero-head-info-box" style='padding-top: {{paddingTop}}'>
+                    <!-- 属性条 -->
+                    <view class="attr-box">
+                        <!-- 头像 名字 -->
+                        <view class="hero-name-box">
+                            <image lazy-load="{{true}}" mode="aspectFit" class="hero-cover" src="{{info.cover}}" />
+                            <view class="hero-type-box">
+                                <view class="hero-name-text">{{info.cname}}</view>
+                                <view class="hero-type-text">{{hero_type}}</view>
+                            </view>
+                        </view>
+                        <block wx:for="{{info.attributes.data}}" wx:key="*this">
+                            <view class="attr-progress-box">
+                                <view class="attr-progress-value">
+                                    <view class="attr-progress-title-text">{{item.title}}</view>
+                                    <progress backgroundColor="red" percent="{{item.value * 100}}" show-info="{{false}}" stroke-width="3" />
+                                </view>
+                            </view>
+                        </block>
+                    </view>
+                    <!-- 皮肤 故事 -->
+                    <view class="skin-box">
+                        <button class="btn lf">故事</button>
+                        <button class="btn lf">皮肤</button>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
 </timi-body>

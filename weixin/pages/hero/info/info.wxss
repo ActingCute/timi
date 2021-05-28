@@ -1,0 +1,119 @@
+
+.hero-head{
+
+}
+
+/* 轮播图 */
+.carousel{
+    height: 350rpx;
+}
+
+.carousel-img{
+    height: 350rpx;
+}
+
+/* 英雄封面里面的东东 */
+.hero-head-info-box{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    font-size: 22rpx;
+    z-index: 100;
+}
+
+/* 英雄基础属性 */
+.attr-box{
+    width: 50%;
+    position: relative;
+    background-color: aliceblue;
+    opacity: 0.70;  
+    filter: alpha(opacity=70);
+    padding: 20rpx 10rpx 10rpx 10rpx;
+    color: gray;
+}
+
+.attr-progress-box{
+    position: relative;
+}
+
+.attr-progress-title-box{
+}
+
+.attr-progress-title-text{
+   
+}
+
+.attr-progress-value-box{
+    margin-top: 10rpx;
+}
+
+/* 头像名字 */
+.hero-name-box{
+    z-index: 100;
+}
+
+.hero-name-text{
+    color: blue;
+    font-weight: bold;
+}
+
+.hero-type-box{
+    display: inline-block;
+    font-size: 35rpx;
+    vertical-align: top;
+    margin-left: 10rpx;
+}
+
+.hero-cover{
+    width: 100rpx;
+    height: 100rpx;
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* 皮肤 故事 */
+.skin-box{
+    font-size: 22rpx;
+    position: relative;
+    float: right;
+    padding: 5rpx;
+}
+
+.skin-box>.lf{float:left}
+
+.skin-box>.btn{
+    color:blue;
+    border-radius:4rpx;
+    cursor:pointer;
+    border:none;
+    font-size: 25rpx;
+    opacity: 0.70;  
+    filter: alpha(opacity=70);
+        
+    vertical-align:middle ;
+    line-height:25rpx;
+    margin:0px;
+    width: 150rpx;
+    Height:50rpx;
+}
+
+.skin-box>button{color:#333;border-color:#ccc}
+
+.skin-box>button:not(:first-child):not(:last-child){border-radius:0}
+
+.skin-box>button:first-child:not(:last-child){
+    border-top-right-radius:0;
+    border-bottom-right-radius:0;
+    border-right:1px solid #ddd;
+}
+
+.skin-box>button:last-child:not(:first-child){
+    border-top-left-radius:0;
+    border-bottom-left-radius:0;
+    border-left:1px solid #ddd;
+}
+
+.skin-box>button.active{
+    color:#fff;
+    background:#87CF7B
+}
