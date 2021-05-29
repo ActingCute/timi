@@ -1,5 +1,6 @@
 <!-- 英雄列表和装备列表主件 -->
-<timi-body class="big-box">
+<mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
+<timi-body show="{{!loading}}" class="big-box">
   <view class="card">
     <view class="card-centent item-box">
       <view class="item-type-box">

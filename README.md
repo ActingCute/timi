@@ -75,6 +75,7 @@
     cd server
     ./run.bat
     ./run
+    npm start
 
 #### 接口（端口5000）
 

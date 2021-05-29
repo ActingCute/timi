@@ -19,7 +19,17 @@ module.exports = {
     },
     arms: (req, res, next) => { //局内道具接口
         baseController.DoFunc(() => {
-            baseController.Result(Code.Success, Msg.Success, DATA.ARMS, res);
+            let item_id = req.query.item_id || 0;
+            if (!item_id) {
+                baseController.Result(Code.MissingParameter, Msg.MissingParameter, {}, res);
+                return;
+            }
+            let item = DATA.ARMS.find(item => item.item_id == Number(item_id)) || "";
+            if (!item) {
+                baseController.Result(Code.Nothingness, Msg.Nothingness, {}, res);
+                return;
+            }
+            baseController.Result(Code.Success, Msg.Success, item, res);
         }, res)
     },
     summoner: (req, res, next) => { //召唤师技能接口

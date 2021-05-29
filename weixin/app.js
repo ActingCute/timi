@@ -8,7 +8,7 @@ let NAV_DATA = {};
   console.log("version:", version)
   switch (version) {
     case "develop": //开发预览版
-      base_url = "https://www.haibarai.com";
+      base_url = "http://172.22.176.1:5000";
       break;
     case 'trial': //体验版
       base_url = "https://www.haibarai.com";

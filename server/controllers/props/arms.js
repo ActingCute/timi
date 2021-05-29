@@ -24,6 +24,7 @@ module.exports = {
             "price": 0,
             "total_price": 0,
             "des1": "",
+            "des2": "",
             "cover": ""
         };
     },
