@@ -9,12 +9,9 @@
 }
 
 .item{
-
-
     z-index: 100;
     width: 75rpx;
     height: 75rpx;
-
     position: absolute;
 
 }
@@ -54,3 +51,78 @@
 .red_fw .bf8 {left: 615rpx;top: 660rpx;}
 .red_fw .bf9 {left: 474rpx;top: 744rpx;}
 .red_fw .bf10 {left: 567rpx;top: 744rpx;}
+
+
+
+/* 选项卡 */
+.tab-select{
+    height: 54rpx;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+
+}
+.tab-select>.btn{
+    color:blue;
+    border-radius:4rpx;
+    cursor:pointer;
+    border:none;
+    font-size: 25rpx;
+    opacity: 0.70;  
+    filter: alpha(opacity=70);
+    vertical-align:middle ;
+    line-height:25rpx;
+    margin:0px;
+    width: 33.3%;
+}
+
+.tab-select>.view{
+    background-color: blue;
+    color: white;
+}
+
+.tm-button{color:#333;border-color:#ccc;float:left}
+
+.tm-button:not(:first-child):not(:last-child){border-radius:0}
+
+.tm-button:first-child:not(:last-child){
+    border-top-right-radius:0;
+    border-bottom-right-radius:0;
+    border-right:1px solid #ddd;
+}
+
+.tm-button:last-child:not(:first-child){
+    border-top-left-radius:0;
+    border-bottom-left-radius:0;
+    border-left:1px solid #ddd;
+}
+
+.tm-button.active{
+    color:#fff;
+    background:#87CF7B
+}
+
+.ming_list{
+    text-align: center;
+    font-size: 35rpx;
+    margin-top: 20rpx;
+}
+
+.ming_item{
+    min-height: 150rpx;
+}
+
+.ming_item_{
+    text-align: center;
+}
+
+.ming_covor{
+    width: 50rpx;
+    height: 50rpx;
+}
+
+.ming_attr{
+    font-size: 30rpx;
+}
+
+.ming_attr_value{
+    font-size: 25rpx; 
+}

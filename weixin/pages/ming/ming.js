@@ -4,6 +4,8 @@ const { CODE, MSG, BASE_URL } = globalData;
 
 Page({
     data: {
+        activeTab: 0,
+        tabs: ['蓝色', '绿色', '红色'],
         MING_JSON: [],
         data: [],
         animated: true,
@@ -21,10 +23,53 @@ Page({
             green_fw: [],
             red_fw: []
         },
+        ming_list: {
+            blue_fw: [],
+            green_fw: [],
+            red_fw: []
+        },
+        ming_key: 'blue_fw',
+        ming_index: 0,
+        ming_show: [],
         isShowSheet: false
     },
-    onLoad: function () {
+    view(e) {
+        let activeTab = e.currentTarget.dataset.index || 0;
+        this.setData({
+            activeTab,
+            ming_index: 0,
+            ming_show: this.data.ming_list[this.data.fw_type[activeTab]]
+        })
+    },
+    setMing(e) {
+        let { type, index, key } = e.target.dataset;
+        this.setData({
+            activeTab: type,
+            ming_key: key,
+            isShowSheet: true,
+            ming_index: index,
+            ming_show: this.data.ming_list[key]
+        });
+    },
+    useMing(e) {
+        let { index } = e.currentTarget.dataset;
+        console.log("index -- ", index)
+
+        this.data.img_show_box[this.data.ming_key][this.data.ming_index] = this.data.ming_show[index];
+        let img_show_box = this.data.img_show_box;
+        this.setData({
+            img_show_box
+        });
+    },
+    init() {
+        //显示的铭文插槽
         let img_show_box = {
+            blue_fw: [],
+            green_fw: [],
+            red_fw: []
+        }
+        //铭文分类
+        let ming_list = {
             blue_fw: [],
             green_fw: [],
             red_fw: []
@@ -41,12 +86,50 @@ Page({
                 }
                 img_show_box[this.data.fw_type[i]].push(data);
             }
+            //分类
+            let ming = this.data.MING_JSON;
+            console.log("ming -- ", ming)
+            for (let k = 0; k < ming.length; k++) {
+                let item = ming[k];
+                let key = "";
+                if (i == 0) {
+                    key = "蓝色";
+                    //蓝
+                } else if (i == 1) {
+                    //绿
+                    key = "绿色";
+                } else {
+                    //红
+                    key = "红色";
+                }
+                if (item.type.indexOf(key) != -1) {
+                    item.num = 10;
+                    //重新组装下数据给前台显示
+                    item.show_attr = [];
+                    for (let n = 0; n < item.attribute.length; n++) {
+                        let attr = "";
+                        for (let m in item.attribute[n]) {
+                            if (m == 'sign') {
+                                attr += item.attribute[n][m];
+                            } else {
+                                attr = m + item.attribute[n][m];
+                            }
+                        }
+                        item.show_attr.push(attr);
+                    }
+                    ming_list[this.data.fw_type[i]].push(item);
+                }
+            }
+            console.log("ming_list -- ", ming_list)
+
         }
         this.setData({
-            img_show_box
-        })
-        console.log("img_show_box - ", img_show_box)
+            img_show_box,
+            ming_list
+        });
 
+    },
+    onLoad: function () {
         //标题
         app.globalData.SET_TITLE("铭文模拟器");
         let MING_JSON = require("../../json/minwen").data;
@@ -56,8 +139,9 @@ Page({
         console.log(MING_JSON);
         this.setData({
             MING_JSON
-        })
-        this.getData();
+        });
+        this.init();
+        //this.getData();
     },
     getData() {
         let that = this;
@@ -91,14 +175,5 @@ Page({
                 });
             }
         })
-    },
-    setMing(e) {
-        let { type, index } = e.target.dataset
-        console.log(type, index);
-        this.data.img_show_box[type][index] = this.data.MING_JSON[0];
-        let img_show_box = this.data.img_show_box;
-        this.setData({
-            isShowSheet: true
-        });
     }
 })

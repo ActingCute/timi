@@ -8,7 +8,7 @@
                         <li class="bf">
                             <view>
                                 <block wx:key="*this" wx:for="{{10}}">
-                                    <image data-index="{{index}}" data-type="{{fw_item}}" bind:tap="setMing" mode="widthFix" class="item bf{{index+1}}" src="{{img_show_box[fw_item][index].src}}"></image>
+                                    <image data-index="{{index}}" data-type="{{fw_index}}" data-key="{{fw_item}}" bind:tap="setMing" mode="widthFix" class="item bf{{index+1}}" src="{{img_show_box[fw_item][index].src}}"></image>
                                 </block>
                             </view>
                         </li>
@@ -16,8 +16,36 @@
                 </view>
             </block>
         </view>
-        <actionst isShowSheet="{{isShowSheet}}" class="actionst" tops="40%">
-            <view class="">我是自定义内容,tops值为自定义高度</view>
+        <actionst isShowSheet="{{isShowSheet}}" class="actionst" tops="500rpx">
+            <view class="tab-select">
+                <block wx:for="{{tabs}}" wx:key="*this">
+                    <button class="tm-button btn lf {{activeTab==index?'view':''}}" bindtap="view" data-index="{{index}}">
+                        {{item}}
+                    </button>
+                </block>
+            </view>
+            <view>
+                <scroll-view scroll-y="true" style="height: 450rpx">
+                    <mp-row>
+                        <view class="ming_list">
+                            <block wx:for="{{ming_show}}" wx:key="ming_show_index" wx:for-index="ming_show_index">
+                                <view class="ming_item" bindtap="useMing" data-index="{{ming_show_index}}">
+                                    <mp-col span="{{4}}">
+                                        <image lazy-load="{{true}}" mode="widthFix" class="ming_covor" src="{{item.src}}" />
+                                    </mp-col>
+                                    <mp-col class="ming_item_" span="{{3}}">{{item.name}}</mp-col>
+                                    <mp-col class="ming_item_" span="{{11}}" class="ming_attr">
+                                        <block wx:for="{{item.show_attr}}" wx:key="*this" wx:for-item="attr">
+                                            <view class="ming_attr_value">{{attr}}</view>
+                                        </block>
+                                    </mp-col>
+                                    <mp-col class="ming_item_" span="{{6}}">x{{item.num}}</mp-col>
+                                </view>
+                            </block>
+                        </view>
+                    </mp-row>
+                </scroll-view>
+            </view>
         </actionst>
     </view>
 </timi-body>
