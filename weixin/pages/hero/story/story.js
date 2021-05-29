@@ -24,12 +24,6 @@ Page({
             header: {
                 'content-type': 'application/json'
             },
-            complete(c) {
-                that.setData({
-                    animated: false,
-                    loading: false
-                });
-            },
             success(res) {
                 if (res.statusCode == 200 && res.data.Code == CODE.Success) {
                     let info0 = res.data.Data.data[0];
@@ -53,13 +47,19 @@ Page({
                 }
 
             },
-            error(err) {
-
+            fail(err) {
+                console.err(err);
                 wx.hideToast();
                 wx.showToast({
                     title: err,
                     icon: 'error',
                     duration: 2000
+                });
+            },
+            complete(c) {
+                that.setData({
+                    animated: false,
+                    loading: false
                 });
             }
         })

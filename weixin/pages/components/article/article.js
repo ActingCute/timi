@@ -9,7 +9,9 @@ Component({
   data: {
     sContent: "",
     sTitle: "",
-    sIdxTime: ""
+    sIdxTime: "",
+    animated: true,
+    loading: true
   },
   properties: {
     dataUrl: String
@@ -49,6 +51,21 @@ Component({
             });
             console.log(res.data.Data);
           }
+        },
+        fail(err) {
+          console.err(err);
+          wx.hideToast();
+          wx.showToast({
+            title: err,
+            icon: 'error',
+            duration: 2000
+          });
+        },
+        complete(c) {
+          that.setData({
+            animated: false,
+            loading: false
+          });
         }
       })
     }

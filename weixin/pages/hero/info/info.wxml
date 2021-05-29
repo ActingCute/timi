@@ -8,7 +8,9 @@
                 <!-- 轮播图 -->
                 <swiper class="carousel" autoplay indicator-dots="{{false}}">
                     <block wx:for="{{info.skin_list}}" wx:key="*this">
-                        <swiper-item class="carousel-img" style="background:url({{item.data[1]}});background-repeat: no-repeat;background-size:100% 100%;background-position: center;"></swiper-item>
+                        <swiper-item class="carousel-img">
+                            <view style="background:url({{item.data[1]}});background-repeat: no-repeat;background-size:100% 100%;background-position: center;width:100%;height:100%"></view>
+                        </swiper-item>
                     </block>
                 </swiper>
                 <view class="hero-head-info-box" style='padding-top: {{paddingTop}}'>

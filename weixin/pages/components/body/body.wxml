@@ -1,4 +1,4 @@
-<view class="body container">
+<view class="c-body container">
   <cute-head titleIconWidth="{{titleIconWidth}}" titleIconHeight="{{titleIconHeight}}" titleFontSize="{{titleFontSize}}" titleHomeIcon="{{titleHomeIcon}}" titleBackIcon="{{titleBackIcon}}" titleImg="{{titleImg}}" titleColor="{{titleColor}}" titleBackground="{{titleBackground}}" titleText="{{titleText}}" />
   <view class="timi-centent" style='padding-top: {{paddingTop}}'>
     <slot></slot>

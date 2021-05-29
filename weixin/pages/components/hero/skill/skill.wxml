@@ -1,3 +1,19 @@
 <!-- 英雄技能组件 -->
 <mp-loading type="circle" show="{{data == null}}" animated="{{data == null}}"></mp-loading>
-<view show="{{data != null}}" class="c-body">英雄技能组件</view>
+<view show="{{data != null}}" class="c-body">
+    <block wx:for="{{data}}" wx:key="*this">
+        <!-- 铭文搭配 -->
+        <view class="box skill_box">
+            <view class="card">
+                <view class="card-title">
+                    <image lazy-load="{{true}}" mode="aspectFit" class="skill_covor" src="{{item.covor}}" />
+                    <view class="card-title-text skill_name">{{item.name}}</view>
+                </view>
+                <view class="card-centent">
+                    <view class="skill_cd">{{item.cd}}</view>
+                    <view class="skill_desc">{{item.desc}}</view>
+                </view>
+            </view>
+        </view>
+    </block>
+</view>

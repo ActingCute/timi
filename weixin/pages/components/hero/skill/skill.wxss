@@ -1,0 +1,24 @@
+/* 卡片 */
+@import "../css/index.wxss";
+
+.skill_covor{
+    width: 60rpx;
+    height: 60rpx;
+    margin-right: 10rpx;
+}
+
+.skill_desc{
+    font-size: 30rpx;
+    color: #333333;
+    margin-top: 20rpx;
+    padding-top: 20rpx;
+}
+
+.skill_box{
+    margin-top: 20rpx;
+}
+
+.skill_cd{
+    font-size: 35rpx;
+    color: blue;
+}

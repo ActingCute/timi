@@ -6,7 +6,9 @@ Component({
   data: {
     current_type: 0,
     show_list: [],
-    list: []
+    list: [],
+    animated: true,
+    loading: true
   },
   properties: {
     typeData: Array,
@@ -31,6 +33,21 @@ Component({
               show_list: res.data.Data
             })
           }
+        },
+        fail(err) {
+          console.err(err);
+          wx.hideToast();
+          wx.showToast({
+            title: err,
+            icon: 'error',
+            duration: 2000
+          });
+        },
+        complete(c) {
+          that.setData({
+            animated: false,
+            loading: false
+          });
         }
       })
     },

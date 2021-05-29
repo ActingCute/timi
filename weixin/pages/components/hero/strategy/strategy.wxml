@@ -1,8 +1,4 @@
 <!-- 英雄 玩法 攻略 -->
-<!-- recommended_arms: info.recommended_arms,//推荐出装
-                            recommended_ming: info.recommended_ming,//推荐铭文
-                            master_skill: info.master_skill,//推荐召唤师技能
-                            skill_recommended: info.skill_recommended//推荐加点 -->
 <mp-loading type="circle" show="{{data == null}}" animated="{{data == null}}"></mp-loading>
 <view show="{{data != null}}" class="c-body">
   <!-- 推荐加点 -->
@@ -21,7 +17,7 @@
           <view class="skill">
             <!-- 推荐技能 -->
             <view class="skill_item">
-              <block wx:for="{{data.skill_recommended}}" wx:key="*this">
+              <block wx:for="{{data.skill_recommended}}" wx:key="name">
                 <view class="skill_item_">
                   <view class="skill_type">{{item.type}}</view>
                   <image mode="aspectFill" class="skill_item_img" src="{{item.covor}}" />
@@ -52,7 +48,7 @@
       </view>
       <view class="card-centent">
         <mp-row class="ming_box">
-          <mp-col span="{{8}}" wx:for="{{data.recommended_ming.data}}" wx:key="*this">
+          <mp-col span="{{8}}" wx:for="{{data.recommended_ming.data}}" wx:key="name">
             <image mode="aspectFill" class="ming_item_img" src="https://wzyz.haibarai.com/ming/{{item.name}}.png" />
             <view class="ming_name">{{item.name}}</view>
             <rich-text nodes="<div style='font-size:13px;color:blue'>{{item.des}}</div>"></rich-text>
@@ -69,13 +65,18 @@
         <view class="card-title-text">出装推荐</view>
       </view>
       <view class="card-centent">
-        <mp-row class="ming_box">
-          <mp-col span="{{8}}" wx:for="{{data.recommended_arms}}" wx:key="*this">
-            <image mode="aspectFill" class="ming_item_img" src="https://wzyz.haibarai.com/ming/{{item.name}}.png" />
-            <view class="ming_name">{{item.name}}</view>
-            <rich-text nodes="<div style='font-size:13px;color:blue'>{{item.des}}</div>"></rich-text>
-          </mp-col>
-        </mp-row>
+        <block>
+          <view class="tr" wx:for="{{data.recommended_arms}}" wx:key="armsbox_index" wx:for-item="arms" wx:for-index="armsbox_index">
+            <mp-row class="ming_box">
+              <mp-col span="{{8}}" wx:for-index="arms_index" wx:for="{{arms.data}}" wx:key="item_id">
+                <image mode="aspectFill" class="ming_item_img" src="{{item.cover}}" />
+                <view class="ming_name">{{item.item_name}}</view>
+              </mp-col>
+            </mp-row>
+            <view class="arms_tips">{{arms.tips}}</view>
+            <view class="hr_" wx:if="{{!(armsbox_index+1 > data.recommended_arms.length-1)}}"></view>
+          </view>
+        </block>
       </view>
     </view>
   </view>

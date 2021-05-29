@@ -5,7 +5,9 @@ const { CODE, MSG, BASE_URL } = globalData;
 Page({
     data: {
         MING_JSON: [],
-        data: []
+        data: [],
+        animated: true,
+        loading: true
     },
     onLoad: function () {
         //标题
@@ -26,10 +28,6 @@ Page({
                 'content-type': 'application/json'
             },
             success(res) {
-                that.setData({
-                    animated: false,
-                    loading: false
-                });
                 if (res.statusCode == 200 && res.data.Code == CODE.Success) {
                     that.setData({
                         data: res.data.Data
@@ -37,16 +35,19 @@ Page({
                     console.log(res.data.Data);
                 }
             },
-            error(err) {
-                that.setData({
-                    animated: false,
-                    loading: false
-                });
+            fail(err) {
+                console.err(err);
                 wx.hideToast();
                 wx.showToast({
                     title: err,
                     icon: 'error',
                     duration: 2000
+                });
+            },
+            complete(c) {
+                that.setData({
+                    animated: false,
+                    loading: false
                 });
             }
         })

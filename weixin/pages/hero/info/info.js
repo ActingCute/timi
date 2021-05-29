@@ -21,7 +21,8 @@ Page({
         animated: true,
         strategy: null,
         skill: null,
-        relation: null
+        relation: null,
+        skin_list: []
     },
     view(e) {
         let activeTab = e.currentTarget.dataset.index || 0;
@@ -79,8 +80,15 @@ Page({
                         },
                         skill: info.skill,
                         relation: info.relation
-                    })
-                    console.log(that.data.strategy);
+                    });
+                    //皮肤
+                    let skin_list = []
+                    for (let i = 0; i < info.skin_list.length; i++) {
+                        skin_list.push(info.skin_list[i].data[1]);
+                    }
+                    that.setData({
+                        skin_list
+                    });
                 } else {
                     wx.hideToast();
                     wx.showToast({
@@ -91,7 +99,8 @@ Page({
                 }
 
             },
-            error(err) {
+            fail(err) {
+                console.err(err);
                 wx.hideToast();
                 wx.showToast({
                     title: err,
@@ -115,6 +124,21 @@ Page({
                 });
                 console.log(err);
             }
+        });
+    },
+    skin() {
+        if (this.data.skin_list.length < 1) {
+            wx.hideToast();
+            wx.showToast({
+                title: "这英雄没有皮肤？",
+                icon: 'error',
+                duration: 2000
+            });
+            return;
+        }
+        wx.previewImage({
+            current: this.data.skin_list[0], // 当前显示图片的http链接
+            urls: this.data.skin_list // 需要预览的图片http链接列表
         });
     }
 })

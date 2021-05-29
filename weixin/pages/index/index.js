@@ -9,7 +9,9 @@ Page({
             carousel: { desc: "轮播图", data: [] },
             free_hero: { desc: "周免英雄", data: [] },
             strategy: { desc: "攻略", data: [] }
-        }
+        },
+        animated: true,
+        loading: true
     },
     onLoad: function () {
         //标题
@@ -31,6 +33,21 @@ Page({
                     })
                     console.log(res.data.Data);
                 }
+            },
+            fail(err) {
+                console.err(err);
+                wx.hideToast();
+                wx.showToast({
+                    title: err,
+                    icon: 'error',
+                    duration: 2000
+                });
+            },
+            complete(c) {
+                that.setData({
+                    animated: false,
+                    loading: false
+                });
             }
         })
     }
