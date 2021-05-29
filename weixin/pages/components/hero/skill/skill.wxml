@@ -2,7 +2,6 @@
 <mp-loading type="circle" show="{{data == null}}" animated="{{data == null}}"></mp-loading>
 <view show="{{data != null}}" class="c-body">
     <block wx:for="{{data}}" wx:key="*this">
-        <!-- 铭文搭配 -->
         <view class="box skill_box">
             <view class="card">
                 <view class="card-title">

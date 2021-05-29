@@ -1,0 +1,31 @@
+/* 卡片 */
+@import "../css/index.wxss";
+
+.hero_covor{
+    width: 100%;
+    height: width;
+}
+
+.hero_name{
+    font-size: 25rpx;
+    color: blue;
+    text-align: center;
+}
+
+.hero_covor_box{
+    margin-top: 10rpx;
+}
+
+.hero_desc{
+    margin-left: 20rpx;
+    font-size: 30rpx;
+    color: #333333;
+}
+
+.relation_box{
+    margin-top: 20rpx;
+}
+
+.hero_box{
+    margin-top: 20rpx;
+}

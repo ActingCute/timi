@@ -1,3 +1,30 @@
 <!-- 英雄关系组件 -->
 <mp-loading type="circle" show="{{data == null}}" animated="{{data == null}}"></mp-loading>
-<view show="{{data != null}}" class="c-body">英雄关系组件</view>
+<view show="{{data != null}}" class="c-body">
+    <block wx:for="{{data.data}}" wx:for-item="relation" wx:key="*this" wx:for-index="relation_index">
+        <view class="box relation_box">
+            <view class="card">
+                <view class="card-title">
+                    <view class="card-title-text relation_type">{{relation.title}}</view>
+                </view>
+                <view class="card-centent">
+                    <block wx:for="{{relation.data}}" wx:key="*this" wx:for-index="relation_index">
+                        <view class="hero_box">
+                            <mp-row class="hero_box">
+                                <mp-col span="{{4}}">
+                                    <view class="hero_covor_box">
+                                        <image lazy-load="{{true}}" mode="widthFix" class="hero_covor" src="{{item.cover}}" />
+                                        <view class="hero_name">{{item.cname}}</view>
+                                    </view>
+                                </mp-col>
+                                <mp-col span="{{20}}">
+                                    <view class="hero_desc">{{item.desc}}</view>
+                                </mp-col>
+                            </mp-row>
+                        </view>
+                    </block>
+                </view>
+            </view>
+        </view>
+    </block>
+</view>

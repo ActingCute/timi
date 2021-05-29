@@ -94,6 +94,12 @@
     padding-top: 20rpx;
 }
 
+.ming_name{
+    font-size: 30rpx;
+    color: #333333;
+    margin-bottom: 20rpx;
+}
+
 /* 出装推荐 */
 .arms_recommended_box{
 
