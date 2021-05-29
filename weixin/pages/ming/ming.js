@@ -15,12 +15,43 @@ Page({
         img_box: ["https://wzyz.haibarai.com/fw/blue.png",
             "https://wzyz.haibarai.com/fw/green.png",
             "https://wzyz.haibarai.com/fw/red.png"
-        ]
+        ],
+        img_show_box: {
+            blue_fw: [],
+            green_fw: [],
+            red_fw: []
+        }
     },
     onLoad: function () {
+        let img_show_box = {
+            blue_fw: [],
+            green_fw: [],
+            red_fw: []
+        }
+        for (let i = 0; i < this.data.fw_type.length; i++) {
+            for (let j = 0; j < 10; j++) {
+                let src = this.data.img_box[i];
+                let data = {
+                    id: -1,
+                    attribute: [],
+                    name: "",
+                    src,
+                    type: []
+                }
+                img_show_box[this.data.fw_type[i]].push(data);
+            }
+        }
+        this.setData({
+            img_show_box
+        })
+        console.log("img_show_box - ", img_show_box)
+
         //标题
         app.globalData.SET_TITLE("铭文模拟器");
-        const MING_JSON = require("../../json/minwen").data;
+        let MING_JSON = require("../../json/minwen").data;
+        for (let i = 0; i < MING_JSON.length; i++) {
+            MING_JSON[i].src = `https://wzyz.haibarai.com/ming/${MING_JSON[i].name}.png`;
+        }
         console.log(MING_JSON);
         this.setData({
             MING_JSON
@@ -59,5 +90,14 @@ Page({
                 });
             }
         })
+    },
+    setMing(e) {
+        let { type, index } = e.target.dataset
+        console.log(type, index);
+        this.data.img_show_box[type][index] = this.data.MING_JSON[0];
+        let img_show_box = this.data.img_show_box;
+        this.setData({
+            img_show_box
+        });
     }
 })

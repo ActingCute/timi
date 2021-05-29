@@ -8,7 +8,7 @@
                         <li class="bf">
                             <view>
                                 <block wx:key="*this" wx:for="{{10}}">
-                                    <image mode="widthFix" class="item bf{{index+1}}" src="{{img_box[fw_index]}}"></image>
+                                    <image data-index="{{index}}" data-type="{{fw_item}}" bind:tap="setMing" mode="widthFix" class="item bf{{index+1}}" src="{{img_show_box[fw_item][index].src}}"></image>
                                 </block>
                             </view>
                         </li>
