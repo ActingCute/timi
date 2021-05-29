@@ -1,5 +1,6 @@
 {
     "usingComponents": {
-        "timi-body": "../components/body/body"
+        "timi-body": "../components/body/body",
+        "actionst": "../components/actionst/actionst"
     }
 }

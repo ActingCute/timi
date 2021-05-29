@@ -16,5 +16,8 @@
                 </view>
             </block>
         </view>
+        <actionst isShowSheet="{{isShowSheet}}" class="actionst" tops="40%">
+            <view class="">我是自定义内容,tops值为自定义高度</view>
+        </actionst>
     </view>
 </timi-body>

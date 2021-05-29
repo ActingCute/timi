@@ -20,7 +20,8 @@ Page({
             blue_fw: [],
             green_fw: [],
             red_fw: []
-        }
+        },
+        isShowSheet: false
     },
     onLoad: function () {
         let img_show_box = {
@@ -97,7 +98,7 @@ Page({
         this.data.img_show_box[type][index] = this.data.MING_JSON[0];
         let img_show_box = this.data.img_show_box;
         this.setData({
-            img_show_box
+            isShowSheet: true
         });
     }
 })
