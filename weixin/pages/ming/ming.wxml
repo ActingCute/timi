@@ -1,1 +1,20 @@
-<timi-body footCurrent="2">铭文</timi-body>
+<timi-body footCurrent="2">
+    <view class="mbbox c-body">
+        <!-- <image class="fwbg" mode="widthFix" src="{{bg}}" /> -->
+        <view class="fwbox">
+            <block wx:for="{{fw_type}}" wx:key="*this" wx:for-item="fw_item" wx:for-index="fw_index">
+                <view class="{{fw_item}}">
+                    <ul>
+                        <li class="bf">
+                            <view>
+                                <block wx:key="*this" wx:for="{{10}}">
+                                    <image mode="widthFix" class="item bf{{index+1}}" src="{{img_box[fw_index]}}"></image>
+                                </block>
+                            </view>
+                        </li>
+                    </ul>
+                </view>
+            </block>
+        </view>
+    </view>
+</timi-body>

@@ -7,7 +7,15 @@ Page({
         MING_JSON: [],
         data: [],
         animated: true,
-        loading: true
+        loading: true,
+        no_img: "https://wzyz.haibarai.com/fw/no.png",
+        sel_img: "https://wzyz.haibarai.com/fw/sel.png",
+        bg: "https://wzyz.haibarai.com/fwbg.jpg",
+        fw_type: ['blue_fw', 'green_fw', 'red_fw'],
+        img_box: ["https://wzyz.haibarai.com/fw/blue.png",
+            "https://wzyz.haibarai.com/fw/green.png",
+            "https://wzyz.haibarai.com/fw/red.png"
+        ]
     },
     onLoad: function () {
         //标题

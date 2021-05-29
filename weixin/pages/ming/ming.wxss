@@ -1,0 +1,56 @@
+.fwbg{
+    width: 100%;
+}
+
+.fwbox{
+    background-color: wheat;
+    width: 100%;
+    min-height: 800rpx;
+}
+
+.item{
+
+
+    z-index: 100;
+    width: 75rpx;
+    height: 75rpx;
+
+    position: absolute;
+
+}
+
+/* 左右 93 */
+/* 上下 84*/
+/* 斜的 48*/
+.blue_fw .bf1 {left: 106rpx;top: 240rpx;}
+.blue_fw .bf2 {left: 199rpx;top: 240rpx;}
+.blue_fw .bf3 {left: 60rpx;top: 324rpx;}
+.blue_fw .bf4 {left: 153rpx;top: 324rpx} 
+.blue_fw .bf5 {left: 13rpx;top: 408rpx} 
+.blue_fw .bf6 {left: 61rpx;top: 492rpx} 
+.blue_fw .bf7 {left: 13rpx;top: 576rpx;}
+.blue_fw .bf8 {left: 61rpx;top: 660rpx;}
+.blue_fw .bf9 {left: 109rpx;top: 744rpx;}
+.blue_fw .bf10 {left: 202rpx;top: 744rpx;}
+
+.green_fw .bf1 {left: 385rpx;top: 408rpx;}
+.green_fw .bf2 {left: 292rpx;top: 408rpx;}
+.green_fw .bf3 {left: 245rpx;top: 492rpx;}
+.green_fw .bf4 {left: 340rpx;top: 492rpx;} 
+.green_fw .bf5 {left: 432rpx;top: 492rpx;} 
+.green_fw .bf6 {left: 200rpx;top: 576rpx;}
+.green_fw .bf7 {left: 293rpx;top: 576rpx;}
+.green_fw .bf8 {left: 386rpx;top: 576rpx} 
+.green_fw .bf9 {left: 479rpx;top: 576rpx;}  
+.green_fw .bf10 {left: 338rpx;top: 660rpx;}  
+
+.red_fw .bf1 {left: 478rpx;top: 240rpx;}
+.red_fw .bf2 {left: 571rpx;top: 240rpx;}
+.red_fw .bf3 {left: 523rpx;top: 324rpx;}
+.red_fw .bf4 {left: 615rpx;top: 324rpx} 
+.red_fw .bf5 {left: 664rpx;top: 408rpx} 
+.red_fw .bf6 {left: 615rpx;top: 492rpx} 
+.red_fw .bf7 {left: 664rpx;top: 576rpx;}
+.red_fw .bf8 {left: 615rpx;top: 660rpx;}
+.red_fw .bf9 {left: 474rpx;top: 744rpx;}
+.red_fw .bf10 {left: 567rpx;top: 744rpx;}
