@@ -1,1 +1,34 @@
-<view class="container">装备详情</view>
+<timi-body>
+    <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
+    <view show="{{!loading}}" class="c-body">
+        <view class="box relation_box">
+            <view class="card">
+                <view class="card-title">
+                    <view class="card-title-text relation_type">
+                        <image mode="widthFix" class="item_img" src="{{info.cover}}" />
+                        {{info.item_name}}
+                    </view>
+                </view>
+                <view class="card-centent">
+                    <view class="arms_name">
+                        <view class="name">售价：</view>
+                        <view class="value">{{info.total_price}}</view>
+                    </view>
+                    <view class="arms_name">
+                        <view class="name">类型：</view>
+                        <view class="value">{{arms_type}}</view>
+                    </view>
+                    <view>
+                        属性：
+                        <view class="attr1 attr">
+                            <rich-text nodes="<div style='font-size:25rpx;'>{{info.des1}}</div>"></rich-text>
+                        </view>
+                    </view>
+                    <view class="attr" wx:if="{{info.des2}}">
+                        <rich-text nodes="<div style='font-size:25rpx;'>{{info.des2}}</div>"></rich-text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</timi-body>

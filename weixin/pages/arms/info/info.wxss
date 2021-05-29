@@ -1,0 +1,29 @@
+/* 卡片 */
+@import "../../components/hero/css/index.wxss";
+
+.item_img{
+    width: 70rpx;
+}
+
+.arms_name{
+    font-size: 30rpx;
+}
+
+.name{
+    font-size: 35rpx;
+    display: inline-block;
+}
+
+.value{
+    display: inline-block;
+    font-size: 35rpx;
+    color:blue;
+}
+
+.attr{
+    margin-bottom: 20rpx;
+}
+
+.attr1{
+    margin-top: 20rpx;
+}

@@ -2,23 +2,25 @@ const code = require("./utils/code");
 let base_url = "";
 let NAV_DATA = {};
 
+const localhost = "http://172.22.176.1:5000";
+const onlinehost = "https://www.haibarai.com";
 (() => {
   //http请求url
   const version = __wxConfig.envVersion;
   console.log("version:", version)
   switch (version) {
     case "develop": //开发预览版
-      base_url = "http://172.22.176.1:5000";
+      base_url = onlinehost;
       break;
     case 'trial': //体验版
-      base_url = "https://www.haibarai.com";
+      base_url = onlinehost;
       break;
     // break;
     case 'release': //正式版
-      base_url = "https://www.haibarai.com";
+      base_url = onlinehost;
       break;
     default: //未知,默认调用正式版
-      base_url = "https://www.haibarai.com";
+      base_url = onlinehost;
       break;
   }
 

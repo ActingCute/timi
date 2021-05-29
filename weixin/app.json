@@ -1,11 +1,11 @@
 {
   "pages": [
+    "pages/arms/info/info",
     "pages/index/index",
     "pages/hero/hero",
     "pages/hero/info/info",
     "pages/hero/story/story",
     "pages/arms/arms",
-    "pages/arms/info/info",
     "pages/ming/ming",
     "pages/summoner/summoner",
     "pages/logs/logs",
