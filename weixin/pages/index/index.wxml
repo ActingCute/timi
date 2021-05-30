@@ -2,7 +2,7 @@
     <!-- 轮播图 -->
     <view>
         <swiper class="carousel" autoplay indicator-dots>
-            <block wx:for="{{home_data.carousel.data}}" wx:key="*this">
+            <block wx:for="{{home_data.carousel.data}}" wx:key="item">
                 <swiper-item class="carousel-img">
                     <navigator style="background:url({{item.pic.data[1]}});background-repeat: no-repeat;background-size:100% 100%;background-position: center;width:100%;height:100%" url="../hero/info/info?id={{item.ename}}"></navigator>
                 </swiper-item>
@@ -23,7 +23,7 @@
             </view>
         </view>
         <view class="card-centent announcement">
-            <block wx:for="{{home_data.announcement.data}}" wx:key="*this">
+            <block wx:for="{{home_data.announcement.data}}" wx:key="item">
                 <navigator url="../article/article?url=announcement&id={{item.id}}">
                     <view class="announcement-box">
                         <view class="announcement-type">{{item.type}}</view>
@@ -42,7 +42,7 @@
         </view>
         <view class="card-centent hero-box">
             <view class="free-hero-box">
-                <block wx:for="{{home_data.free_hero.data}}" wx:key="*this">
+                <block wx:for="{{home_data.free_hero.data}}" wx:key="item">
                     <navigator class="free-hero-info" url="../hero/info/info?id={{item.ename}}">
                         <view>
                             <image mode="aspectFit" class="free-hero-img" src="{{item.cover}}" />
@@ -69,7 +69,7 @@
             </view>
         </view>
         <view class="card-centent strategy">
-            <block wx:for="{{home_data.strategy.data}}" wx:key="*this">
+            <block wx:for="{{home_data.strategy.data}}" wx:key="item">
                 <navigator url="../article/article?url=strategy&id={{item.id}}">
                     <view class="strategy-box">
                         <image class="strategy-img" mode="aspectFit" src="{{item.cover}}" />

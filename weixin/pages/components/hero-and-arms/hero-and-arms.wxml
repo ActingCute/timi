@@ -4,7 +4,7 @@
     <view class="card-centent item-box">
       <view class="item-type-box">
         <view class="item-type weui-flex">
-          <block wx:for="{{typeData}}" wx:key="*this">
+          <block wx:for="{{typeData}}" wx:key="item">
             <view data-index="{{item.key}}" bind:tap="setHeroType" class="item-type-px weui-flex__item" wx:if="{{index !=0 && index != typeData.length}}">
               |
             </view>
@@ -19,7 +19,7 @@
       <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
       <view class="item-info-box" show="{{!loading}}">
         <mp-row>
-          <mp-col span="{{6}}" wx:for="{{show_list}}" wx:key="*this" bindtap="view" data-index="{{index}}">
+          <mp-col span="{{6}}" wx:for="{{show_list}}" wx:key="item" bindtap="view" data-index="{{index}}">
             <view class="item-info col">
               <image lazy-load="{{true}}" mode="aspectFit" class="item-img" src="{{item.cover}}" />
               <view class="item-name">
