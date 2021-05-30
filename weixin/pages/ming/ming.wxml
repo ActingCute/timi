@@ -17,7 +17,7 @@
             </block>
         </view>
         <view id="level" class="level">
-            总等级：{{level*5}}
+            总等级：{{level}}
             <span class="clean" bind:tap="cleanTip" wx:if="{{level > 0}}">清除</span>
         </view>
         <view wx:if="{{scrollViewHeight != 0}}">

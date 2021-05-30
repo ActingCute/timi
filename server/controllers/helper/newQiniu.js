@@ -15,8 +15,9 @@ config.zone = qiniu.zone.Zone_z2;
 // 上传是否使用cdn加速
 //config.useCdnDomain = true;
 module.exports = {
-    putFile: async(localPath, fname, key) => {
-        return new Promise(async(resolve, reject) => {
+    putFile: async (localPath, fname, key) => {
+
+        return new Promise(async (resolve, reject) => {
 
             const localFile = path.resolve(localPath, fname);
             if (!await fs.existsSync(localFile)) {
@@ -35,23 +36,24 @@ module.exports = {
             // 如果指定了断点记录文件，那么下次会从指定的该文件尝试读取上次上传的进度，以实现断点续传
             putExtra.resumeRecordFile = `log/qiniu/${md5(key + fname)}-progress.log`;
 
-            let uploadToken = qiniuController.WebToken(fname)
+            let uploadToken = qiniuController.WebToken(key)
 
             // 文件分片上传
             resumeUploader.putFile(uploadToken, key, localFile, putExtra, (respErr,
                 respBody, respInfo) => {
 
 
-                if (respBody.error) {
-                    log.error(respBody);
-                    resolve("error");
-                }
+                // if (respBody.error) {
+                //     log.error(respBody);
+                //     resolve("error");
+                // }
 
                 if (respErr) {
                     log.error(respErr);
                     resolve("error");
                     return;
                 }
+                //console.log(respInfo)
                 if (respInfo.statusCode != 200) {
                     resolve("error");
                 } else {

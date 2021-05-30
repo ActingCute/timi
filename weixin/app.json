@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/ming/ming",
     "pages/index/index",
     "pages/hero/hero",
     "pages/hero/info/info",
@@ -10,8 +11,7 @@
     "pages/logs/logs",
     "pages/article/article",
     "pages/announcement/announcement",
-    "pages/strategy/strategy",
-    "pages/ming/ming"
+    "pages/strategy/strategy"
   ],
   "tabBar": {
     "list": [

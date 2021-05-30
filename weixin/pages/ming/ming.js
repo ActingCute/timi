@@ -1,4 +1,7 @@
 const app = getApp();
+const globalData = app.globalData;
+const { NAV_DATA } = globalData;
+
 //写的有点混乱 ，将就下咯
 Page({
     data: {
@@ -96,15 +99,19 @@ Page({
             }
         }
         //更新总值 即全部铭文的效果
-        let allValue = this.data.allValue;
+        let allValue = {};
         let ming_value_show = {};
         let level = 0;
         for (let i = 0; i < this.data.fw_type.length; i++) {
-            this.data.ming_list[this.data.fw_type[i]].forEach(ele => {
+            this.data.img_show_box[this.data.fw_type[i]].forEach(ele => {
+                if (ele.id < 0) return true;
                 if (ele.num != 10) {
-                    level += 10 - ele.num;
                     if (!ming_value_show[this.data.fw_type[i]]) ming_value_show[this.data.fw_type[i]] = [];
-                    ming_value_show[this.data.fw_type[i]].push(ele)
+                    //排除重复
+                    let has = ming_value_show[this.data.fw_type[i]].find(ele_item => ele_item.id == ele.id);
+                    if (!has) {
+                        ming_value_show[this.data.fw_type[i]].push(ele);
+                    }
                     ele.attribute.forEach(item => {
                         for (let j in item) {
                             if (!allValue[j]) {
@@ -130,8 +137,17 @@ Page({
             attrArr.push(item);
         }
 
+        for (let i = 0; i < this.data.fw_type.length; i++) {
+            if (!ming_value_show[this.data.fw_type[i]]) continue;
+            ming_value_show[this.data.fw_type[i]].forEach(ele => {
+                let num = 10 - ele.num;
+                level += num;
+            })
+        }
+
+        level *= 5;
+
         ming_value_show['show_attr'] = this.formatValue1(attrArr);
-        console.log(ming_value_show)
         this.setData({
             level,
             ming_value_show,
@@ -270,8 +286,10 @@ Page({
         let windowHeight = 0;
         let tabbarHeight = 0
         let pixelRatio = 1;
+        let isIos = false;
         wx.getSystemInfo({
             success: function (res) {
+                isIos = res.system.toLowerCase().indexOf("ios") != -1
                 windowHeight = res.windowHeight;
                 pixelRatio = res.pixelRatio;
                 tabbarHeight = (res.screenHeight - windowHeight - res.statusBarHeight) * pixelRatio
@@ -286,9 +304,11 @@ Page({
             let h1 = res[0].height;
             let h2 = res[1].height;
             let scrollViewHeight = windowHeight - h1 - h2 - tabbarHeight;
-
+            if (!isIos) {
+                scrollViewHeight -= NAV_DATA.height;
+            }
             this.setData({
-                scrollViewHeight: (scrollViewHeight < 100 ? 500 : scrollViewHeight) + ''
+                scrollViewHeight: (scrollViewHeight < 50 ? 500 : scrollViewHeight) + ''
             });
         });
 

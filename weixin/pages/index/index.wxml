@@ -4,7 +4,7 @@
         <swiper class="carousel" autoplay indicator-dots>
             <block wx:for="{{home_data.carousel.data}}" wx:key="*this">
                 <swiper-item class="carousel-img">
-                    <view style="background:url({{item.pic.data[1]}});background-repeat: no-repeat;background-size:100% 100%;background-position: center;width:100%;height:100%"></view>
+                    <navigator style="background:url({{item.pic.data[1]}});background-repeat: no-repeat;background-size:100% 100%;background-position: center;width:100%;height:100%" url="../hero/info/info?id={{item.ename}}"></navigator>
                 </swiper-item>
             </block>
         </swiper>
@@ -43,12 +43,14 @@
         <view class="card-centent hero-box">
             <view class="free-hero-box">
                 <block wx:for="{{home_data.free_hero.data}}" wx:key="*this">
-                    <view class="free-hero-info">
-                        <image mode="aspectFit" class="free-hero-img" src="{{item.cover}}" />
-                        <view class="free-hero-name">
-                            <view class="free-hero-name-text">{{item.cname}}</view>
+                    <navigator class="free-hero-info" url="../hero/info/info?id={{item.ename}}">
+                        <view>
+                            <image mode="aspectFit" class="free-hero-img" src="{{item.cover}}" />
+                            <view class="free-hero-name">
+                                <view class="free-hero-name-text">{{item.cname}}</view>
+                            </view>
                         </view>
-                    </view>
+                    </navigator>
                 </block>
             </view>
         </view>
