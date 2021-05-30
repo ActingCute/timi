@@ -12,11 +12,14 @@ const fs = require("fs");
 const summoner_json = "https://pvp.qq.com/web201605/js/summoner.json";
 
 
-let getArmsImg = (summoner_id) => {
+let getSummonerImg = (summoner_id) => {
     return `http://game.gtimg.cn/images/yxzj/img201606/summoner/${summoner_id}.jpg`;
 }
 
 module.exports = {
+    getSummoner: (summoner_id) => { //获取指定id的召唤师技能
+        return SUMMONER.find(item => item.summoner_id == Number(summoner_id)) || "";
+    },
     getData: async () => {
         await baseController.Mkdir(pic_dir);
 
@@ -39,7 +42,7 @@ module.exports = {
                 const pic_name = SUMMONER[i].summoner_name + ".png";
                 const qiniu_path = "summoner/" + pic_name;
                 let cover = dbConfig.qiniu.Dns + qiniu_path;
-                const pic_src = getArmsImg(SUMMONER[i].summoner_id);
+                const pic_src = getSummonerImg(SUMMONER[i].summoner_id);
                 SUMMONER[i].cover = cover;
                 const file_path = path.resolve(local_path, pic_name);
 

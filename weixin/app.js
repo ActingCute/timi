@@ -2,7 +2,7 @@ const code = require("./utils/code");
 let base_url = "";
 let NAV_DATA = {};
 
-const localhost = "http://172.22.176.1:5000";
+const localhost = "http://127.0.0.1:5000";
 const onlinehost = "https://www.haibarai.com";
 (() => {
   //http请求url
@@ -10,7 +10,7 @@ const onlinehost = "https://www.haibarai.com";
   console.log("version:", version)
   switch (version) {
     case "develop": //开发预览版
-      base_url = onlinehost;
+      base_url = localhost;
       break;
     case 'trial': //体验版
       base_url = onlinehost;

@@ -53,12 +53,12 @@ let init = async (need_clean) => {
         }
 
         //爬取数据
+        await summoner.getData(); //召唤师技能
         await arms.getData(); //局内装备
         await ming.getData(); //铭文
         await heroList.getData(); //爬取英雄列表数据
         await heroInfo.getData(); //爬取英雄详情，如技能数据
         await heroWallpaper.getData(); //英雄皮肤
-        await summoner.getData(); //召唤师技能
         await announcement.getData(); //新闻 公告 
         await strategy.getData(); //攻略
 

@@ -35,7 +35,7 @@ Page({
                 }
             },
             fail(err) {
-                console.err(err);
+                console.error(err);
                 wx.hideToast();
                 wx.showToast({
                     title: err,

@@ -7,10 +7,11 @@
                 <view class="title">{{info0.title}}</view>
                 <rich-text nodes="{{info0.text}}"></rich-text>
             </view>
-            <view wx:if="{{info1 != null}}" class="info1">
+            <!-- 历史上的Ta暂时不要了 -->
+            <!-- <view wx:if="{{info1 != null}}" class="info1">
                 <view class="title">{{info1.title}}</view>
                 <rich-text nodes="{{info1.text}}"></rich-text>
-            </view>
+            </view> -->
         </view>
     </view>
 </timi-body>

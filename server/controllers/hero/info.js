@@ -13,6 +13,8 @@ const heroController = require("./list");
 const dbConfig = require("../../config/databases");
 const mingController = require("../props/ming");
 const armsController = require("../props/arms");
+const summonerController = require("../props/summoner");
+
 let skill_pic_dir = "public/hero";
 
 //基础属性
@@ -208,17 +210,6 @@ let heroSkillImages = async ($, index) => {
     })
 }
 
-//获取技能图片
-let getheroRecommendedSkill = (hero_name, skill_name) => {
-    return dbConfig.qiniu.Dns + `hero/${hero_name}/skill/${skill_name}.png`
-}
-
-//获取召唤师推荐技能图片
-let getheroRecommendedSummoner = (summoner_name) => {
-    if (summoner_name == "斩杀") summoner_name = "终结";
-    return dbConfig.qiniu.Dns + `summoner/${summoner_name}.png`
-}
-
 //获取英雄推荐升级技能
 let getHeroSkill = (index, skill_name, type) => {
     let skill_data = HERO[index].skill.find(item => item.name == skill_name) || "";
@@ -241,13 +232,28 @@ let heroRecommendedUpgradeSkill = async ($, index) => {
                 getHeroSkill(index, second_skill_name, "副加")
             ];
 
+            //比较迁就之前的代码 .. 所以
             //召唤师技能
-            let master_skill = $(".sugg-info2.info p.sugg-name3");
-            let desc = master_skill.find("b").text();
-            let name = master_skill.find("span").text();
-            let names = name.split("/");
+            let master_skill = $("#skill3");
+            let id_str = master_skill.attr("data-skill");
+            let ids = id_str.split("|");
+
+            let name = ""
             let covor = [];
-            for (let i = 0; i < names.length; i++) covor.push(getheroRecommendedSummoner(names[i]));
+
+            for (let si = 0; si < ids.length; si++) {
+                let s = summonerController.getSummoner(ids[si]);
+                if (s) {
+                    covor.push(s.cover);
+                    if (name) {
+                        name += "/" + s.summoner_name;
+                    } else {
+                        name = s.summoner_name;
+                    }
+                }
+            }
+
+            let desc = "召唤师技能推荐";
             HERO[index].master_skill = { desc, name, covor };
 
             resolve("爬取英雄推荐加点和召唤师技能：ok");
