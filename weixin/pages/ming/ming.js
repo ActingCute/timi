@@ -2,10 +2,15 @@ const app = getApp();
 //写的有点混乱 ，将就下咯
 Page({
     data: {
+        clen_data: {
+            dialogShow: false,
+            showOneButtonDialog: false,
+            buttons: [{ text: '取消' }, { text: '确定' }],
+        },
+        scrollViewHeight: 0,
         activeTab: 0,
         tabs: ['蓝色', '绿色', '红色'],
         MING_JSON: [],
-        data: [],
         animated: true,
         loading: true,
         no_img: "https://wzyz.haibarai.com/fw/no.png",
@@ -36,6 +41,7 @@ Page({
             red_fw: [],
             show_attr: [] //存放总铭文值
         },
+        level: 0,
         allValue: {}//做缓存用
     },
     view(e) {
@@ -92,9 +98,11 @@ Page({
         //更新总值 即全部铭文的效果
         let allValue = this.data.allValue;
         let ming_value_show = {};
+        let level = 0;
         for (let i = 0; i < this.data.fw_type.length; i++) {
             this.data.ming_list[this.data.fw_type[i]].forEach(ele => {
                 if (ele.num != 10) {
+                    level += 10 - ele.num;
                     if (!ming_value_show[this.data.fw_type[i]]) ming_value_show[this.data.fw_type[i]] = [];
                     ming_value_show[this.data.fw_type[i]].push(ele)
                     ele.attribute.forEach(item => {
@@ -125,6 +133,7 @@ Page({
         ming_value_show['show_attr'] = this.formatValue1(attrArr);
         console.log(ming_value_show)
         this.setData({
+            level,
             ming_value_show,
             allValue,
             img_show_box,
@@ -208,7 +217,81 @@ Page({
         }
         return show_attr;
     },
+    cleanTip() {
+        this.setData({
+            clen_data: {
+                dialogShow: true,
+                showOneButtonDialog: false,
+                buttons: [{ text: '取消' }, { text: '确定' }],
+            }
+        });
+    },
+    clean(e) {
+        let { index } = e.detail;
+        if (index == 1) {
+            this.setData({
+                img_show_box: { //展示在页面的格子
+                    blue_fw: [],
+                    green_fw: [],
+                    red_fw: []
+                },
+                ming_list: {   //分好类的铭文
+                    blue_fw: [],
+                    green_fw: [],
+                    red_fw: []
+                },
+                ming_key: 'blue_fw',
+                ming_index: 0,
+                ming_show: [], //弹出选择的列表
+                isShowSheet: false,
+                ming_value_show: {   //已经选择好的铭文
+                    blue_fw: [],
+                    green_fw: [],
+                    red_fw: [],
+                    show_attr: [] //存放总铭文值
+                },
+                level: 0,
+                allValue: {}//做缓存用
+            })
+            this.init();
+        }
+
+        this.setData({
+            clen_data: {
+                dialogShow: false,
+                showOneButtonDialog: false,
+                buttons: [{ text: '取消' }, { text: '确定' }],
+            }
+        });
+
+    },
     onLoad: function () {
+        // 计算铭文值得剩余高度
+        let windowHeight = 0;
+        let tabbarHeight = 0
+        let pixelRatio = 1;
+        wx.getSystemInfo({
+            success: function (res) {
+                windowHeight = res.windowHeight;
+                pixelRatio = res.pixelRatio;
+                tabbarHeight = (res.screenHeight - windowHeight - res.statusBarHeight) * pixelRatio
+            }
+        });
+        let query = wx.createSelectorQuery().in(this);
+        query.select('#fwbox').boundingClientRect();
+        query.select('#level').boundingClientRect();
+
+        query.exec((res) => {
+
+            let h1 = res[0].height;
+            let h2 = res[1].height;
+            let scrollViewHeight = windowHeight - h1 - h2 - tabbarHeight;
+
+            this.setData({
+                scrollViewHeight: (scrollViewHeight < 100 ? 500 : scrollViewHeight) + ''
+            });
+        });
+
         //标题
         app.globalData.SET_TITLE("铭文模拟器");
         let MING_JSON = require("../../json/minwen").data;

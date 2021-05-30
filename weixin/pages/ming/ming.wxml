@@ -1,7 +1,7 @@
 <timi-body footCurrent="2">
     <view class="mbbox c-body">
         <!-- <image class="fwbg" mode="widthFix" src="{{bg}}" /> -->
-        <view class="fwbox">
+        <view class="fwbox" id="fwbox">
             <block wx:for="{{fw_type}}" wx:key="*this" wx:for-item="fw_item" wx:for-index="fw_index">
                 <view class="{{fw_item}}">
                     <ul>
@@ -16,24 +16,33 @@
                 </view>
             </block>
         </view>
-        <view>
-            <scroll-view scroll-y="true" style="height:320rpx">
-                <mp-row>
-                    <mp-col span="{{12}}">
-                        <block wx:for="{{fw_type}}" wx:key="fw_item" wx:for-item="fw_item" wx:for-index="fw_index">
-                            <view wx:if="{{ming_value_show[fw_item]}}">
-                                <block wx:key="*this" wx:for="{{ming_value_show[fw_item]}}">
-                                    <image class="ming_img" mode="widthFix" src="{{item.src}}"></image>
-                                </block>
-                            </view>
-                        </block>
-                    </mp-col>
-                    <mp-col span="{{12}}">
-                        <block wx:key="attr_item" wx:for-item="attr_item" wx:for-index="attr_index" wx:for="{{ming_value_show.show_attr}}">
-                            <view>{{attr_item}}</view>
-                        </block>
-                    </mp-col>
-                </mp-row>
+        <view id="level" class="level">
+            总等级：{{level*5}}
+            <span class="clean" bind:tap="cleanTip" wx:if="{{level > 0}}">清除</span>
+        </view>
+        <view wx:if="{{scrollViewHeight != 0}}">
+            <scroll-view scroll-y style="height: {{scrollViewHeight}}px">
+                <view class="attr_show_box">
+                    <mp-row>
+                        <mp-col span="{{12}}">
+                            <block wx:for="{{fw_type}}" wx:key="fw_item" wx:for-item="fw_item" wx:for-index="fw_index">
+                                <view wx:if="{{ming_value_show[fw_item]}}">
+                                    <block wx:key="*this" wx:for="{{ming_value_show[fw_item]}}">
+                                        <view class="ming_num_box">
+                                            <image class="ming_img" mode="widthFix" src="{{item.src}}"></image>
+                                            <view class="ming_num">x{{10-item.num}}</view>
+                                        </view>
+                                    </block>
+                                </view>
+                            </block>
+                        </mp-col>
+                        <mp-col span="{{12}}">
+                            <block wx:key="attr_item" wx:for-item="attr_item" wx:for-index="attr_index" wx:for="{{ming_value_show.show_attr}}">
+                                <view class="attr_item_">{{attr_item}}</view>
+                            </block>
+                        </mp-col>
+                    </mp-row>
+                </view>
             </scroll-view>
         </view>
         <actionst isShowSheet="{{isShowSheet}}" class="actionst" tops="600rpx">
@@ -74,5 +83,8 @@
                 </scroll-view>
             </view>
         </actionst>
+        <mp-dialog title="提示" show="{{clen_data.dialogShow}}" bindbuttontap="clean" buttons="{{clen_data.buttons}}">
+            <view>确认清除？</view>
+        </mp-dialog>
     </view>
 </timi-body>

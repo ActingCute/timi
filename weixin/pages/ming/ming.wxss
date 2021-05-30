@@ -1,5 +1,5 @@
-.fwbg{
-    width: 100%;
+.c-body{
+    max-height: 100%;
 }
 
 .fwbox{
@@ -13,7 +13,6 @@
     width: 75rpx;
     height: 75rpx;
     position: absolute;
-
 }
 
 /* 左右 93 */
@@ -148,6 +147,40 @@
 }
 
 .ming_img{
-    width: 50rpx;
-    height: 50rpx;
+    width: 60rpx;
+    height: 60rpx;
+}
+
+.attr_show_box{
+    padding: 20rpx 0rpx 0rpx 20rpx;
+}
+
+.ming_num_box{
+    text-align: center;
+    display: inline-block;
+    margin-right: 20rpx;
+}
+
+.ming_num{
+    font-size: 30rpx;
+    color: blue;
+}
+
+.level{
+    font-size: 30rpx;
+    font-weight: bold;
+    color: blue;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    padding: 10rpx 10rpx 10rpx 20rpx;
+}
+
+.attr_item_{
+    font-size: 30rpx;
+    color: blue;
+}
+
+.clean{
+    float: right;
+    margin-right: 20rpx;
+    font-size: 30rpx;
 }
