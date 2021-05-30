@@ -83,6 +83,7 @@
                 </scroll-view>
             </view>
         </actionst>
+        <!-- 删除提示 -->
         <mp-dialog title="提示" show="{{clen_data.dialogShow}}" bindbuttontap="clean" buttons="{{clen_data.buttons}}">
             <view>确认清除？</view>
         </mp-dialog>

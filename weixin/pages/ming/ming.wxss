@@ -124,6 +124,7 @@
 
 .ming_attr_value{
     font-size: 25rpx; 
+    margin-bottom: 10rpx;
 }
 
 .title{
