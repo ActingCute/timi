@@ -5,7 +5,7 @@
 .fwbox{
     background-color: wheat;
     width: 100%;
-    min-height: 800rpx;
+    height: 800rpx;
 }
 
 .item{
@@ -125,4 +125,29 @@
 
 .ming_attr_value{
     font-size: 25rpx; 
+}
+
+.title{
+    font-size: 40rpx;
+    font-weight: bold;
+    border-bottom: 1px solid  rgba(0,0,0,0.2);
+    padding: 20rpx 0rpx 20rpx 40rpx;
+
+}
+
+.blue{
+    color: blue;
+}
+
+.red{
+    color: red;
+}
+
+.green{
+    color: green;
+}
+
+.ming_img{
+    width: 50rpx;
+    height: 50rpx;
 }

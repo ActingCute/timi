@@ -1,6 +1,5 @@
 <!-- 英雄列表和装备列表主件 -->
-<mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
-<timi-body show="{{!loading}}" class="big-box">
+<timi-body class="big-box">
   <view class="card">
     <view class="card-centent item-box">
       <view class="item-type-box">
@@ -17,7 +16,8 @@
           </block>
         </view>
       </view>
-      <view class="item-info-box">
+      <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
+      <view class="item-info-box" show="{{!loading}}">
         <mp-row>
           <mp-col span="{{6}}" wx:for="{{show_list}}" wx:key="*this" bindtap="view" data-index="{{index}}">
             <view class="item-info col">

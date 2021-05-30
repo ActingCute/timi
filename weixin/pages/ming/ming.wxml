@@ -16,16 +16,41 @@
                 </view>
             </block>
         </view>
-        <actionst isShowSheet="{{isShowSheet}}" class="actionst" tops="500rpx">
-            <view class="tab-select">
+        <view>
+            <scroll-view scroll-y="true" style="height:320rpx">
+                <mp-row>
+                    <mp-col span="{{12}}">
+                        <block wx:for="{{fw_type}}" wx:key="fw_item" wx:for-item="fw_item" wx:for-index="fw_index">
+                            <view wx:if="{{ming_value_show[fw_item]}}">
+                                <block wx:key="*this" wx:for="{{ming_value_show[fw_item]}}">
+                                    <image class="ming_img" mode="widthFix" src="{{item.src}}"></image>
+                                </block>
+                            </view>
+                        </block>
+                    </mp-col>
+                    <mp-col span="{{12}}">
+                        <block wx:key="attr_item" wx:for-item="attr_item" wx:for-index="attr_index" wx:for="{{ming_value_show.show_attr}}">
+                            <view>{{attr_item}}</view>
+                        </block>
+                    </mp-col>
+                </mp-row>
+            </scroll-view>
+        </view>
+        <actionst isShowSheet="{{isShowSheet}}" class="actionst" tops="600rpx">
+            <!-- <view class="tab-select">
                 <block wx:for="{{tabs}}" wx:key="*this">
                     <button class="tm-button btn lf {{activeTab==index?'view':''}}" bindtap="view" data-index="{{index}}">
                         {{item}}
                     </button>
                 </block>
+            </view> -->
+            <view class="title">
+                <view class="blue" wx:if="{{ming_key == 'blue_fw'}}">蓝色</view>
+                <view class="red" wx:if="{{ming_key == 'red_fw'}}">红色</view>
+                <view class="green" wx:if="{{ming_key == 'green_fw'}}">绿色</view>
             </view>
             <view>
-                <scroll-view scroll-y="true" style="height: 450rpx">
+                <scroll-view scroll-y="true" style="height: 550rpx">
                     <mp-row>
                         <view class="ming_list">
                             <block wx:for="{{ming_show}}" wx:key="ming_show_index" wx:for-index="ming_show_index">
@@ -39,7 +64,9 @@
                                             <view class="ming_attr_value">{{attr}}</view>
                                         </block>
                                     </mp-col>
-                                    <mp-col class="ming_item_" span="{{6}}">x{{item.num}}</mp-col>
+                                    <mp-col class="ming_item_ {{item.num!=10?'red':''}}" span="{{6}}">
+                                        x{{item.num}}
+                                    </mp-col>
                                 </view>
                             </block>
                         </view>

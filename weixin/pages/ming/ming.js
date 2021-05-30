@@ -1,7 +1,5 @@
 const app = getApp();
-const globalData = app.globalData;
-const { CODE, MSG, BASE_URL } = globalData;
-
+//写的有点混乱 ，将就下咯
 Page({
     data: {
         activeTab: 0,
@@ -18,20 +16,27 @@ Page({
             "https://wzyz.haibarai.com/fw/green.png",
             "https://wzyz.haibarai.com/fw/red.png"
         ],
-        img_show_box: {
+        img_show_box: { //展示在页面的格子
             blue_fw: [],
             green_fw: [],
             red_fw: []
         },
-        ming_list: {
+        ming_list: {   //分好类的铭文
             blue_fw: [],
             green_fw: [],
             red_fw: []
         },
         ming_key: 'blue_fw',
         ming_index: 0,
-        ming_show: [],
-        isShowSheet: false
+        ming_show: [], //弹出选择的列表
+        isShowSheet: false,
+        ming_value_show: {   //已经选择好的铭文
+            blue_fw: [],
+            green_fw: [],
+            red_fw: [],
+            show_attr: [] //存放总铭文值
+        },
+        allValue: {}//做缓存用
     },
     view(e) {
         let activeTab = e.currentTarget.dataset.index || 0;
@@ -53,12 +58,79 @@ Page({
     },
     useMing(e) {
         let { index } = e.currentTarget.dataset;
-        console.log("index -- ", index)
-
-        this.data.img_show_box[this.data.ming_key][this.data.ming_index] = this.data.ming_show[index];
+        let item = this.data.ming_show[index];
+        //设置在格子上
+        this.data.img_show_box[this.data.ming_key][this.data.ming_index] = item;
         let img_show_box = this.data.img_show_box;
+
+        //更新使用数量
+        let data = this.data.img_show_box[this.data.ming_key].reduce((ids, ele) => {
+            if (ele.id != -1) {
+                if (!ids[ele.id]) ids[ele.id] = 0;
+                ids[ele.id]++;
+            }
+            return ids;
+        }, {});
+        if (data) {
+            for (let id in data) {
+                let num = 10 - data[id];
+                if (num < 0) {
+                    num = 0;
+                }
+                this.data.ming_show.forEach(ele => {
+                    if (ele.id == id) {
+                        ele.num = num;
+                    }
+                });
+                this.data.ming_list[this.data.ming_key].forEach(ele => {
+                    if (ele.id == id) {
+                        ele.num = num;
+                    }
+                });
+            }
+        }
+        //更新总值 即全部铭文的效果
+        let allValue = this.data.allValue;
+        let ming_value_show = {};
+        for (let i = 0; i < this.data.fw_type.length; i++) {
+            this.data.ming_list[this.data.fw_type[i]].forEach(ele => {
+                if (ele.num != 10) {
+                    if (!ming_value_show[this.data.fw_type[i]]) ming_value_show[this.data.fw_type[i]] = [];
+                    ming_value_show[this.data.fw_type[i]].push(ele)
+                    ele.attribute.forEach(item => {
+                        for (let j in item) {
+                            if (!allValue[j]) {
+                                if (j != 'sign') {
+                                    allValue[j] = { value: parseFloat(item[j]).toFixed(2), sign: item['sign'] }
+                                }
+                            } else {
+                                if (j != 'sign') {
+                                    let v = parseFloat(allValue[j]['value']) + parseFloat(item[j]);
+                                    allValue[j]['value'] = v.toFixed(2);
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        let attrArr = [];
+        for (let i in allValue) {
+            let item = {
+                [i]: allValue[i]['value'], sign: allValue[i]['sign']
+            };
+            attrArr.push(item);
+        }
+
+        ming_value_show['show_attr'] = this.formatValue1(attrArr);
+        console.log(ming_value_show)
         this.setData({
-            img_show_box
+            ming_value_show,
+            allValue,
+            img_show_box,
+            isShowSheet: false,
+            ming_show: this.data.ming_show,
+            ming_list: this.data.ming_list
         });
     },
     init() {
@@ -88,46 +160,53 @@ Page({
             }
             //分类
             let ming = this.data.MING_JSON;
-            console.log("ming -- ", ming)
-            for (let k = 0; k < ming.length; k++) {
-                let item = ming[k];
-                let key = "";
-                if (i == 0) {
-                    key = "蓝色";
-                    //蓝
-                } else if (i == 1) {
-                    //绿
-                    key = "绿色";
-                } else {
-                    //红
-                    key = "红色";
-                }
-                if (item.type.indexOf(key) != -1) {
-                    item.num = 10;
-                    //重新组装下数据给前台显示
-                    item.show_attr = [];
-                    for (let n = 0; n < item.attribute.length; n++) {
-                        let attr = "";
-                        for (let m in item.attribute[n]) {
-                            if (m == 'sign') {
-                                attr += item.attribute[n][m];
-                            } else {
-                                attr = m + item.attribute[n][m];
-                            }
-                        }
-                        item.show_attr.push(attr);
-                    }
-                    ming_list[this.data.fw_type[i]].push(item);
-                }
-            }
-            console.log("ming_list -- ", ming_list)
-
+            ming_list[this.data.fw_type[i]] = this.formatValue(i, ming);
         }
         this.setData({
             img_show_box,
             ming_list
         });
 
+    },
+    formatValue(i, ming) {
+        let data = [];
+        for (let k = 0; k < ming.length; k++) {
+            let item = ming[k];
+            let key = "";
+            if (i == 0) {
+                key = "蓝色";
+                //蓝
+            } else if (i == 1) {
+                //绿
+                key = "绿色";
+            } else {
+                //红
+                key = "红色";
+            }
+            if (item.type.indexOf(key) != -1) {
+                item.num = 10;
+                //重新组装下数据给前台显示
+                item.show_attr = this.formatValue1(item.attribute);
+
+                data.push(item);
+            }
+        }
+        return data;
+    },
+    formatValue1(arr) {
+        let show_attr = [];
+        for (let n = 0; n < arr.length; n++) {
+            let attr = "";
+            for (let m in arr[n]) {
+                if (m == 'sign') {
+                    attr += arr[n][m];
+                } else {
+                    attr = m + arr[n][m];
+                }
+            }
+            show_attr.push(attr);
+        }
+        return show_attr;
     },
     onLoad: function () {
         //标题
@@ -136,44 +215,9 @@ Page({
         for (let i = 0; i < MING_JSON.length; i++) {
             MING_JSON[i].src = `https://wzyz.haibarai.com/ming/${MING_JSON[i].name}.png`;
         }
-        console.log(MING_JSON);
         this.setData({
             MING_JSON
         });
         this.init();
-        //this.getData();
-    },
-    getData() {
-        let that = this;
-        wx.request({
-            url: BASE_URL + '/timi/summoner',
-            data: {},
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                if (res.statusCode == 200 && res.data.Code == CODE.Success) {
-                    that.setData({
-                        data: res.data.Data
-                    })
-                    console.log(res.data.Data);
-                }
-            },
-            fail(err) {
-                console.err(err);
-                wx.hideToast();
-                wx.showToast({
-                    title: err,
-                    icon: 'error',
-                    duration: 2000
-                });
-            },
-            complete(c) {
-                that.setData({
-                    animated: false,
-                    loading: false
-                });
-            }
-        })
     }
 })
