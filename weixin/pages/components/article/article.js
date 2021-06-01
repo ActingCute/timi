@@ -1,8 +1,5 @@
 const app = getApp()
-const globalData = app.globalData;
-const { CODE, MSG, BASE_URL } = globalData;
-
-console.log("BASE_URL", BASE_URL);
+const helper = require("../../../utils/util");
 app.globalData.SET_TITLE("嘤嘤嘤~");
 
 Component({
@@ -23,51 +20,34 @@ Component({
     getData(url) {
       if (!url) return;
       let that = this;
-      wx.request({
-        url: BASE_URL + url,
-        data: {
-          sContent: "",
-          sTitle: "",
-          sIdxTime: ""
-        },
-        header: {
-          'content-type': 'application/json'
-        },
-        success(res) {
-          if (res.statusCode == 200 && res.data.Code == CODE.Success) {
-            let { sContent, sTitle, sIdxTime } = res.data.Data.data;
-            //标题
-            app.globalData.SET_TITLE(sTitle);
-            sContent = sContent.replace(/<p([\s\w"=\/\.:;]+)((?:(style="[^"]+")))/ig, '<p')
-              .replace(/<p>/ig, '<p style="font-size: 19px;">')
-              .replace(/<img([\s\w"-=\/\.:;]+)((?:(height="[^"]+")))/ig, '<img$1')
-              .replace(/<img([\s\w"-=\/\.:;]+)((?:(width="[^"]+")))/ig, '<img$1')
-              .replace(/<img([\s\w"-=\/\.:;]+)((?:(style="[^"]+")))/ig, '<img$1')
-              .replace(/<img([\s\w"-=\/\.:;]+)((?:(alt="[^"]+")))/ig, '<img$1')
-              .replace(/<img([\s\w"-=\/\.:;]+)/ig, '<img style="width: 100%;" $1');
-            sContent = "<div style='width:95%;margin:0 auto;padding-top:20px;padding-bottom:20px'>" + sContent + "</div>";
-            that.setData({
-              sContent, sTitle, sIdxTime
-            });
-            console.log(res.data.Data);
-          }
-        },
-        fail(err) {
-          console.error(err);
-          wx.hideToast();
-          wx.showToast({
-            title: err,
-            icon: 'error',
-            duration: 2000
-          });
-        },
-        complete(c) {
-          that.setData({
-            animated: false,
-            loading: false
-          });
-        }
-      })
+      // url, data, success_msg, err_msg, callBack, completeFunc
+      helper.HttpGet(url, {
+        sContent: "",
+        sTitle: "",
+        sIdxTime: ""
+      }, "", "页面数据获取失败", (data) => {
+        //callBack
+        let { sContent, sTitle, sIdxTime } = data.data;
+        //标题
+        app.globalData.SET_TITLE(sTitle);
+        sContent = sContent.replace(/<p([\s\w"=\/\.:;]+)((?:(style="[^"]+")))/ig, '<p')
+          .replace(/<p>/ig, '<p style="font-size: 19px;">')
+          .replace(/<img([\s\w"-=\/\.:;]+)((?:(height="[^"]+")))/ig, '<img$1')
+          .replace(/<img([\s\w"-=\/\.:;]+)((?:(width="[^"]+")))/ig, '<img$1')
+          .replace(/<img([\s\w"-=\/\.:;]+)((?:(style="[^"]+")))/ig, '<img$1')
+          .replace(/<img([\s\w"-=\/\.:;]+)((?:(alt="[^"]+")))/ig, '<img$1')
+          .replace(/<img([\s\w"-=\/\.:;]+)/ig, '<img style="width: 100%;" $1');
+        sContent = "<div style='width:95%;margin:0 auto;padding-top:20px;padding-bottom:20px'>" + sContent + "</div>";
+        that.setData({
+          sContent, sTitle, sIdxTime
+        });
+      }, () => {
+        //completeFunc
+        that.setData({
+          animated: false,
+          loading: false
+        });
+      });
     }
   }
 })

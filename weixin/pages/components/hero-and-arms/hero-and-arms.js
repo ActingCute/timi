@@ -1,6 +1,4 @@
-const app = getApp()
-const globalData = app.globalData;
-const { CODE, MSG, BASE_URL } = globalData;
+const helper = require("../../../utils/util");
 
 Component({
   data: {
@@ -20,36 +18,20 @@ Component({
   methods: {
     getData() {
       let that = this;
-      wx.request({
-        url: BASE_URL + that.data.dataUrl,
-        data: {},
-        header: {
-          'content-type': 'application/json'
-        },
-        success(res) {
-          if (res.statusCode == 200 && res.data.Code == CODE.Success) {
-            that.setData({
-              list: res.data.Data,
-              show_list: res.data.Data
-            })
-          }
-        },
-        fail(err) {
-          console.error(err);
-          wx.hideToast();
-          wx.showToast({
-            title: err,
-            icon: 'error',
-            duration: 2000
-          });
-        },
-        complete(c) {
-          that.setData({
-            animated: false,
-            loading: false
-          });
-        }
-      })
+      // url, data, success_msg, err_msg, callBack, completeFunc
+      helper.HttpGet(that.data.dataUrl, {}, "", "列表数据获取失败", (data) => {
+        //callBack
+        that.setData({
+          list: data,
+          show_list: data
+        })
+      }, () => {
+        //completeFunc
+        that.setData({
+          animated: false,
+          loading: false
+        });
+      });
     },
     setHeroType(e) {
       //获取设置的类型
@@ -84,12 +66,7 @@ Component({
       console.log("url - ", url);
       wx.navigateTo({
         url, fail(err) {
-          wx.hideToast();
-          wx.showToast({
-            title: "跳转错误",
-            icon: 'error',
-            duration: 2000
-          });
+          helper.showToast("跳转错误", "error");
           console.log(err);
         }
       });

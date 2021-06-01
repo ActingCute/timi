@@ -1,6 +1,5 @@
 const app = getApp();
-const globalData = app.globalData;
-const { CODE, MSG, BASE_URL } = globalData;
+const helper = require("../../utils/util");
 
 Page({
     data: {
@@ -20,35 +19,18 @@ Page({
     },
     getData() {
         let that = this;
-        wx.request({
-            url: BASE_URL + '/timi/home',
-            data: {},
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                if (res.statusCode == 200 && res.data.Code == CODE.Success) {
-                    that.setData({
-                        home_data: res.data.Data
-                    })
-                    console.log(res.data.Data);
-                }
-            },
-            fail(err) {
-                console.error(err);
-                wx.hideToast();
-                wx.showToast({
-                    title: err,
-                    icon: 'error',
-                    duration: 2000
-                });
-            },
-            complete(c) {
-                that.setData({
-                    animated: false,
-                    loading: false
-                });
-            }
-        })
+        // url, data, success_msg, err_msg, callBack, completeFunc
+        helper.HttpGet('/timi/home', {}, "", "页面数据获取失败", (home_data) => {
+            //callBack
+            that.setData({
+                home_data
+            })
+        }, () => {
+            //completeFunc
+            that.setData({
+                animated: false,
+                loading: false
+            });
+        });
     }
 })

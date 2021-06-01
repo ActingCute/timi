@@ -1,6 +1,5 @@
 const app = getApp();
-const globalData = app.globalData;
-const { CODE, MSG, BASE_URL, NAV_DATA } = globalData;
+const helper = require("../../../utils/util");
 
 Page({
     data: {
@@ -10,7 +9,6 @@ Page({
         animated: true
     },
     onLoad: function (data) {
-        console.log("data -- ", data)
         let { ename, cname } = data;
         //标题
         app.globalData.SET_TITLE(cname);
@@ -18,50 +16,24 @@ Page({
     },
     getData(ename) {
         let that = this;
-        wx.request({
-            url: BASE_URL + '/timi/story',
-            data: { ename },
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                if (res.statusCode == 200 && res.data.Code == CODE.Success) {
-                    let info0 = res.data.Data.data[0];
-                    let info1 = null;
-                    if (res.data.Data.data.length > 1) {
-                        info1 = res.data.Data.data[1];
-                    }
-                    that.setData({
-                        info0,
-                        info1
-                    })
-                    console.log(info0)
-                    console.log(info1)
-                } else {
-                    wx.hideToast();
-                    wx.showToast({
-                        title: "获取失败",
-                        icon: 'error',
-                        duration: 2000
-                    });
-                }
-
-            },
-            fail(err) {
-                console.error(err);
-                wx.hideToast();
-                wx.showToast({
-                    title: err,
-                    icon: 'error',
-                    duration: 2000
-                });
-            },
-            complete(c) {
-                that.setData({
-                    animated: false,
-                    loading: false
-                });
+        // url, data, success_msg, err_msg, callBack, completeFunc
+        helper.HttpGet('/timi/story', { ename }, "", "页面数据获取失败", (data) => {
+            //callBack
+            let info0 = data.data[0];
+            let info1 = null;
+            if (data.length > 1) {
+                info1 = data[1];
             }
-        })
+            that.setData({
+                info0,
+                info1
+            })
+        }, () => {
+            //completeFunc
+            that.setData({
+                animated: false,
+                loading: false
+            });
+        });
     }
 })

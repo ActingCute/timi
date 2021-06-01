@@ -1,6 +1,5 @@
 const app = getApp();
-const globalData = app.globalData;
-const { CODE, MSG, BASE_URL } = globalData;
+const helper = require("../../utils/util");
 
 Page({
     data: {
@@ -15,34 +14,18 @@ Page({
     },
     getData() {
         let that = this;
-        wx.request({
-            url: BASE_URL + '/timi/strategy',
-            data: {},
-            header: {
-                'content-type': 'application/json'
-            },
-            success(res) {
-                if (res.statusCode == 200 && res.data.Code == CODE.Success) {
-                    that.setData({
-                        data: res.data.Data
-                    })
-                    console.log(res.data.Data);
-                }
-            },
-            fail(err) {
-                wx.hideToast();
-                wx.showToast({
-                    title: err,
-                    icon: 'error',
-                    duration: 2000
-                });
-            },
-            complete(c) {
-                that.setData({
-                    animated: false,
-                    loading: false
-                });
-            }
-        })
+        // url, data, success_msg, err_msg, callBack, completeFunc
+        helper.HttpGet('/timi/strategy', {}, "", "页面数据获取失败", (data) => {
+            //callBack
+            that.setData({
+                data
+            })
+        }, () => {
+            //completeFunc
+            that.setData({
+                animated: false,
+                loading: false
+            });
+        });
     }
 })

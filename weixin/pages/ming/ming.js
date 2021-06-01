@@ -282,7 +282,7 @@ Page({
 
     },
     onLoad: function () {
-        // 计算铭文值得剩余高度
+        // 计算铭文值的剩余高度
         let windowHeight = 0;
         let tabbarHeight = 0
         let pixelRatio = 1;

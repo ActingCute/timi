@@ -1,6 +1,5 @@
 const app = getApp();
-const globalData = app.globalData;
-const { CODE, MSG, BASE_URL } = globalData;
+const helper = require("../../../utils/util");
 
 Page({
     data: {
@@ -25,52 +24,27 @@ Page({
     },
     getData(item_id) {
         let that = this;
-        wx.request({
-            url: BASE_URL + '/timi/arms',
-            data: { item_id },
-            header: {
-                'content-type': 'application/json'
-            },
-            complete(c) {
+        // url, data, success_msg, err_msg, callBack, completeFunc
+        helper.HttpGet('/timi/arms', { item_id }, "", "页面数据获取失败", (data) => {
+            //callBack
+            that.setData({
+                info: data
+            });
+            //类型
+            let rt = that.data.type_data.find((item) => item.key == data.item_type);
+            let arms_type = "";
+            if (rt) {
+                arms_type = rt.text;
                 that.setData({
-                    animated: false,
-                    loading: false
-                });
-            },
-            success(res) {
-                if (res.statusCode == 200 && res.data.Code == CODE.Success) {
-                    that.setData({
-                        info: res.data.Data
-                    });
-                    //类型
-                    let rt = that.data.type_data.find((item) => item.key == res.data.Data.item_type);
-                    let arms_type = "";
-                    if (rt) {
-                        arms_type = rt.text;
-                        that.setData({
-                            arms_type
-                        });
-                    }
-
-                } else {
-                    wx.hideToast();
-                    wx.showToast({
-                        title: "获取失败",
-                        icon: 'error',
-                        duration: 2000
-                    });
-                }
-
-            },
-            fail(err) {
-                console.error(err);
-                wx.hideToast();
-                wx.showToast({
-                    title: err,
-                    icon: 'error',
-                    duration: 2000
+                    arms_type
                 });
             }
-        })
+        }, () => {
+            //completeFunc
+            that.setData({
+                animated: false,
+                loading: false
+            });
+        });
     },
 });

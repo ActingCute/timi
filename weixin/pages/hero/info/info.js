@@ -1,7 +1,7 @@
 const app = getApp();
 const globalData = app.globalData;
-const { CODE, MSG, BASE_URL, NAV_DATA } = globalData;
-
+const { NAV_DATA } = globalData;
+const helper = require("../../../utils/util");
 Page({
     data: {
         activeTab: 0,
@@ -34,7 +34,6 @@ Page({
         this.setData({
             paddingTop: NAV_DATA.status + NAV_DATA.height + "px"
         })
-        console.log("paddingTop -- ", this.data.paddingTop)
         let { id } = data;
         //标题
         app.globalData.SET_TITLE("英雄详情");
@@ -42,73 +41,49 @@ Page({
     },
     getData(ename) {
         let that = this;
-        wx.request({
-            url: BASE_URL + '/timi/hero',
-            data: { ename },
-            header: {
-                'content-type': 'application/json'
-            },
-            complete(c) {
-                that.setData({
-                    animated: false,
-                    loading: false
-                });
-            },
-            success(res) {
-                if (res.statusCode == 200 && res.data.Code == CODE.Success) {
-                    let ht = that.data.type_data.find((item) => item.key == res.data.Data.hero_type);
-                    let hero_type = "";
-                    if (ht) {
-                        hero_type = ht.text;
-                    }
-                    let hero_type2 = res.data.Data.hero_type2;
-                    if (hero_type2 && hero_type2 > 0) {
-                        ht = that.data.type_data.find((item) => item.key == hero_type2);
-                        if (ht) {
-                            hero_type += "/" + ht.text;
-                        }
-                    }
-                    let info = res.data.Data
-                    that.setData({
-                        info,
-                        hero_type,
-                        strategy: {
-                            recommended_arms: info.recommended_arms,//推荐出装
-                            recommended_ming: info.recommended_ming,//推荐铭文
-                            master_skill: info.master_skill,//推荐召唤师技能
-                            skill_recommended: info.skill_recommended//推荐加点
-                        },
-                        skill: info.skill,
-                        relation: info.relation
-                    });
-                    //皮肤
-                    let skin_list = []
-                    for (let i = 0; i < info.skin_list.length; i++) {
-                        skin_list.push(info.skin_list[i].data[1]);
-                    }
-                    that.setData({
-                        skin_list
-                    });
-                } else {
-                    wx.hideToast();
-                    wx.showToast({
-                        title: "获取失败",
-                        icon: 'error',
-                        duration: 2000
-                    });
-                }
-
-            },
-            fail(err) {
-                console.error(err);
-                wx.hideToast();
-                wx.showToast({
-                    title: err,
-                    icon: 'error',
-                    duration: 2000
-                });
+        // url, data, success_msg, err_msg, callBack, completeFunc
+        helper.HttpGet('/timi/hero', { ename }, "", "页面数据获取失败", (data) => {
+            let info = data
+            //callBack
+            let ht = that.data.type_data.find((item) => item.key == info.hero_type);
+            let hero_type = "";
+            if (ht) {
+                hero_type = ht.text;
             }
-        })
+            let hero_type2 = info.hero_type2;
+            if (hero_type2 && hero_type2 > 0) {
+                ht = that.data.type_data.find((item) => item.key == hero_type2);
+                if (ht) {
+                    hero_type += "/" + ht.text;
+                }
+            }
+            that.setData({
+                info,
+                hero_type,
+                strategy: {
+                    recommended_arms: info.recommended_arms,//推荐出装
+                    recommended_ming: info.recommended_ming,//推荐铭文
+                    master_skill: info.master_skill,//推荐召唤师技能
+                    skill_recommended: info.skill_recommended//推荐加点
+                },
+                skill: info.skill,
+                relation: info.relation
+            });
+            //皮肤
+            let skin_list = []
+            for (let i = 0; i < info.skin_list.length; i++) {
+                skin_list.push(info.skin_list[i].data[1]);
+            }
+            that.setData({
+                skin_list
+            });
+        }, () => {
+            //completeFunc
+            that.setData({
+                animated: false,
+                loading: false
+            });
+        });
     },
     story() {
         //查看故事
@@ -116,13 +91,8 @@ Page({
         console.log("url -", url);
         wx.navigateTo({
             url, fail(err) {
-                wx.hideToast();
-                wx.showToast({
-                    title: "跳转错误",
-                    icon: 'error',
-                    duration: 2000
-                });
-                console.log(err);
+                helper.showToast("跳转错误", "error")
+                console.error(err);
             }
         });
     },
