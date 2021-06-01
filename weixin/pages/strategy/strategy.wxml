@@ -3,7 +3,7 @@
     <mp-loading type="circle" show="{{loading}}" animated="{{animated}}"></mp-loading>
     <view show="{{!loading}}" class="c-body">
         <block wx:for="{{data}}" wx:key="*this">
-            <navigator url="../article/article?url=strategy&id={{item.iNewsId}}">
+            <navigator url="../article/article?url=strategy&id={{item.iId}}">
                 <view class="strategy-box">
                     <mp-row>
                         <mp-col span="{{8}}">

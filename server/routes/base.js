@@ -98,7 +98,7 @@ module.exports = {
             let id = req.query.id || 0;
             let data;
             if (id) {
-                data = DATA.STRATEGY.find(item => item.iNewsId == id) || "";
+                data = DATA.STRATEGY.find(item => item.iId == id) || "";
                 if (!data) {
                     baseController.Result(Code.Nothingness, Msg.Nothingness, "嘤嘤没有数据啊~", res);
                     return;

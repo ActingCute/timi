@@ -43,9 +43,11 @@ let init = async (need_clean) => {
             global.STRATEGY = STRATEGY;
             global.DATA = { HERO, ARMS, SUMMONER, MING, NOVICE_HERO, FREE_HERO, HERO_STORY, ANNOUNCEMENT, STRATEGY, SHOW_LIST: {} };
             //初始化数据
+            indexController.initHomeData();
             indexController.initData();
             return;
         }
+
         if (need_clean) {
             log.info("更新缓存：", new Date());
         } else {

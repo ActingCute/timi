@@ -33,6 +33,7 @@ Component({
         //callBack
         let isVideo = data.isVideo;
         let sVID = data.sVID || 0;
+        console.log("sVID -- ", sVID)
         let { sContent, sTitle, sIdxTime, sAuthor } = data.data;
         //标题
         app.globalData.SET_TITLE(sTitle);

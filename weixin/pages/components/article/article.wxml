@@ -13,7 +13,7 @@
       </view>
     </view>
     <view wx:if="{{isVideo}}">
-      <view class="gg">广告无力</view>
+      <view class="gg">广告无力 {{sVID}}</view>
       <view class="video_error" wx:if="{{sVID == 0}}">视频GG~</view>
       <txv-video vid="{{sVID}}" playerid="{{sVID}}"></txv-video>
     </view>

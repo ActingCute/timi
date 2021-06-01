@@ -40,7 +40,7 @@ let initHomeData = (olny_update_carousel) => {
     let strategy = { desc: "攻略", data: [] };
     let si = DATA.STRATEGY.length > 3 ? 4 : DATA.STRATEGY.length;
     for (let i = 0; i < si; i++) {
-        strategy.data.push({ id: DATA.STRATEGY[i].iNewsId, title: DATA.STRATEGY[i].sTitle, type: "攻略", time: DATA.STRATEGY[i].sIdxTime, cover: DATA.STRATEGY[i].sIMG });
+        strategy.data.push({ id: DATA.STRATEGY[i].iId, title: DATA.STRATEGY[i].sTitle, type: "攻略", time: DATA.STRATEGY[i].sIdxTime, cover: DATA.STRATEGY[i].sIMG });
     }
     DATA.SHOW_LIST.home = { carousel, announcement, free_hero, strategy };
 }
