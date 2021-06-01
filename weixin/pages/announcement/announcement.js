@@ -15,7 +15,7 @@ Page({
     getData() {
         let that = this;
         // url, data, success_msg, err_msg, callBack, completeFunc
-        helper.HttpGet('/timi/announcement', {}, "", "首页数据获取失败", (data) => {
+        helper.HttpGet('/timi/announcement', {}, "", "页面数据获取失败", (data) => {
             //callBack
             that.setData({
                 data
