@@ -1,3 +1,7 @@
+.c-body{
+    padding-top: 10rpx;
+}
+
 /* 游戏攻略 */
 
 .strategy{
