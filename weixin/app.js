@@ -12,7 +12,7 @@ let globalData = {};
   console.log("version:", version)
   switch (version) {
     case "develop": //开发预览版
-      base_url = onlinehost;
+      base_url = localhost;
       break;
     case 'trial': //体验版
       base_url = onlinehost;

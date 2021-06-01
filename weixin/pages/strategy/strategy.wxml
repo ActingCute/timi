@@ -5,13 +5,19 @@
         <block wx:for="{{data}}" wx:key="*this">
             <navigator url="../article/article?url=strategy&id={{item.iNewsId}}">
                 <view class="strategy-box">
-                    <image class="strategy-img" mode="aspectFit" src="{{item.sIMG}}" />
-                    <view class="strategy-title">
-                        <view class="strategy-title-text">{{item.sDesc}}</view>
-                    </view>
-                    <view class="strategy-time">
-                        <view class="strategy-time-text">{{item.sIdxTime}}</view>
-                    </view>
+                    <mp-row>
+                        <mp-col span="{{8}}">
+                            <view class="strategy-img" style="background:url({{item.sIMG}});background-repeat: no-repeat;background-size:100% 100%;background-position: center;width:100%;height:150rpx"></view>
+                        </mp-col>
+                        <mp-col span="{{16}}">
+                            <view class="strategy-title">
+                                <view class="strategy-title-text">{{item.sTitle}}</view>
+                            </view>
+                            <view class="strategy-time">
+                                <view class="strategy-time-text">{{item.sIdxTime}}</view>
+                            </view>
+                        </mp-col>
+                    </mp-row>
                 </view>
             </navigator>
         </block>

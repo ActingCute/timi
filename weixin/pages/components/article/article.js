@@ -8,7 +8,10 @@ Component({
     sTitle: "",
     sIdxTime: "",
     animated: true,
-    loading: true
+    loading: true,
+    isVideo: false,
+    sVID: 0,
+    sAuthor: "小可爱"
   },
   properties: {
     dataUrl: String
@@ -26,20 +29,33 @@ Component({
         sTitle: "",
         sIdxTime: ""
       }, "", "页面数据获取失败", (data) => {
+        console.log(data)
         //callBack
-        let { sContent, sTitle, sIdxTime } = data.data;
+        let isVideo = data.isVideo;
+        let sVID = data.sVID || 0;
+        let { sContent, sTitle, sIdxTime, sAuthor } = data.data;
         //标题
         app.globalData.SET_TITLE(sTitle);
-        sContent = sContent.replace(/<p([\s\w"=\/\.:;]+)((?:(style="[^"]+")))/ig, '<p')
-          .replace(/<p>/ig, '<p style="font-size: 19px;">')
-          .replace(/<img([\s\w"-=\/\.:;]+)((?:(height="[^"]+")))/ig, '<img$1')
-          .replace(/<img([\s\w"-=\/\.:;]+)((?:(width="[^"]+")))/ig, '<img$1')
-          .replace(/<img([\s\w"-=\/\.:;]+)((?:(style="[^"]+")))/ig, '<img$1')
-          .replace(/<img([\s\w"-=\/\.:;]+)((?:(alt="[^"]+")))/ig, '<img$1')
-          .replace(/<img([\s\w"-=\/\.:;]+)/ig, '<img style="width: 100%;" $1');
-        sContent = "<div style='width:95%;margin:0 auto;padding-top:20px;padding-bottom:20px'>" + sContent + "</div>";
+
+        if (!isVideo) {
+          //视频攻略
+          sContent = sContent.replace(/<p([\s\w"=\/\.:;]+)((?:(style="[^"]+")))/ig, '<p')
+            .replace(/<p>/ig, '<p style="font-size: 19px;">')
+            .replace(/<img([\s\w"-=\/\.:;]+)((?:(height="[^"]+")))/ig, '<img$1')
+            .replace(/<img([\s\w"-=\/\.:;]+)((?:(width="[^"]+")))/ig, '<img$1')
+            .replace(/<img([\s\w"-=\/\.:;]+)((?:(style="[^"]+")))/ig, '<img$1')
+            .replace(/<img([\s\w"-=\/\.:;]+)((?:(alt="[^"]+")))/ig, '<img$1')
+            .replace(/<img([\s\w"-=\/\.:;]+)/ig, '<img style="width: 100%;" $1');
+          sContent = "<div style='width:95%;margin:0 auto;padding-top:20px;padding-bottom:20px'>" + sContent + "</div>";
+        } else {
+          sContent = "";
+          sIdxTime = data.sIdxTime;
+          sTitle = data.sTitle;
+          sAuthor = data.sAuthor;
+        }
+
         that.setData({
-          sContent, sTitle, sIdxTime
+          sContent, sTitle, sIdxTime, isVideo, sVID, sAuthor
         });
       }, () => {
         //completeFunc

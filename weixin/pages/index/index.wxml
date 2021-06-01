@@ -72,13 +72,19 @@
             <block wx:for="{{home_data.strategy.data}}" wx:key="item">
                 <navigator url="../article/article?url=strategy&id={{item.id}}">
                     <view class="strategy-box">
-                        <image class="strategy-img" mode="aspectFit" src="{{item.cover}}" />
-                        <view class="strategy-title">
-                            <view class="strategy-title-text">{{item.title}}</view>
-                        </view>
-                        <view class="strategy-time">
-                            <view class="strategy-time-text">{{item.time}}</view>
-                        </view>
+                        <mp-row>
+                            <mp-col span="{{8}}">
+                                <view class="strategy-img" style="background:url({{item.cover}});background-repeat: no-repeat;background-size:100% 100%;background-position: center;width:100%;height:150rpx"></view>
+                            </mp-col>
+                            <mp-col span="{{16}}">
+                                <view class="strategy-title">
+                                    <view class="strategy-title-text">{{item.title}}</view>
+                                </view>
+                                <view class="strategy-time">
+                                    <view class="strategy-time-text">{{item.time}}</view>
+                                </view>
+                            </mp-col>
+                        </mp-row>
                     </view>
                 </navigator>
             </block>

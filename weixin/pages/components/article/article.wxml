@@ -1,6 +1,24 @@
 <!-- 文章组件 -->
 <timi-body>
   <view class="c-body">
-    <rich-text nodes="{{sContent}}"></rich-text>
+    <view class="info">
+      <view class="sTitle">{{sTitle}}</view>
+      <view class="sAuthor">
+        <span class="spx">作者：</span>
+        {{sAuthor}}
+      </view>
+      <view class="sIdxTime">
+        <span class="spx">时间：</span>
+        {{sIdxTime}}
+      </view>
+    </view>
+    <view wx:if="{{isVideo}}">
+      <view class="gg">广告无力</view>
+      <view class="video_error" wx:if="{{sVID == 0}}">视频GG~</view>
+      <txv-video vid="{{sVID}}" playerid="{{sVID}}"></txv-video>
+    </view>
+    <view wx:if="{{!isVideo}}">
+      <rich-text nodes="{{sContent}}"></rich-text>
+    </view>
   </view>
 </timi-body>

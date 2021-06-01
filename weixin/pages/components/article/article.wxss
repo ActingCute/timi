@@ -1,3 +1,34 @@
 .c-body{
     width: 100%;
 }
+
+.gg{
+    font-size: 20rpx;
+    color: red;
+    padding: 20rpx;
+}
+
+.video_error{
+    text-align: center;
+    font-size: 40rpx;
+    color: red;
+}
+
+.info{
+    padding: 20rpx;
+    color: #333333;
+}
+
+.sTitle{
+    font-weight: bold;
+    font-size:40rpx;
+}
+
+.sIdxTime{
+    font-size:30rpx;
+}
+
+.spx{
+    font-size:30rpx;
+    color: blue;
+}

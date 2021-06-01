@@ -56,5 +56,11 @@
     "mp-icon": "weui-miniprogram/icon/icon",
     "mp-col": "@miniprogram-component-plus/col",
     "mp-row": "@miniprogram-component-plus/row"
+  },
+  "plugins": {
+    "tencentvideo": {
+      "version": "1.2.4",
+      "provider": "wxa75efa648b60994b"
+    }
   }
 }

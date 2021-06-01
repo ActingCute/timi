@@ -6,7 +6,7 @@
 
 const axios = require("axios");
 
-const url = "https://apps.game.qq.com/wmp/v3.1/?p0=18&p1=searchNewsKeywordsList&page=1&pagesize=10&order=sIdxTime&r0=script&r1=NewsObj&type=iType&id=103&openId=&agent=&channel=&area=&&gicp_tk=5399&_=1616292098572";
+const url = "https://apps.game.qq.com/cmc/cross?serviceId=18&filter=tag&sortby=sIdxTime&source=web_pc&limit=16&logic=or&typeids=1%2C2&exclusiveChannel=4&exclusiveChannelSign=54a7ea3739d711c90a2ddd86e71f49da&time=1622523077&tagids=2543%2C619";
 
 //获取相关列表
 let getList = async () => {
@@ -20,11 +20,9 @@ let getList = async () => {
         if (res.status != 200) resolve([false, []]);
         let data = res.data;
         if (data) {
-            data = data.replace("var NewsObj=", "");
-            data = data.replace("};", "}");
-            data = JSON.parse(data);
+            data = data.data.items
         }
-        resolve([true, data.msg.result]);
+        resolve([true, data]);
     });
 }
 
@@ -38,21 +36,29 @@ let getInfo = async (items) => {
         let ci = 1;
         items.forEach(async (item) => {
             (async (item) => {
-                let url = getInfoUrl(item.iNewsId);
-                let res = await axios.get(url, {
-                    headers: {
-                        referer: "https://pvp.qq.com/"
+                if (item.sVID) {
+                    //视频攻略
+                    item.data = {};
+                    item.isVideo = true;
+                } else {
+                    item.isVideo = false;
+                    let url = getInfoUrl(item.iNewsId);
+                    let res = await axios.get(url, {
+                        headers: {
+                            referer: "https://pvp.qq.com/"
+                        }
+                    });
+                    if (res.status != 200) return;
+                    let data = res.data;
+                    if (data) {
+                        data = data.replace("var searchObj=", "");
+                        data = data.replace("};", "}");
+                        data = JSON.parse(data);
                     }
-                });
-                if (res.status != 200) return;
-                let data = res.data;
-                if (data) {
-                    data = data.replace("var searchObj=", "");
-                    data = data.replace("};", "}");
-                    data = JSON.parse(data);
+
+                    item.data = data.msg;
                 }
 
-                item.data = data.msg;
 
                 if (ci == items.length) {
                     resolve(items);

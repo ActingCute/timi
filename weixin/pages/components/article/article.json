@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
-    "timi-body": "../body/body"
+    "timi-body": "../body/body",
+    "txv-video": "plugin://tencentvideo/video"
   }
 }
