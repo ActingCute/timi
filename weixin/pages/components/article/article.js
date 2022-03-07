@@ -20,6 +20,21 @@ Component({
     this.getData();
   },
   methods: {
+    formatRichImg(html) {
+      let newContent = html.replace(/<img[^>]*>/gi, function (match, capture) {
+        match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
+        match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
+        match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
+        return match;
+      });
+      newContent = newContent.replace(/style="[^"]+"/gi, function (match, capture) {
+        match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;');
+        return match;
+      });
+      newContent = newContent.replace(/<br[^>]*\/>/gi, '');
+      newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin:10px 0;"');
+      return newContent;
+    },
     getData(url) {
       if (!url) return;
       let that = this;
@@ -39,14 +54,16 @@ Component({
         app.globalData.SET_TITLE(sTitle);
 
         if (!isVideo) {
-          //视频攻略
+          //内容
+          sContent = that.formatRichImg(sContent)
           sContent = sContent.replace(/<p([\s\w"=\/\.:;]+)((?:(style="[^"]+")))/ig, '<p')
             .replace(/<p>/ig, '<p style="font-size: 19px;">')
-            .replace(/<img([\s\w"-=\/\.:;]+)((?:(height="[^"]+")))/ig, '<img$1')
-            .replace(/<img([\s\w"-=\/\.:;]+)((?:(width="[^"]+")))/ig, '<img$1')
-            .replace(/<img([\s\w"-=\/\.:;]+)((?:(style="[^"]+")))/ig, '<img$1')
-            .replace(/<img([\s\w"-=\/\.:;]+)((?:(alt="[^"]+")))/ig, '<img$1')
-            .replace(/<img([\s\w"-=\/\.:;]+)/ig, '<img style="width: 100%;" $1');
+            .replace(/<h1>/ig, '<div style="font-size: 22px;font-weight: bold;color:blue;">')
+            .replace(/<\/h1>/ig, '</div>')
+            .replace(/<h2>/ig, '<div style="font-size: 18px;font-weight: bold;color:blue;">')
+            .replace(/<\/h2>/ig, '</div>')
+            .replace(/<h3>/ig, '<div style="font-size: 16px;font-weight: bold;color:blue;">')
+            .replace(/<\/h3>/ig, '</div>');
           sContent = "<div style='width:95%;margin:0 auto;padding-top:20px;padding-bottom:20px'>" + sContent + "</div>";
         } else {
           sContent = "";

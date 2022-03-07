@@ -1,4 +1,4 @@
-.nav{
+.nav {
     position: fixed;
     width: 100%;
     z-index: 99999;
@@ -6,29 +6,31 @@
 }
 
 
-.navbar{
+.navbar {
     position: relative;
 }
 
-.nav-title{    
-    position: absolute;    
-    transform: translate(-50%, -50%);    
-    left: 50%;    
-    top: 50%;    
-    font-size: 0;    
+.nav-title {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    font-size: 0;
     font-weight: bold;
     /* 超出隐藏 */
     max-width: 80%;
     overflow: hidden;
-    text-overflow:ellipsis;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.nav-back{
-    position: absolute;    
-    transform: translate(-50%, -50%);    
-    left: 25rpx;    
-    top: 50%;    
-    font-size: 0;    
+.nav-back {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 30rpx;
+    top: 50%;
+    font-size: 0;
     font-weight: bold;
+    display: inline-block;
+    padding: 30rpx;
 }

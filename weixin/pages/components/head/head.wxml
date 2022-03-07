@@ -1,8 +1,8 @@
 <view class='nav' style='height: {{status + navHeight}}px'>
   <view class='status' style='height: {{status}}px;{{containerStyle}}'></view>
   <view class='navbar' style='height:{{navHeight}}px;{{containerStyle}}'>
-    <view class='nav-back'>
-      <mp-icon size='{{13}}' wx:if="{{need_back}}" bindtap='back' class="back-icon-img" type="field" icon="back" color="black"></mp-icon>
+    <view class='nav-back' wx:if="{{need_back}}" bindtap='back'>
+      <mp-icon size='{{13}}' class="back-icon-img" type="field" icon="back" color="black"></mp-icon>
     </view>
     <view class='nav-title' wx:if="{{titleText}}">
       <text style='{{textStyle}}'>{{titleText}}</text>
