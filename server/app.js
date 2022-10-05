@@ -1,3 +1,11 @@
+/*
+ * @Author: ActingCute酱 rem486@qq.com
+ * @Date: 2021-05-26 23:05:11
+ * @LastEditors: ActingCute酱 rem486@qq.com
+ * @LastEditTime: 2022-10-05 11:59:48
+ * @FilePath: \server\app.js
+ * @Description: 说明
+ */
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -15,7 +23,9 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -37,5 +47,10 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//test qiniu
+// const qiniu = require("./controllers/helper/qiniu")
+// const b64 = require("./controllers/record/tsetBase64")
+// qiniu.newBase64(b64, 'img/wangzhe/kda/testkda.jpg')
 
 module.exports = app;

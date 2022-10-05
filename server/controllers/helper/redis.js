@@ -7,7 +7,11 @@ const blogConfig = require("../../config/databases");
 const redisConfig = blogConfig.redis;
 const redis_ = require("redis");
 
-const redis_client = redis_.createClient({ host: redisConfig.RDS_HOST, port: redisConfig.RDS_PORT, ttl: 5 * 60 * 1000 });
+const redis_client = redis_.createClient({
+    host: redisConfig.RDS_HOST,
+    port: redisConfig.RDS_PORT,
+    ttl: 5 * 60 * 1000
+});
 
 redis_client.auth('6478**12', () => {
     log.info('auth succress');
@@ -23,6 +27,12 @@ redis.set = (key, value) => {
     });
 };
 
+redis.setString = (key, value) => {
+    return redis_client.set(key, value, (err) => {
+        if (err) log.error(err);
+    });
+};
+
 redis.setExp = (key, value, exprires) => {
     value = JSON.stringify(value);
     redis_client.set(key, value);
@@ -31,13 +41,14 @@ redis.setExp = (key, value, exprires) => {
     }
 };
 
-text = async (key) => {
+text = async (key, isJson = true) => {
     doc = await new Promise((resolve) => {
         redis_client.get(key, (err, res) => {
             return resolve(res);
         });
     });
-    doc = JSON.parse(doc);
+    if (isJson)
+        doc = JSON.parse(doc);
     return doc;
 }
 
@@ -64,6 +75,11 @@ textHashAll = async (key) => {
 
 redis.get = async (key) => {
     const ret = await text(key);
+    return ret;
+}
+
+redis.getString = async (key) => {
+    const ret = await text(key, false);
     return ret;
 }
 

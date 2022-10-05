@@ -1,4 +1,3 @@
-
 /**
  * Created by 张辉 2021/03/18 21:17:09
  * timi 路由
@@ -9,7 +8,7 @@ const Data = require("../config/code");
 const Code = Data.Code;
 const Msg = Data.Msg;
 const indexController = require("../controllers/index");
-
+const record = require("../controllers/record/data")
 
 module.exports = {
     index: (req, res, next) => { //英雄列表数据接口
@@ -123,6 +122,71 @@ module.exports = {
     armslist: (req, res, next) => { //小程序装备列表数据
         baseController.DoFunc(() => {
             baseController.Result(Code.Success, Msg.Success, DATA.SHOW_LIST.arms_list, res);
+        }, res)
+    },
+    recordInit: (req, res, next) => { //召唤师技能接口
+        baseController.DoFunc(async () => {
+            if (!req.host) {
+                baseController.Result(Code.Fail, "缺失host", null, res);
+                return
+            }
+            if (!req.body || !req.body.cookie) {
+                baseController.Result(Code.Fail, "缺失cookie", null, res);
+                return
+            }
+            const data = await record.init(req.host, req.body.cookie)
+            baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
+        }, res)
+    },
+    recordLogin: (req, res, next) => { //召唤师技能接口
+        baseController.DoFunc(async () => {
+            if (!req.host) {
+                baseController.Result(Code.Fail, "缺失host", null, res);
+                return
+            }
+            if (!req.body || !req.body.loginType) {
+                baseController.Result(Code.Fail, "缺失loginType", null, res);
+                return
+            }
+            if (!req.body || !req.body.code) {
+                baseController.Result(Code.Fail, "缺失code", null, res);
+                return
+            }
+            if (!req.body || !req.body.equipment) {
+                baseController.Result(Code.Fail, "缺失equipment", null, res);
+                return
+            }
+            const data = await record.getCode(req.body.loginType, req.body.equipment, req.body.code, req.host)
+            baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
+        }, res)
+    },
+    recordData: (req, res, next) => { //召唤师技能接口
+        baseController.DoFunc(async () => {
+            console.log(req.query);
+            if (!req.host) {
+                baseController.Result(Code.Fail, "缺失host", null, res);
+                return
+            }
+            if ((!req.query || !req.query.start) && (req.query && parseInt(req.query.start) != 0)) {
+                baseController.Result(Code.Fail, "缺失start", null, res);
+                return
+            }
+            if (!req.query || !req.query.limit) {
+                baseController.Result(Code.Fail, "缺失limit", null, res);
+                return
+            }
+            const data = await record.getRecord(req.host, false, parseInt(req.query.start), parseInt(req.query.limit))
+            baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
+        }, res)
+    },
+    recordUserData: (req, res, next) => { //召唤师技能接口
+        baseController.DoFunc(async () => {
+            if (!req.host) {
+                baseController.Result(Code.Fail, "缺失host", null, res);
+                return
+            }
+            const data = await record.getUserInfoData(req.host)
+            baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
         }, res)
     },
 }

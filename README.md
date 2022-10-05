@@ -77,74 +77,101 @@
 
 #### 接口（端口5000）
 
-1.全部英雄数据
+1. 全部英雄数据
     
     GET
     参数 无
     path /timi
 
-2.全部装备
+2. 全部装备
     
     GET
     参数 无
     path /timi/arms
 
-3.全部召唤师技能
+3. 全部召唤师技能
     
     GET
     参数 无
     path /timi/summoner    
 
-3.周限免英雄
+3. 周限免英雄
     
     GET
     参数 无
     path /timi/freehero        
 
-4.新手推荐英雄
+4. 新手推荐英雄
     
     GET
     参数 无
     path /timi/novicehero        
 
-5.指定英雄故事
+5. 指定英雄故事
     
     GET
     参数 ename (int)
     path /timi/story      
 
-6.指定英雄数据
+6. 指定英雄数据
     
     GET
     参数 ename (int)
     path /timi/hero      
 
-7.新闻 公告 活动数据
+7. 新闻 公告 活动数据
     
     GET
     参数 id (string) 当传入id时候获取指定id数据，否则获取全部数据
     path /timi/announcement      
 
-8.攻略
+8. 攻略
     
     GET
     参数 id (string) 当传入id时候获取指定id数据，否则获取全部数据
     path /timi/strategy
 
-9.小程序主页数据
+9. 小程序主页数据
     
     GET
     参数 无
     path /timi/home        
 
-10.小程序英雄列表数据
+10. 小程序英雄列表数据
     
     GET
     参数 无
     path /timi/herolist          
 
-11.小程序装备列表数据
+11. 小程序装备列表数据
     
     GET
     参数 无
     path /timi/armslist  
+
+12. 微信登录
+    
+    GET
+    参数 
+
+        {
+            "loginType":1, //登录类型 1->微信，2->qq
+            "code":4078,   //大区
+            "equipment":4  //设备 3->安卓，4->ios
+        }
+
+    path /timi/record/login
+
+13. 获取历史战绩
+    GET
+    参数 
+        start (int) 从第几条开始
+        limit (int) 每次获取多少条
+
+    path /timi/strategy
+
+14. 获取个人信息
+    GET
+    参数 无
+        
+    path /timi/user/info 
