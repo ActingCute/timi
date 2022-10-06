@@ -213,4 +213,18 @@ module.exports = {
             baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
         }, res)
     },
+    getRole: (req, res, next) => { //召唤师技能接口
+        baseController.DoFunc(async () => {
+            if (!req.host) {
+                baseController.Result(Code.Fail, "缺失host", null, res);
+                return
+            }
+            if (!req.query.type) {
+                baseController.Result(Code.Fail, "缺失 type", null, res);
+                return
+            }
+            const data = await record.getRole(req.query.type)
+            baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
+        }, res)
+    },
 }

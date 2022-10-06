@@ -2,7 +2,7 @@
  * @Author: ActingCute酱 rem486@qq.com
  * @Date: 2021-05-26 23:05:11
  * @LastEditors: ActingCute酱 rem486@qq.com
- * @LastEditTime: 2022-10-05 15:31:26
+ * @LastEditTime: 2022-10-06 18:21:17
  * @FilePath: \server\app.js
  * @Description: 说明
  */
@@ -32,6 +32,7 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/timi/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/timi', timiRouter);

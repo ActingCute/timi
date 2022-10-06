@@ -54,7 +54,9 @@ let Result = (Code, Msg, Data, res) => {
 let Mkdir = (async (reaPath) => {
     reaPath = path.resolve(reaPath);
     if (!await fs.existsSync(reaPath)) {
-        fs.mkdir(reaPath, { recursive: true }, (err) => {
+        fs.mkdir(reaPath, {
+            recursive: true
+        }, (err) => {
             if (err) log.error(err)
         });
     }
@@ -73,7 +75,12 @@ let UploadQiniu = (index, data) => {
 
     if (index > -1) {
 
-        let { pic_src, qiniu_path, local_path, pic_name } = data[index--];
+        let {
+            pic_src,
+            qiniu_path,
+            local_path,
+            pic_name
+        } = data[index--];
 
         if (config.qiniu.UseSliceUpload) {
 
@@ -100,7 +107,11 @@ let DownloadFile = async (index, data) => {
         if (data.length > 0)
             log.info("下载图片到本地：", data.length - index - 1 + "/" + data.length, Math.ceil((data.length - 1 - index) / data.length * 100) + "%", show_pic_name);
         if (index > -1) {
-            let { pic_src, local_path, pic_name } = data[index--];
+            let {
+                pic_src,
+                local_path,
+                pic_name
+            } = data[index--];
             await DownloadFileFuc(pic_src, pic_name, local_path);
             DownloadFile(index, data);
         } else {
@@ -121,30 +132,30 @@ let DownloadFileFuc = async (url, name, pic_dir) => {
                     reject(new Error('Received an invalid status code.', res.statusCode));
                 } else
 
-                    if (!res.headers['content-type'].match(/image/)) {
-                        reject(new Error('Not an image.'));
-                    } else {
-                        var body = ''
-                        res.setEncoding('binary')
-                        res
-                            .on('error', (err) => {
-                                reject(err);
-                            })
-                            .on('data', (chunk) => {
-                                body += chunk
-                            })
-                            .on('end', () => {
-                                // What about Windows?!
-                                fs.writeFile(mypath, body, 'binary', (err) => {
+                if (!res.headers['content-type'].match(/image/)) {
+                    reject(new Error('Not an image.'));
+                } else {
+                    var body = ''
+                    res.setEncoding('binary')
+                    res
+                        .on('error', (err) => {
+                            reject(err);
+                        })
+                        .on('data', (chunk) => {
+                            body += chunk
+                        })
+                        .on('end', () => {
+                            // What about Windows?!
+                            fs.writeFile(mypath, body, 'binary', (err) => {
 
-                                    if (err) {
-                                        reject(err);
-                                    } else {
-                                        resolve("ok");
-                                    }
-                                })
+                                if (err) {
+                                    reject(err);
+                                } else {
+                                    resolve("ok");
+                                }
                             })
-                    }
+                        })
+                }
             })
             .on('error', (err) => {
                 reject(err);
@@ -202,5 +213,19 @@ module.exports = {
         }
     },
     //创建文件
-    Mkdir
+    Mkdir,
+    existsSync: (reaPath) => fs.existsSync(reaPath),
+    deleteFile: (path) => {
+        try {
+            fs.unlink(path, function (error) {
+                if (error) {
+                    console.log(error);
+                    return false;
+                }
+                console.log('删除文件成功');
+            })
+        } catch (error) {
+            console.error(error);
+        }
+    }
 };

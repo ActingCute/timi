@@ -1,5 +1,5 @@
 var redis = require("../helper/redis");
-
+const iconv = require('iconv-lite')
 const base_url = "https://pvp.qq.com";
 
 const personal_url = "https://pvp.qq.com/web201605/personal.shtml"
@@ -23,6 +23,11 @@ const WZ_UPDATE_TIME = "WZ_UPDATE_TIME_";
 const NightMare = require('nightmare');
 const moment = require('moment')
 const path = require('path');
+
+const tempPath = "public/temp"; //临时图片，用于登录
+const baseController = require("../helper/index");
+
+const axios = require("axios").default
 
 //获取cookie
 async function getCookie(domain) {
@@ -264,24 +269,33 @@ async function getCode(loginType = 1, equipment = 1, code = 1, domain) {
   const waitTimeout = 5 * 60000
 
   nightMareBox[domain] = NightMare({
-    show: false,
+    show: true,
     waitTimeout, // .wait() 方法超时时长，单位:ms
     executionTimeout: 86400000, // .evaluate() 方法超时时长，单位:ms
+    width: 400,
+    height: 420
   });
 
 
   let nightMare = nightMareBox[domain];
 
-  let src = ""
+  var option = {
+    x: 0,
+    y: 0,
+    width: 400,
+    height: 420
+  }
+
+  await baseController.Mkdir(tempPath);
+
+  const imgPath = tempPath + "/" + domain + '.png'
+
   if (loginType == 1) {
     await promiseTimeout(
-      nightMare.goto(`${loginType==1?wx_login_url:qq_login}`)
+      nightMare.goto(wx_login_url)
       .inject('js', path.join(__dirname, 'jquery-3.6.1.js'))
       .wait(`img`)
-      .evaluate(() => $('img').attr('src')).then(res => {
-        console.log(res);
-        src = res;
-      })).catch(e => {
+      .screenshot(imgPath, option)).catch(e => {
       console.error(e);
       return new Promise(r => r({
         err: "操作超时"
@@ -300,13 +314,10 @@ async function getCode(loginType = 1, equipment = 1, code = 1, domain) {
 
     if (qq_login_page) {
       await promiseTimeout(
-        nightMare.goto(`${loginType==1?wx_login_url:qq_login_page}`)
+        nightMare.goto(qq_login_page)
         .inject('js', path.join(__dirname, 'jquery-3.6.1.js'))
         .wait(`#qrlogin_img`)
-        .evaluate(() => $('#qrlogin_img').attr('src')).then(res => {
-          console.log(res);
-          src = res;
-        })).catch(e => {
+        .screenshot(imgPath, option)).catch(e => {
         console.error(e);
         return new Promise(r => r({
           err: "操作超时"
@@ -315,21 +326,23 @@ async function getCode(loginType = 1, equipment = 1, code = 1, domain) {
     }
   }
 
-  console.log(1111, src);
-
-
-  if (!src)
+  if (!await baseController.existsSync(imgPath))
     return new Promise(r => r({
       err: "获取二维码失败"
     }));
 
-  console.log(2222, src);
+  console.log(2222, imgPath);
 
   //等待扫码
-  toWaitLogin(loginType, equipment, code, domain, nightMare)
+  toWaitLogin(loginType, equipment, code, domain, nightMare);
+
+  //60s后删除图片
+  setTimeout(() => {
+    baseController.deleteFile(imgPath)
+  }, 60 * 1000);
 
   return new Promise(r => r({
-    data: (loginType == 1 ? wx_px : qq_px) + src
+    data: "/" + imgPath
   }))
 }
 
@@ -364,9 +377,6 @@ async function selectRole(loginType, equipment, code, domain, nightMare) {
 
   setTimeout(async () => {
     //选设备类型
-    console.log({
-      code
-    });
     promiseTimeout(nightMare.wait(`#channelContentId`).select('#channelContentId', equipment), nightMare).catch(e => {
       return new Promise(r => r({
         err: "操作超时"
@@ -376,9 +386,6 @@ async function selectRole(loginType, equipment, code, domain, nightMare) {
 
   setTimeout(async () => {
     //选大区
-    console.log({
-      code
-    });
     promiseTimeout(nightMare.wait(`#areaContentId`).select('#areaContentId', code), nightMare).catch(e => {
       return new Promise(r => r({
         err: "操作超时"
@@ -495,11 +502,94 @@ const inputData = async (domain, data) => {
   }))
 }
 
+//获取大区
+var Role1 = []; // wx
+var Role2 = []; // qq
+
+function setRoles() {
+  let _rand = new Date().getTime()
+
+  const wx = axios.get("https://pvp.qq.com/comm-htdocs/js/game_area/yxzj_WX_server_select.js", {
+    headers: {
+      referer: "https://pvp.qq.com/"
+    },
+    responseType: 'stream',
+    params: {
+      _rand
+    }
+  });
+
+  const qq = axios.get("https://pvp.qq.com/comm-htdocs/js/game_area/yxzj_SQ_server_select.js", {
+    headers: {
+      referer: "https://pvp.qq.com/"
+    },
+    responseType: 'stream',
+    params: {
+      _rand
+    }
+  });
+
+  axios.all([wx, qq]).then(resBox => {
+    for (let index = 0; index < 2; index++) {
+      const res = resBox[index];
+      if (res.status == 200) {
+        try {
+          //此时的res.data 则为stream
+          let chunks = [];
+          res.data.on('data', chunk => {
+            chunks.push(chunk);
+          });
+          res.data.on('end', () => {
+            let buffer = Buffer.concat(chunks);
+            //通过iconv来进行转化。
+            res.data = iconv.decode(buffer, 'gbk');
+            res.data = res.data.replace(/\r\n/g, '')
+            res.data = res.data.replace(/\n/g, '')
+            res.data = res.data.replace(/\r/g, '')
+            res.data = res.data.replace(/ /g, '')
+            res.data = res.data.replace(/{t:/g, '{"t":')
+            res.data = res.data.replace(/,v:/g, ',"v":')
+            res.data = res.data.replace(/,s:/g, ',"s":')
+            res.data = res.data.replace(/,c:/g, ',"c":')
+            res.data = res.data.replace(/,sk:/g, ',"sk":')
+            res.data = res.data.replace(/,ck:/g, ',"ck":')
+            res.data = res.data.replace(/,status:/g, ',"status":')
+            res.data = res.data.replace(/,display:/g, ',"display":')
+
+            res.data = res.data.substring(res.data.indexOf('YXZJServerSelect.STD_DATA=') + "YXZJServerSelect.STD_DATA=".length, res.data.indexOf('YXZJServerSelect.STD_SYSTEM_DATA='))
+            res.data = res.data.replace('];', ']')
+
+            // Role1 = res.data
+            if (index == 0) {
+              Role1 = JSON.parse(res.data)
+            } else {
+              Role2 = JSON.parse(res.data)
+            }
+          })
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+
+  })
+}
+
+setRoles();
+
+
+
 //暴露函数
 module.exports = {
   getCode,
   getRecord,
   getUserInfoData,
   exportData,
-  inputData
+  inputData,
+  getRole: (type) => {
+    if (type == 2) {
+      return new Promise(r => r(Role2));
+    }
+    return new Promise(r => r(Role1));
+  }
 };
