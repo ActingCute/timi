@@ -189,4 +189,28 @@ module.exports = {
             baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
         }, res)
     },
+    exportData: (req, res, next) => { //召唤师技能接口
+        baseController.DoFunc(async () => {
+            if (!req.host) {
+                baseController.Result(Code.Fail, "缺失host", null, res);
+                return
+            }
+            const data = await record.exportData(req.host)
+            baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
+        }, res)
+    },
+    inputData: (req, res, next) => { //召唤师技能接口
+        baseController.DoFunc(async () => {
+            if (!req.host) {
+                baseController.Result(Code.Fail, "缺失host", null, res);
+                return
+            }
+            if (!req.body) {
+                baseController.Result(Code.Fail, "缺失body", null, res);
+                return
+            }
+            const data = await record.inputData(req.host, req.body)
+            baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
+        }, res)
+    },
 }

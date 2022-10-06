@@ -175,3 +175,56 @@
     参数 无
         
     path /timi/user/info 
+
+15. 导出王者数据
+    GET
+    参数 无
+
+    path /timi/data/input   
+
+16. 导入王者数据
+    POST
+    参数 
+
+        {
+            "recordData": {
+                "data": [
+                    {
+                        "equipmentImglist": [
+                            "//game.gtimg.cn/images/yxzj/img201606/itemimg/1422.jpg",
+                            "//game.gtimg.cn/images/yxzj/img201606/itemimg/1136.jpg",
+                            "//game.gtimg.cn/images/yxzj/img201606/itemimg/1133.jpg",
+                            "//game.gtimg.cn/images/yxzj/img201606/itemimg/1114.jpg",
+                            "//game.gtimg.cn/images/yxzj/img201606/itemimg/11210.jpg",
+                            "//game.gtimg.cn/images/yxzj/img201606/itemimg/1131.jpg"
+                        ],
+                        "gameLevel": "//game.gtimg.cn/images/yxzj/web201605/page/rank23.png",
+                        "gameTime": "2022-10-05 23:32:34",
+                        "hero": "//game.gtimg.cn/images/yxzj/img201606/heroimg/112/112.jpg",
+                        "kda": "https://wzyz.haibarai.com/img/wangzhe/kda/f528764d624db129b32c21fbca0cb8d6/2d995f81c062f0cc84abcc1f8e3d2c9b.jpg",
+                        "mvpImg": "//game.gtimg.cn/images/yxzj/web201605/page/icon_MVP.png",
+                        "result": "胜利",
+                        "type": "排位赛",
+                        "useTime": "15:23"
+                    }
+                ],
+                "total": 20
+            },
+            "userData": {
+                "avatar": "https://q.qlogo.cn/g?b=qq&nk=2551966859&s=100",
+                "credit": "100",
+                "grade": "至尊星耀IV",
+                "gradeImg": "//game.gtimg.cn/images/yxzj/web201605/page/rank23.png",
+                "heroCount": "103",
+                "ladderInfo": [
+                    "全部比赛：8262/胜场：3940/胜率：48%",
+                    "排位赛：6636/胜场：3207/胜率：48.3%"
+                ],
+                "ladderWinRate": "48.3%",
+                "name": "初见时风也甜 [手Q85区-阴阳谋者]",
+                "skinCount": "66",
+                "updateTime": "2022-10-06 11:41:40"
+            }
+        }    
+
+    path /timi/data/input      

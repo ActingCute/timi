@@ -9,7 +9,7 @@ const wx_login_url = 'https://open.weixin.qq.com/connect/qrconnect?appid=wxfac91
 const qq_login = "https://ssl.ptlogin2.qq.com/ptqrshow?appid=21000501&e=2&l=M&s=3&d=72&v=4&t=0.6962919279445017&daid=8&pt_3rd_aid=0"
 
 const wx_px = "https://open.weixin.qq.com"
-const qq_px = "https://ssl.ptlogin2.qq.com"
+const qq_px = ""
 
 const qn = require("../helper/qiniu");
 
@@ -22,6 +22,7 @@ const WZ_UPDATE_TIME = "WZ_UPDATE_TIME_";
 
 const NightMare = require('nightMare');
 const moment = require('moment')
+const path = require('path');
 
 //获取cookie
 async function getCookie(domain) {
@@ -97,7 +98,7 @@ async function setRecord(domain, nightMare) {
                 let data = {
                   hero: $('.his_last_game').eq(index).find('.his_headimg').attr('src') || '//game.gtimg.cn/images/yxzj/img201606/heroimg/112/112.jpg', //使用英雄
                   type: $('.his_last_game').eq(index).find('.his_info_m_maptxt').text() || "母鸡", //比赛类型
-                  result: $('.his_last_game').eq(index).find('.his_info_m_txt._suctxt').text() || '母鸡', //比赛结果
+                  result: $('.his_last_game').eq(index).find('.his_info_m_txt._suctxt').text() || '失败', //比赛结果
                   useTime: ($('.his_last_game').eq(index).find('.gameduration').text() || "99999"), //时长
                   mvpImg: $('.his_last_game').eq(index).find('.his_info_mvp').attr('src') || null, //mvp图片
                   equipmentImglist: getEquipmentImglist(index), //6神装
@@ -149,7 +150,8 @@ async function setRecord(domain, nightMare) {
             if (res.data[index].kda.length > 1024) res.data[index].kda = ""
           }
           //存入redis
-          setRecordRedis(domain, res.data)
+          if (res.data.length)
+            setRecordRedis(domain, [...res.data, ...wz_history])
         }
       })
   } catch (err) {
@@ -170,13 +172,16 @@ async function getRecord(domain, isAll = false, start = 0, limit = 10) {
 
   if (!data) {
     return new Promise(r => r({
-      data: []
+      data: [],
+      total: 0
     }))
   }
 
   if (start < 0) {
     return {
-      err: 'start index error'
+      err: 'start index error',
+      data: [],
+      total: 0
     }
   }
 
@@ -193,7 +198,9 @@ async function getRecord(domain, isAll = false, start = 0, limit = 10) {
     }))
   } catch (error) {
     return new Promise(r => r({
-      err: "获取数据失败" + error
+      err: "获取数据失败" + error,
+      data: [],
+      total: 0
     }))
   }
 }
@@ -265,22 +272,58 @@ async function getCode(loginType = 1, equipment = 1, code = 1, domain) {
 
   let nightMare = nightMareBox[domain];
 
+  let src = ""
+  if (loginType == 1) {
+    await promiseTimeout(
+      nightMare.goto(`${loginType==1?wx_login_url:qq_login}`)
+      .inject('js', path.join(__dirname, 'jquery-3.6.1.js'))
+      .wait(`img`)
+      .evaluate(() => $('img').attr('src')).then(res => {
+        console.log(res);
+        src = res;
+      })).catch(e => {
+      console.error(e);
+      return new Promise(r => r({
+        err: "操作超时"
+      }))
+    }, nightMare);
+  } else {
+    const qq_login_page = await promiseTimeout(
+      nightMare.goto(base_url).inject('js', path.join(__dirname, 'jquery-3.6.1.js'))
+      .wait('#unlogin a').click('#unlogin a').wait('#qqlogin').click('#qqlogin').wait("#loginIframe")
+      .evaluate(() => $('#loginIframe').attr('src'))).catch(e => {
+      console.error(e);
+      return new Promise(r => r({
+        err: "操作超时"
+      }))
+    }, nightMare);
 
-  let src = await promiseTimeout(
-    nightMare.goto(`${loginType==1?wx_login_url:qq_login}`)
-    .wait(`img`)
-    .evaluate(() => $('img').attr('src'))).catch(e => {
-    console.error(e);
+    if (qq_login_page) {
+      await promiseTimeout(
+        nightMare.goto(`${loginType==1?wx_login_url:qq_login_page}`)
+        .inject('js', path.join(__dirname, 'jquery-3.6.1.js'))
+        .wait(`#qrlogin_img`)
+        .evaluate(() => $('#qrlogin_img').attr('src')).then(res => {
+          console.log(res);
+          src = res;
+        })).catch(e => {
+        console.error(e);
+        return new Promise(r => r({
+          err: "操作超时"
+        }))
+      }, nightMare);
+    }
+  }
 
-    return new Promise(r => r({
-      err: "操作超时"
-    }))
-  }, nightMare); //点击的是类选择器
+  console.log(1111, src);
+
 
   if (!src)
     return new Promise(r => r({
       err: "获取二维码失败"
-    }))
+    }));
+
+  console.log(2222, src);
 
   //等待扫码
   toWaitLogin(loginType, equipment, code, domain, nightMare)
@@ -433,9 +476,30 @@ async function setUserInfo(loginType, equipment, code, domain, nightMare) {
   });
 }
 
+//导出数据
+const exportData = async (domain) => {
+  let recordData = await getRecord(domain, true);
+  let userData = await getUserInfo(domain)
+  return new Promise(r => r({
+    recordData,
+    userData
+  }))
+}
+
+//导入数据
+const inputData = async (domain, data) => {
+  if (data.recordData.data) await setRecordRedis(domain, data.recordData.data);
+  if (data.userData) await setUserInfoRedis(domain, data.userData);
+  return new Promise(r => r({
+    msg: "操作成功"
+  }))
+}
+
 //暴露函数
 module.exports = {
   getCode,
   getRecord,
-  getUserInfoData
+  getUserInfoData,
+  exportData,
+  inputData
 };

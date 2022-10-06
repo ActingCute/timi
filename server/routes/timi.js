@@ -2,7 +2,7 @@
  * @Author: ActingCute酱 rem486@qq.com
  * @Date: 2021-05-26 23:06:09
  * @LastEditors: ActingCute酱 rem486@qq.com
- * @LastEditTime: 2022-10-05 15:27:59
+ * @LastEditTime: 2022-10-06 11:58:18
  * @FilePath: \server\routes\timi.js
  * @Description: 说明
  */
@@ -26,5 +26,7 @@ router.post('/record/init', base.recordInit);
 router.post('/record/login', base.recordLogin);
 router.get('/record/get', base.recordData);
 router.get('/user/info', base.recordUserData);
+router.get('/data/export', base.exportData);
+router.post('/data/input', base.inputData);
 
 module.exports = router;
