@@ -20,7 +20,7 @@ const WZ_USER_COOKIE = "WZ_USER_COOKIE_";
 const WZ_RECORD_DATA = "WZ_RECORD_DATA_";
 const WZ_UPDATE_TIME = "WZ_UPDATE_TIME_";
 
-const NightMare = require('nightMare');
+const NightMare = require('nightmare');
 const moment = require('moment')
 const path = require('path');
 
@@ -264,7 +264,7 @@ async function getCode(loginType = 1, equipment = 1, code = 1, domain) {
   const waitTimeout = 5 * 60000
 
   nightMareBox[domain] = NightMare({
-    show: true,
+    show: false,
     waitTimeout, // .wait() 方法超时时长，单位:ms
     executionTimeout: 86400000, // .evaluate() 方法超时时长，单位:ms
   });
