@@ -370,6 +370,7 @@ function toWaitLogin(loginType, equipment, code, domain, nightMare) {
 //选大区角色
 async function selectRole(loginType, equipment, code, domain, nightMare) {
   await promiseTimeout(nightMare.wait(`.select_role`).click('.select_role').wait('#area_select').wait(`#se-checkbox`).check('#se-checkbox'), nightMare).catch(e => {
+    console.error(e);
     return new Promise(r => r({
       err: "操作超时"
     }))

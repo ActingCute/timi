@@ -126,7 +126,7 @@ module.exports = {
     },
     recordInit: (req, res, next) => { //召唤师技能接口
         baseController.DoFunc(async () => {
-            if (!req.host) {
+            if (!req.hostname) {
                 baseController.Result(Code.Fail, "缺失host", null, res);
                 return
             }
@@ -134,13 +134,13 @@ module.exports = {
                 baseController.Result(Code.Fail, "缺失cookie", null, res);
                 return
             }
-            const data = await record.init(req.host, req.body.cookie)
+            const data = await record.init(req.hostname, req.body.cookie)
             baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
         }, res)
     },
     recordLogin: (req, res, next) => { //召唤师技能接口
         baseController.DoFunc(async () => {
-            if (!req.host) {
+            if (!req.hostname) {
                 baseController.Result(Code.Fail, "缺失host", null, res);
                 return
             }
@@ -156,14 +156,14 @@ module.exports = {
                 baseController.Result(Code.Fail, "缺失equipment", null, res);
                 return
             }
-            const data = await record.getCode(req.body.loginType, req.body.equipment, req.body.code, req.host)
+            const data = await record.getCode(req.body.loginType, req.body.equipment, req.body.code, req.hostname)
             baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
         }, res)
     },
     recordData: (req, res, next) => { //召唤师技能接口
         baseController.DoFunc(async () => {
             console.log(req.query);
-            if (!req.host) {
+            if (!req.hostname) {
                 baseController.Result(Code.Fail, "缺失host", null, res);
                 return
             }
@@ -175,33 +175,33 @@ module.exports = {
                 baseController.Result(Code.Fail, "缺失limit", null, res);
                 return
             }
-            const data = await record.getRecord(req.host, false, parseInt(req.query.start), parseInt(req.query.limit))
+            const data = await record.getRecord(req.hostname, false, parseInt(req.query.start), parseInt(req.query.limit))
             baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
         }, res)
     },
     recordUserData: (req, res, next) => { //召唤师技能接口
         baseController.DoFunc(async () => {
-            if (!req.host) {
+            if (!req.hostname) {
                 baseController.Result(Code.Fail, "缺失host", null, res);
                 return
             }
-            const data = await record.getUserInfoData(req.host)
+            const data = await record.getUserInfoData(req.hostname)
             baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
         }, res)
     },
     exportData: (req, res, next) => { //召唤师技能接口
         baseController.DoFunc(async () => {
-            if (!req.host) {
+            if (!req.hostname) {
                 baseController.Result(Code.Fail, "缺失host", null, res);
                 return
             }
-            const data = await record.exportData(req.host)
+            const data = await record.exportData(req.hostname)
             baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
         }, res)
     },
     inputData: (req, res, next) => { //召唤师技能接口
         baseController.DoFunc(async () => {
-            if (!req.host) {
+            if (!req.hostname) {
                 baseController.Result(Code.Fail, "缺失host", null, res);
                 return
             }
@@ -209,13 +209,13 @@ module.exports = {
                 baseController.Result(Code.Fail, "缺失body", null, res);
                 return
             }
-            const data = await record.inputData(req.host, req.body)
+            const data = await record.inputData(req.hostname, req.body)
             baseController.Result(Code.Success, data.err ? Msg.Fail : (data.msg || Msg.Success), data, res);
         }, res)
     },
     getRole: (req, res, next) => { //召唤师技能接口
         baseController.DoFunc(async () => {
-            if (!req.host) {
+            if (!req.hostname) {
                 baseController.Result(Code.Fail, "缺失host", null, res);
                 return
             }
